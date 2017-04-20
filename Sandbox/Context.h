@@ -1,3 +1,7 @@
+/*
+*	The Context class manages GLFW initialization and termination.
+*/
+
 #pragma once
 
 #include <utility>
