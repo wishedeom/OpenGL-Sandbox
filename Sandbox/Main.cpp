@@ -12,6 +12,7 @@
 #include "ShaderProgram.h"
 #include "VertexShader.h"
 #include "Window.h"
+#include "utils.h"
 
 const std::array<GLfloat, 12> vertices =
 {
@@ -33,31 +34,11 @@ int main() try
 	const Window window(800, 600, "Learn OpenGL");
 	context.initializeGLEW(window, GLEWExperimental::True);
 	const InputHandler inputHandler(window);
-	
-	const auto vertexShaderSource =
-		"#version 330 core\n"
-		"\n"
-		"layout(location = 0) in vec3 position;\n"
-		"\n"
-		"void main()\n"
-		"{\n"
-		"	gl_Position = vec4(position, 1.0);\n"
-		"}\n";
-
-	const auto fragmentShaderSource =
-		"#version 330 core\n"
-		"\n"
-		"out vec4 color;\n"
-		"\n"
-		"void main()\n"
-		"{\n"
-		"	color = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-		"}\n";
 
 	const ShaderProgram shaderProgram;
 	shaderProgram
-		.attach(VertexShader(vertexShaderSource))
-		.attach(FragmentShader(fragmentShaderSource))
+		.attach(VertexShader(fromFile("vertexShader.vs")))
+		.attach(FragmentShader(fromFile("fragmentShader.fs")))
 		.link()
 		.use();
 

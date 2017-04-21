@@ -1,6 +1,16 @@
+#include <fstream>
+#include <sstream>
+
 #include "utils.h"
 
-GLboolean toGLboolean(const bool b)
+std::string fromFile(const std::string& filename)
 {
-	return b ? GL_TRUE : GL_FALSE;
+	std::ifstream file(filename);
+	if (!file)
+	{
+		throw std::runtime_error("File '" + filename + "'not found.");
+	}
+	std::stringstream ss;
+	ss << file.rdbuf();
+	return ss.str();
 }

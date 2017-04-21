@@ -1,11 +1,12 @@
 #pragma once
 
 #include <type_traits>
+#include <string>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-GLboolean toGLboolean(const bool b);
+std::string fromFile(const std::string& filename);
 
 template <typename E>
 auto castToUnderlying(E value)

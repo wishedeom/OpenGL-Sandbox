@@ -68,4 +68,12 @@
       <Filter>header</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="vertexShader.vs">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="fragmentShader.fs">
+      <Filter>shaders</Filter>
+    </None>
+  </ItemGroup>
 </Project>
