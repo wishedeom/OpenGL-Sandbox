@@ -8,7 +8,7 @@
 GLboolean toGLboolean(const bool b);
 
 template <typename E>
-auto glCast(E value)
+auto castToUnderlying(E value)
 {
 	using T = std::underlying_type<E>::type;
 	return static_cast<T>(value);

@@ -29,6 +29,15 @@
     <ClCompile Include="InputHandler.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexShader.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="FragmentShader.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context.h">
@@ -41,6 +50,15 @@
       <Filter>header</Filter>
     </ClInclude>
     <ClInclude Include="InputHandler.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexShader.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="FragmentShader.h">
       <Filter>header</Filter>
     </ClInclude>
   </ItemGroup>

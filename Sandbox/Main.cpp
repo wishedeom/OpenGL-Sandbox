@@ -8,6 +8,8 @@
 
 #include "Context.h"
 #include "InputHandler.h"
+#include "VertexShader.h"
+#include "FragmentShader.h"
 #include "Window.h"
 
 const std::array<GLfloat, 12> vertices =
@@ -51,13 +53,8 @@ int main() try
 		"	color = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
 		"}\n";
 
-	const auto vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
-	glCompileShader(vertexShader);
-
-	const auto fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
-	glCompileShader(fragmentShader);
+	const VertexShader vertexShader(vertexShaderSource);
+	const FragmentShader fragmentShader(fragmentShaderSource);
 
 	const auto shaderProgram = glCreateProgram();
 	glAttachShader(shaderProgram, vertexShader);
@@ -66,20 +63,6 @@ int main() try
 
 	GLint success;
 	GLchar infoLog[512];
-
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(vertexShader, 512, nullptr, infoLog);
-		std::cout << "Error: Vertex shader compilation failed.\n" << infoLog << '\n';
-	}
-	
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(fragmentShader, 512, nullptr, infoLog);
-		std::cout << "Error: Fragment shader compilation failed.\n" << infoLog << '\n';
-	}
 	
 	glGetShaderiv(shaderProgram, GL_LINK_STATUS, &success);
 	if (!success)
@@ -87,9 +70,6 @@ int main() try
 		glGetShaderInfoLog(shaderProgram, 512, nullptr, infoLog);
 		std::cout << "Error: Shader program linking failed.\n" << infoLog << '\n';
 	}
-
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
 
 	GLuint VBO;
 	glGenBuffers(1, &VBO);

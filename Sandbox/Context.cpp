@@ -29,7 +29,7 @@ Context::~Context()
 
 void Context::initializeGLEW(const Window&, const GLEWExperimental experimental) const
 {
-	glewExperimental = glCast(experimental);
+	glewExperimental = castToUnderlying(experimental);
 	if (glewInit() != GLEW_OK)
 	{
 		throw std::runtime_error("Failed to initialize GLEW.\n");
@@ -48,10 +48,10 @@ void setVersion(const GLint major, const GLint minor)
 
 void setProfile(const OpenGLProfile profile)
 {
-	glfwWindowHint(GLFW_OPENGL_PROFILE, glCast(profile));
+	glfwWindowHint(GLFW_OPENGL_PROFILE, castToUnderlying(profile));
 }
 
 void setResizable(const Resizable isResizable)
 {
-	glfwWindowHint(GLFW_RESIZABLE, glCast(isResizable));
+	glfwWindowHint(GLFW_RESIZABLE, castToUnderlying(isResizable));
 }

@@ -151,15 +151,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Context.cpp" />
+    <ClCompile Include="FragmentShader.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="utils.cpp" />
+    <ClCompile Include="VertexShader.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context.h" />
+    <ClInclude Include="FragmentShader.h" />
     <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="utils.h" />
+    <ClInclude Include="VertexShader.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
