@@ -14,12 +14,12 @@
 #include "Window.h"
 #include "utils.h"
 
-const std::array<GLfloat, 12> vertices =
+const std::array<GLfloat, 24> vertices =
 {
-	 0.5f,  0.5f, 0.0f,
-	 0.5f, -0.5f, 0.0f,
-	-0.5f, -0.5f, 0.0f,
-	-0.5f,  0.5f, 0.0f,
+	 0.5f,  0.5f, 0.0f,		1.0f, 0.0f, 0.0f,
+	 0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f,
+	-0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,
+	-0.5f,  0.5f, 0.0f,		0.3f, 0.3f, 0.3f,
 };
 
 const std::array<GLuint, 6> indices =
@@ -35,7 +35,7 @@ int main() try
 	context.initializeGLEW(window, GLEWExperimental::True);
 	const InputHandler inputHandler(window);
 
-	const ShaderProgram shaderProgram;
+	ShaderProgram shaderProgram;
 	shaderProgram
 		.attach(VertexShader(fromFile("vertexShader.vs")))
 		.attach(FragmentShader(fromFile("fragmentShader.fs")))
@@ -59,21 +59,22 @@ int main() try
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLfloat), indices.data(), GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*) 0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*) 0);
 	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*) (3 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(1);
 
 	glBindVertexArray(0);
 
 	shaderProgram.use();
 
-	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glClearColor(0.1f, 1.0f, 0.1f, 1.0f);
 
 	while (!window.shouldClose())
 	{
 		glfwPollEvents();
-		
 		glClear(GL_COLOR_BUFFER_BIT);
-
 		glBindVertexArray(VAO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

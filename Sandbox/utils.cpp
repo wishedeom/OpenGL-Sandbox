@@ -14,3 +14,20 @@ std::string fromFile(const std::string& filename)
 	ss << file.rdbuf();
 	return ss.str();
 }
+
+void checkShaderCompilationErrors(const GLuint id, const ShaderType type)
+{
+	GLint success;
+	glGetShaderiv(id, GL_COMPILE_STATUS, &success);
+	if (success == GL_TRUE)
+	{
+		return;
+	}
+	GLint length;
+	glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
+	auto infoLog = new GLchar[length];
+	glGetShaderInfoLog(id, sizeof(GLchar) * length, nullptr, infoLog);
+	std::string infoString(infoLog);
+	delete[] infoLog;
+	throw std::runtime_error("Error: " + shaderTypeNames.at(type) + " shader compilation failed.\n" + infoString + '\n');
+}
