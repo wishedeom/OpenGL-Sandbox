@@ -20,12 +20,18 @@
     <ClCompile Include="utils.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context.h">
       <Filter>header</Filter>
     </ClInclude>
     <ClInclude Include="utils.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
       <Filter>header</Filter>
     </ClInclude>
   </ItemGroup>

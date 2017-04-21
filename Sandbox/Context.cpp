@@ -1,4 +1,4 @@
-#include <type_traits>
+#include <stdexcept>
 
 #include "Context.h"
 #include "utils.h"
@@ -10,21 +10,26 @@ void setVersion(const GLint major, const GLint minor);
 void setProfile(const OpenGLProfile profile);
 void setResizable(const Resizable isResizable);
 
-Context::Context(const GLint minorVersion, const GLint majorVersion, const OpenGLProfile profile, const Resizable isResizable)
+Context::Context(const OpenGLVersion version, const OpenGLProfile profile, const Resizable isResizable)
 {
 	glfwInit();
-	setVersion(minorVersion, majorVersion);
+	setVersion(version.major, version.minor);
 	setProfile(profile);
 	setResizable(isResizable);
 }
 
-Context::Context(const std::pair<GLint, GLint> version, const OpenGLProfile profile, const Resizable isResizable)
-	: Context { version.first, version.second, profile, isResizable }
-{}
-
 Context::~Context()
 {
 	glfwTerminate();
+}
+
+void Context::initializeGLEW(const Window&, const GLEWExperimental experimental)
+{
+	glewExperimental = glCast(experimental);
+	if (glewInit() != GLEW_OK)
+	{
+		throw std::runtime_error("Failed to initialize GLEW.\n");
+	}
 }
 
 /*
@@ -39,12 +44,10 @@ void setVersion(const GLint major, const GLint minor)
 
 void setProfile(const OpenGLProfile profile)
 {
-	using T = std::underlying_type<OpenGLProfile>::type;
-	glfwWindowHint(GLFW_OPENGL_PROFILE, static_cast<T>(profile));
+	glfwWindowHint(GLFW_OPENGL_PROFILE, glCast(profile));
 }
 
 void setResizable(const Resizable isResizable)
 {
-	using T = std::underlying_type<Resizable>::type;
-	glfwWindowHint(GLFW_RESIZABLE, static_cast<T>(isResizable));
+	glfwWindowHint(GLFW_RESIZABLE, glCast(isResizable));
 }

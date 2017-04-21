@@ -5,40 +5,24 @@
 #include <GLFW/glfw3.h>
 
 #include "Context.h"
+#include "Window.h"
 
-namespace config
-{
-	constexpr std::pair<int, int> version = { 3, 3 };
-}
-
-int main()
+int main() try
 {
 	Context context({ 3, 3 }, OpenGLProfile::Core, Resizable::True);
+	Window window(800, 600, "Learn OpenGL");
+	context.initializeGLEW(window, GLEWExperimental::True);
 
-	auto window = glfwCreateWindow(800, 600, "LearnOpenGL", nullptr, nullptr);
-	if (!window)
-	{
-		std::cout << "Failed to create OpenGL window.\n";
-		glfwTerminate();
-		return -1;
-	}
-	glfwMakeContextCurrent(window);
-
-	glewExperimental = GL_TRUE;
-	if (glewInit() != GLEW_OK)
-	{
-		std::cout << "Failed to initialize GLEW.\n";
-		return -1;
-	}
-
-	int width, height;
-	glfwGetFramebufferSize(window, &width, &height);
-
-	while (!glfwWindowShouldClose(window))
+	while (!window.shouldClose())
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(window);
+		window.swapBuffers();
 	}
 
 	return 0;
+}
+catch (const std::runtime_error& e)
+{
+	std::cout << e.what();
+	return -1;
 }

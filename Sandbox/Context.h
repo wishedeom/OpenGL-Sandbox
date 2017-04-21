@@ -9,6 +9,14 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+class Window;
+
+struct OpenGLVersion
+{
+	GLint minor;
+	GLint major;
+};
+
 enum class OpenGLProfile
 	: GLint
 {
@@ -24,10 +32,17 @@ enum class Resizable
 	False  = GL_FALSE,
 };
 
+enum class GLEWExperimental
+	: GLboolean
+{
+	True   = GL_TRUE,
+	False  = GL_FALSE,
+};
+
 class Context final
 {
 public:
-	Context(const GLint minorVersion, const GLint majorVersion, const OpenGLProfile profile, const Resizable isResizable);
-	Context(const std::pair<GLint, GLint> version, const OpenGLProfile profile, const Resizable isResizable);
+	Context(const OpenGLVersion version, const OpenGLProfile profile, const Resizable isResizable);
 	~Context();
+	void initializeGLEW(const Window& window, const GLEWExperimental experimental);
 };
