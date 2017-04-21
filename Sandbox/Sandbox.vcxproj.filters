@@ -38,6 +38,9 @@
     <ClCompile Include="FragmentShader.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="ShaderProgram.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context.h">
@@ -59,6 +62,9 @@
       <Filter>header</Filter>
     </ClInclude>
     <ClInclude Include="FragmentShader.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderProgram.h">
       <Filter>header</Filter>
     </ClInclude>
   </ItemGroup>

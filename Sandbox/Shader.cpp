@@ -11,10 +11,10 @@ const std::map<ShaderType, std::string> shaderTypeNames
 
 constexpr GLsizei infoLogLength = 512;
 
-GLuint compileShader(const std::string& source, const ShaderType type);
+GLuint createShader(const std::string& source, const ShaderType type);
 
 Shader::Shader(const std::string& source, const ShaderType type)
-	: _index { compileShader(source, type) }
+	: _index { createShader(source, type) }
 {}
 
 Shader::~Shader()
@@ -32,7 +32,7 @@ Shader::operator GLuint() const
 	return index();
 }
 
-GLuint compileShader(const std::string& source, const ShaderType type)
+GLuint createShader(const std::string& source, const ShaderType type)
 {
 	// Reference to OpenGL shader object
 	const auto idx = glCreateShader(castToUnderlying(type));

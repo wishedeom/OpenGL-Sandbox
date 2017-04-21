@@ -7,9 +7,10 @@
 #include <GLFW/glfw3.h>
 
 #include "Context.h"
-#include "InputHandler.h"
-#include "VertexShader.h"
 #include "FragmentShader.h"
+#include "InputHandler.h"
+#include "ShaderProgram.h"
+#include "VertexShader.h"
 #include "Window.h"
 
 const std::array<GLfloat, 12> vertices =
@@ -53,22 +54,13 @@ int main() try
 		"	color = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
 		"}\n";
 
-	const VertexShader vertexShader(vertexShaderSource);
-	const FragmentShader fragmentShader(fragmentShaderSource);
-
-	const auto shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glLinkProgram(shaderProgram);
-
-	GLint success;
-	GLchar infoLog[512];
-	
-	glGetShaderiv(shaderProgram, GL_LINK_STATUS, &success);
-	if (!success)
+	const ShaderProgram shaderProgram;
 	{
-		glGetShaderInfoLog(shaderProgram, 512, nullptr, infoLog);
-		std::cout << "Error: Shader program linking failed.\n" << infoLog << '\n';
+		const VertexShader vertexShader(vertexShaderSource);
+		const FragmentShader fragmentShader(fragmentShaderSource);
+		shaderProgram.attach(vertexShader);
+		shaderProgram.attach(fragmentShader);
+		shaderProgram.link();
 	}
 
 	GLuint VBO;
@@ -93,7 +85,7 @@ int main() try
 
 	glBindVertexArray(0);
 
-	glUseProgram(shaderProgram);
+	shaderProgram.use();
 
 	while (!window.shouldClose())
 	{
