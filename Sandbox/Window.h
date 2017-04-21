@@ -10,8 +10,10 @@ class Window final
 public:
 	Window(const GLint height, const GLint width, const std::string& title);
 	void makeContextCurrent() const;
+	void close() const;
 	bool shouldClose() const;
 	void swapBuffers() const;
+	GLFWwindow* get() const;
 
 private:
 	GLFWwindow* _window;

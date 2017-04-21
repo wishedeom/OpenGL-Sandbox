@@ -16,6 +16,11 @@ void Window::makeContextCurrent() const
 	glfwMakeContextCurrent(_window);
 }
 
+void Window::close() const
+{
+	glfwSetWindowShouldClose(_window, GL_TRUE);
+}
+
 bool Window::shouldClose() const
 {
 	return glfwWindowShouldClose(_window);
@@ -24,4 +29,9 @@ bool Window::shouldClose() const
 void Window::swapBuffers() const
 {
 	glfwSwapBuffers(_window);
+}
+
+GLFWwindow* Window::get() const
+{
+	return _window;
 }

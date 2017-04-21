@@ -44,5 +44,5 @@ class Context final
 public:
 	Context(const OpenGLVersion version, const OpenGLProfile profile, const Resizable isResizable);
 	~Context();
-	void initializeGLEW(const Window& window, const GLEWExperimental experimental);
+	void initializeGLEW(const Window& window, const GLEWExperimental experimental) const;
 };
