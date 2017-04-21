@@ -15,17 +15,30 @@ ShaderProgram::ShaderProgram()
 	}
 }
 
-void ShaderProgram::attach(const Shader& shader) const
+const ShaderProgram& ShaderProgram::attach(const Shader& shader) const
 {
 	glAttachShader(_index, shader);
+	return *this;
 }
 
-void ShaderProgram::link() const
+const ShaderProgram& ShaderProgram::link() const
 {
 	glLinkProgram(_index);
+	return *this;
 }
 
-void ShaderProgram::use() const
+const ShaderProgram& ShaderProgram::use() const
 {
 	glUseProgram(_index);
+	return *this;
+}
+
+GLuint ShaderProgram::index() const
+{
+	return _index;
+}
+
+ShaderProgram::operator GLuint() const
+{
+	return index();
 }

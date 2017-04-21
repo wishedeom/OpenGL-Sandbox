@@ -55,13 +55,11 @@ int main() try
 		"}\n";
 
 	const ShaderProgram shaderProgram;
-	{
-		const VertexShader vertexShader(vertexShaderSource);
-		const FragmentShader fragmentShader(fragmentShaderSource);
-		shaderProgram.attach(vertexShader);
-		shaderProgram.attach(fragmentShader);
-		shaderProgram.link();
-	}
+	shaderProgram
+		.attach(VertexShader(vertexShaderSource))
+		.attach(FragmentShader(fragmentShaderSource))
+		.link()
+		.use();
 
 	GLuint VBO;
 	glGenBuffers(1, &VBO);
@@ -87,11 +85,12 @@ int main() try
 
 	shaderProgram.use();
 
+	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+
 	while (!window.shouldClose())
 	{
 		glfwPollEvents();
 		
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		glBindVertexArray(VAO);

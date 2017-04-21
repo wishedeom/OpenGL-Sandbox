@@ -9,9 +9,11 @@ class ShaderProgram final
 {
 public:
 	ShaderProgram();
-	void attach(const Shader& shader) const;
-	void link() const;
-	void use() const;
+	const ShaderProgram& attach(const Shader& shader) const;
+	const ShaderProgram& link() const;
+	const ShaderProgram& use() const;
+	GLuint index() const;
+	operator GLuint() const;
 
 private:
 	GLuint _index;
