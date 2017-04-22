@@ -6,6 +6,15 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#pragma warning (push)
+#pragma warning (disable: 4244)
+#pragma warning (disable: 4456)
+
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
+#pragma warning (pop)
+
 #include "Context.h"
 #include "FragmentShader.h"
 #include "InputHandler.h"
@@ -15,7 +24,7 @@
 #include "utils.h"
 
 const std::array<GLfloat, 24> vertices =
-{
+{	// Positions			// Colours
 	 0.5f,  0.5f, 0.0f,		1.0f, 0.0f, 0.0f,
 	 0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f,
 	-0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,
@@ -26,6 +35,14 @@ const std::array<GLuint, 6> indices =
 {
 	0, 1, 3,
 	1, 2, 3,
+};
+
+const std::array<GLfloat, 8> texCoords =
+{
+	1.0f, 1.0f,
+	1.0f, 0.0f,
+	0.0f, 0.0f,
+	0.0f, 1.0f,
 };
 
 int main() try
