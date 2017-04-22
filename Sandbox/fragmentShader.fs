@@ -5,9 +5,11 @@ in vec2 vTex;
 
 out vec4 fColour;
 
-uniform sampler2D uTexture;
+uniform sampler2D uTexture0;
+uniform sampler2D uTexture1;
 
 void main()
 {
-	fColour = texture(uTexture, vTex);
+	fColour = mix(texture(uTexture0, vTex), texture(uTexture1, vTex), 0.5) * vec4(vColour, 1.0f);
+	//fColour = texture(uTexture0, vTex);
 }
