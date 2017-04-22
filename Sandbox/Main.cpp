@@ -23,26 +23,18 @@
 #include "Window.h"
 #include "utils.h"
 
-const std::array<GLfloat, 24> vertices =
-{	// Positions			// Colours
-	 0.5f,  0.5f, 0.0f,		1.0f, 0.0f, 0.0f,
-	 0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f,
-	-0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,
-	-0.5f,  0.5f, 0.0f,		0.3f, 0.3f, 0.3f,
+const std::array<GLfloat, 32> vertices =
+{	// Position				// Colour			// Texture
+	 0.5f,  0.5f, 0.0f,		1.0f, 0.0f, 0.0f,	1.0f, 1.0f,
+	 0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f,	1.0f, 0.0f,
+	-0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,	0.0f, 0.0f,
+	-0.5f,  0.5f, 0.0f,		0.3f, 0.3f, 0.3f,	0.0f, 1.0f,
 };
 
 const std::array<GLuint, 6> indices =
 {
 	0, 1, 3,
 	1, 2, 3,
-};
-
-const std::array<GLfloat, 8> texCoords =
-{
-	1.0f, 1.0f,
-	1.0f, 0.0f,
-	0.0f, 0.0f,
-	0.0f, 1.0f,
 };
 
 int main() try
@@ -58,6 +50,16 @@ int main() try
 		.attach(FragmentShader(fromFile("fragmentShader.fs")))
 		.link()
 		.use();
+
+	int width, height;
+	const auto image = stbi_load("container.jpg", &width, &height, nullptr, 0);
+	GLuint texture;
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+	glGenerateMipmap(GL_TEXTURE_2D);
+	stbi_image_free(image);
+	glBindTexture(GL_TEXTURE_2D, 0);
 
 	GLuint VBO;
 	glGenBuffers(1, &VBO);
@@ -76,11 +78,14 @@ int main() try
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLfloat), indices.data(), GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*) 0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*) 0);
 	glEnableVertexAttribArray(0);
 
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*) (3 * sizeof(GLfloat)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*) (3 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(1);
+
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*) (6 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(2);
 
 	glBindVertexArray(0);
 
@@ -92,6 +97,7 @@ int main() try
 	{
 		glfwPollEvents();
 		glClear(GL_COLOR_BUFFER_BIT);
+		glBindTexture(GL_TEXTURE_2D, texture);
 		glBindVertexArray(VAO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

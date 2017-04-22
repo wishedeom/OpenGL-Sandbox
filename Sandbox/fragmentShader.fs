@@ -1,9 +1,13 @@
 #version 330 core
 
 in vec3 vColour;
+in vec2 vTex;
+
 out vec4 fColour;
+
+uniform sampler2D uTexture;
 
 void main()
 {
-	fColour = vec4(vColour, 1.0f);
+	fColour = texture(uTexture, vTex);
 }
