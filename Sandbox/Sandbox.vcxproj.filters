@@ -41,6 +41,9 @@
     <ClCompile Include="ShaderProgram.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Context.h">
@@ -65,6 +68,9 @@
       <Filter>header</Filter>
     </ClInclude>
     <ClInclude Include="ShaderProgram.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
       <Filter>header</Filter>
     </ClInclude>
   </ItemGroup>

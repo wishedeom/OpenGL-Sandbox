@@ -6,19 +6,11 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#pragma warning (push)
-#pragma warning (disable: 4244)
-#pragma warning (disable: 4456)
-
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
-
-#pragma warning (pop)
-
 #include "Context.h"
 #include "FragmentShader.h"
 #include "InputHandler.h"
 #include "ShaderProgram.h"
+#include "Texture.h"
 #include "VertexShader.h"
 #include "Window.h"
 #include "utils.h"
@@ -51,26 +43,8 @@ int main() try
 		.link()
 		.use();
 
-	int width, height, channels;
-
-	stbi_set_flip_vertically_on_load(1);
-	auto image = stbi_load("container.jpg", &width, &height, &channels, 0);
-	GLuint texture0;
-	glGenTextures(1, &texture0);
-	glBindTexture(GL_TEXTURE_2D, texture0);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-	glGenerateMipmap(GL_TEXTURE_2D);
-	stbi_image_free(image);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	image = stbi_load("awesomeface.png", &width, &height, &channels, STBI_rgb);
-	GLuint texture1;
-	glGenTextures(1, &texture1);
-	glBindTexture(GL_TEXTURE_2D, texture1);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-	glGenerateMipmap(GL_TEXTURE_2D);
-	stbi_image_free(image);
-	glBindTexture(GL_TEXTURE_2D, 0);
+	Texture container("container.jpg");
+	Texture awesomeFace("awesomeface.png", RequiredComponents::RGB);
 
 	GLuint VBO;
 	glGenBuffers(1, &VBO);
@@ -110,11 +84,11 @@ int main() try
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texture0);
+		glBindTexture(GL_TEXTURE_2D, container);
 		glUniform1i(glGetUniformLocation(shaderProgram, "uTexture0"), 0);
 
 		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, texture1);
+		glBindTexture(GL_TEXTURE_2D, awesomeFace);
 		glUniform1i(glGetUniformLocation(shaderProgram, "uTexture1"), 1);
 
 		glBindVertexArray(VAO);
