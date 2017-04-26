@@ -3,18 +3,20 @@
 #include "Context.h"
 #include "utils.h"
 
+using namespace OpenGL;
+
 /*
 *	Helper forwards declarations
 */
 void setVersion(const GLint major, const GLint minor);
-void setProfile(const OpenGLProfile profile);
+void setProfile(const Profile profile);
 void setResizable(const Resizable isResizable);
 
 
 /*
 *	Member implementations
 */
-Context::Context(const OpenGLVersion version, const OpenGLProfile profile, const Resizable isResizable)
+Context::Context(const Version version, const Profile profile, const Resizable isResizable)
 {
 	glfwInit();
 	setVersion(version.major, version.minor);
@@ -46,7 +48,7 @@ void setVersion(const GLint major, const GLint minor)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, minor);
 }
 
-void setProfile(const OpenGLProfile profile)
+void setProfile(const Profile profile)
 {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, toIntegral(profile));
 }

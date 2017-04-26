@@ -1,8 +1,8 @@
 #ifndef STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
-#pragma warning (push)
-#pragma warning (disable: 4244)
-#pragma warning (disable: 4456)
+#pragma warning (push, 0)
+//#pragma warning (disable: 4244)
+//#pragma warning (disable: 4456)
 #include "stb_image.h"
 #pragma warning (pop)
 #endif // !STB_IMAGE_IMPLEMENTATION

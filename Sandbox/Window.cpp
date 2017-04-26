@@ -7,7 +7,10 @@ Window::Window(const GLint height, const GLint width, const std::string& title)
 	{
 		throw std::runtime_error("Failed to create OpenGL window.\n");
 	}
-	glfwGetFramebufferSize(_window, &_width, &_height);
+	int iwidth, iheight;
+	glfwGetFramebufferSize(_window, &iwidth, &iheight);
+	_width = static_cast<float>(iwidth);
+	_height = static_cast<float>(iheight);
 	makeContextCurrent();
 }
 
@@ -34,4 +37,9 @@ void Window::swapBuffers() const
 GLFWwindow* Window::get() const
 {
 	return _window;
+}
+
+glm::mat4 Window::projectionMatrix() const
+{
+	return glm::perspective(glm::radians(45.0f), _width / _height, 0.1f, 100.0f);
 }

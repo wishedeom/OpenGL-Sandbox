@@ -11,19 +11,22 @@
 
 class Window;
 
-struct OpenGLVersion
+namespace OpenGL
 {
-	GLint minor;
-	GLint major;
-};
+	struct Version
+	{
+		GLint minor;
+		GLint major;
+	};
 
-enum class OpenGLProfile
-	: GLint
-{
-	Core   = GLFW_OPENGL_CORE_PROFILE,
-	Compat = GLFW_OPENGL_COMPAT_PROFILE,
-	Any    = GLFW_OPENGL_ANY_PROFILE,
-};
+	enum class Profile
+		: GLint
+	{
+		Core           =  GLFW_OPENGL_CORE_PROFILE,
+		Compatibility  =  GLFW_OPENGL_COMPAT_PROFILE,
+		Any            =  GLFW_OPENGL_ANY_PROFILE,
+	};
+}
 
 enum class Resizable
 	: GLboolean
@@ -42,7 +45,7 @@ enum class GLEWExperimental
 class Context final
 {
 public:
-	Context(const OpenGLVersion version, const OpenGLProfile profile, const Resizable isResizable);
+	Context(const OpenGL::Version version, const OpenGL::Profile profile, const Resizable isResizable);
 	~Context();
 	void initializeGLEW(const Window& window, const GLEWExperimental experimental) const;
 };

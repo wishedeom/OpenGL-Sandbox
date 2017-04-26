@@ -6,6 +6,12 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#pragma warning (push, 0)
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#pragma warning (pop)
+
 #include "Context.h"
 #include "FragmentShader.h"
 #include "InputHandler.h"
@@ -31,7 +37,7 @@ const std::array<GLuint, 6> indices =
 
 int main() try
 {
-	const Context context(OpenGLVersion{ 3, 3 }, OpenGLProfile::Core, Resizable::True);
+	const Context context(OpenGL::Version{ 3, 3 }, OpenGL::Profile::Core, Resizable::True);
 	const Window window(800, 600, "Learn OpenGL");
 	context.initializeGLEW(window, GLEWExperimental::True);
 	const InputHandler inputHandler(window);
@@ -43,7 +49,7 @@ int main() try
 		.link()
 		.use();
 
-	Texture container("container.jpg");
+	Texture container("container.jpg", RequiredComponents::RGB);
 	Texture awesomeFace("awesomeface.png", RequiredComponents::RGB);
 
 	GLuint VBO;
@@ -78,10 +84,22 @@ int main() try
 
 	glClearColor(0.1f, 1.0f, 0.1f, 1.0f);
 
+	glm::mat4 transform;
+	const auto transformLoc = glGetUniformLocation(shaderProgram, "transform");
+	const auto projection = window.projectionMatrix();
+	const auto projectionLoc = glGetUniformLocation(shaderProgram, "projection");
+	const auto view = glm::translate(glm::mat4(), { 0.0f, 0.0f, -10.0f });
+	const auto viewLoc = glGetUniformLocation(shaderProgram, "view");
+
 	while (!window.shouldClose())
 	{
 		glfwPollEvents();
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		transform = glm::rotate(transform, glm::radians(0.1f), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+		glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, container);
