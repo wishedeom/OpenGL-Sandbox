@@ -17,6 +17,7 @@ public:
 	void close() const;
 	bool shouldClose() const;
 	void swapBuffers() const;
+	operator GLFWwindow*() const;
 	GLFWwindow* get() const;
 	glm::mat4 projectionMatrix() const;
 

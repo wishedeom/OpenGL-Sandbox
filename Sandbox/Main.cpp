@@ -12,6 +12,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #pragma warning (pop)
 
+#include "Camera.h"
 #include "Context.h"
 #include "FragmentShader.h"
 #include "InputHandler.h"
@@ -40,7 +41,8 @@ int main() try
 	const Context context(OpenGL::Version{ 3, 3 }, OpenGL::Profile::Core, Resizable::True);
 	const Window window(800, 600, "Learn OpenGL");
 	context.initializeGLEW(window, GLEWExperimental::True);
-	const InputHandler inputHandler(window);
+	Camera camera({ 0.0f, 0.0f, -5.0f });
+	InputHandler inputHandler(window, camera);
 
 	ShaderProgram shaderProgram;
 	shaderProgram
@@ -88,18 +90,18 @@ int main() try
 	const auto transformLoc = glGetUniformLocation(shaderProgram, "transform");
 	const auto projection = window.projectionMatrix();
 	const auto projectionLoc = glGetUniformLocation(shaderProgram, "projection");
-	const auto view = glm::translate(glm::mat4(), { 0.0f, 0.0f, -10.0f });
 	const auto viewLoc = glGetUniformLocation(shaderProgram, "view");
 
 	while (!window.shouldClose())
 	{
 		glfwPollEvents();
+		inputHandler.update();
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		transform = glm::rotate(transform, glm::radians(0.1f), glm::vec3(0.0f, 0.0f, 1.0f));
+		transform = glm::rotate(transform, glm::radians(0.05f), { 1.0f, 0.0f, 0.0f });
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
 		glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
-		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(camera.view()));
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, container);

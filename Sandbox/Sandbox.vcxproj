@@ -150,6 +150,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Context.cpp" />
     <ClCompile Include="FragmentShader.cpp" />
     <ClCompile Include="InputHandler.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Context.h" />
     <ClInclude Include="FragmentShader.h" />
     <ClInclude Include="InputHandler.h" />
