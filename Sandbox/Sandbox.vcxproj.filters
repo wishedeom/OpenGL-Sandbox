@@ -79,6 +79,9 @@
     <ClInclude Include="Camera.h">
       <Filter>header</Filter>
     </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="vertexShader.vs">

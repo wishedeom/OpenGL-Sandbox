@@ -167,6 +167,7 @@
     <ClInclude Include="Context.h" />
     <ClInclude Include="FragmentShader.h" />
     <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Texture.h" />

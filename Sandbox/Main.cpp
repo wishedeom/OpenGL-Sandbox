@@ -17,6 +17,7 @@
 #include "Context.h"
 #include "FragmentShader.h"
 #include "InputHandler.h"
+#include "Material.h"
 #include "ShaderProgram.h"
 #include "Texture.h"
 #include "VertexShader.h"
@@ -97,6 +98,14 @@ int main() try
 		.attach(FragmentShader(fromFile("lamp.fs")))
 		.link();
 
+	const Material gold
+	{
+		{ 0.24725f,  0.1995f,   0.0745f   },  // Ambient
+		{ 0.75164f,  0.60648f,  0.22648f  },  // Diffuse
+		{ 0.628281f, 0.555802f, 0.366065f },  // Specular
+		0.4f                                  // Shininess
+	};
+
 	// Cube models
 	GLuint VBO;
 	glGenBuffers(1, &VBO);
@@ -140,10 +149,10 @@ int main() try
 	const auto viewLoc = shaderProgram.getUniform("view");
 
 	// Materials
-	glUniform3f(shaderProgram.getUniform("material.ambient"), 1.0f, 0.0f, 0.0f);
-	glUniform3f(shaderProgram.getUniform("material.diffuse"), 1.0f, 0.5f, 0.31f);
-	glUniform3f(shaderProgram.getUniform("material.specular"), 0.5f, 0.5f, 0.5f);
-	glUniform1f(shaderProgram.getUniform("material.shininess"), 32.0f);
+	glUniform3fv(shaderProgram.getUniform("material.ambient"), 1, glm::value_ptr(gold.ambient));
+	glUniform3fv(shaderProgram.getUniform("material.diffuse"), 1, glm::value_ptr(gold.diffuse));
+	glUniform3fv(shaderProgram.getUniform("material.specular"), 1, glm::value_ptr(gold.specular));
+	glUniform1f(shaderProgram.getUniform("material.shininess"), gold.shininess);
 
 	// Light values
 	glUniform3f(shaderProgram.getUniform("light.ambient"), 0.2f, 0.2f, 0.2f);
