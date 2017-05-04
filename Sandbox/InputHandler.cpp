@@ -10,8 +10,11 @@
 InputHandler::InputHandler(const Window& window, Camera& camera)
 	: _camera { camera }
 {
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetWindowUserPointer(window, this);
-	glfwSetKeyCallback(window.get(), keyCallback);
+	glfwSetKeyCallback(window, _keyboardCallback);
+	glfwSetCursorPosCallback(window, _cursorPositionCallback);
+	glfwSetScrollCallback(window, _scrollWheelCallback);
 }
 
 Camera& InputHandler::camera()
@@ -34,27 +37,31 @@ void InputHandler::update()
 	switch (_axialDirection)
 	{
 		case AxialDirection::Forward:
-			_camera.translate({ 0.0f, 0.0f, _speed });
+			_camera.translate(_speed * _camera.forward());
 			break;
 		case AxialDirection::Backward:
-			_camera.translate({ 0.0f, 0.0f, -_speed });;
+			_camera.translate(-_speed * _camera.forward());;
 			break;
 	}
 	switch (_lateralDirection)
 	{
 		case LateralDirection::Left:
-			_camera.translate({ _speed, 0.0f, 0.0f });
+			_camera.translate(-_speed * _camera.right());
 			break;
 		case LateralDirection::Right:
-			_camera.translate({ -_speed, 0.0f, 0.0f });
+			_camera.translate(_speed * _camera.right());
 			break;
 	}
-}
 
-static void keyCallback(GLFWwindow* const window, const GLint key, const GLint, const GLint action, const GLint)
+	const auto diff = _mousePosition - _oldMousePosition;
+	_oldMousePosition = _mousePosition;
+	_camera.rotateRight(glm::sign(diff.x) * glm::radians(_sensitivity));
+	_camera.rotateUp(glm::sign(diff.y) * glm::radians(_sensitivity));
+} 
+
+static void _keyboardCallback(GLFWwindow* const window, const GLint key, const GLint, const GLint action, const GLint)
 {
 	static auto& handler = *static_cast<InputHandler*>(glfwGetWindowUserPointer(window));
-	static auto& camera = handler.camera();
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 	{
 		glfwSetWindowShouldClose(window, GL_TRUE);
@@ -103,4 +110,30 @@ static void keyCallback(GLFWwindow* const window, const GLint key, const GLint, 
 			handler._lateralDirection = LateralDirection::None;
 		}
 	}
+}
+
+static void _cursorPositionCallback(GLFWwindow* const window, const double x, const double y)
+{
+	static auto& handler = *static_cast<InputHandler*>(glfwGetWindowUserPointer(window));
+	handler._mousePosition = { x, y };
+}
+
+void _scrollWheelCallback(GLFWwindow * const window, const double /*x*/, const double y)
+{
+	static auto& handler = *static_cast<InputHandler*>(glfwGetWindowUserPointer(window));
+	static auto& camera = handler.camera();
+	const auto fov = camera.fov();
+	if (fov >= 1.0f && fov <= 45.0f)
+	{
+		camera.setFov(static_cast<float>(fov - y));
+	}
+	else if (fov < 1.0f)
+	{
+		camera.setFov(1.0f);
+	}
+	else if (fov >= 45.0f)
+	{
+		camera.setFov(45.0f);
+	}
+
 }

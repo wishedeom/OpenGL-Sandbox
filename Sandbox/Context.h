@@ -45,7 +45,7 @@ enum class GLEWExperimental
 class Context final
 {
 public:
-	Context(const OpenGL::Version version, const OpenGL::Profile profile, const Resizable isResizable);
+	Context(const OpenGL::Version version);
 	~Context();
-	void initializeGLEW(const Window& window, const GLEWExperimental experimental) const;
+	void initializeGLEW(const Window& window) const;
 };

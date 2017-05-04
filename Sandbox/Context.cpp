@@ -16,12 +16,12 @@ void setResizable(const Resizable isResizable);
 /*
 *	Member implementations
 */
-Context::Context(const Version version, const Profile profile, const Resizable isResizable)
+Context::Context(const Version version)
 {
 	glfwInit();
 	setVersion(version.major, version.minor);
-	setProfile(profile);
-	setResizable(isResizable);
+	setProfile(Profile::Core);
+	setResizable(Resizable::False);
 }
 
 Context::~Context()
@@ -29,9 +29,9 @@ Context::~Context()
 	glfwTerminate();
 }
 
-void Context::initializeGLEW(const Window&, const GLEWExperimental experimental) const
+void Context::initializeGLEW(const Window&) const
 {
-	glewExperimental = toIntegral(experimental);
+	glewExperimental = toIntegral(GLEWExperimental::True);
 	if (glewInit() != GLEW_OK)
 	{
 		throw std::runtime_error("Failed to initialize GLEW.\n");

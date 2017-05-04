@@ -19,7 +19,8 @@ public:
 	void swapBuffers() const;
 	operator GLFWwindow*() const;
 	GLFWwindow* get() const;
-	glm::mat4 projectionMatrix() const;
+	GLfloat height() const;
+	GLfloat width() const;
 
 private:
 	GLFWwindow* _window;

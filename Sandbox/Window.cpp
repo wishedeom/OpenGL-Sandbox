@@ -2,7 +2,7 @@
 
 Window::Window(const GLint height, const GLint width, const std::string& title)
 {
-	_window = glfwCreateWindow(height, width, title.c_str(), nullptr, nullptr);
+	_window = glfwCreateWindow(height, width, title.c_str(), glfwGetPrimaryMonitor(), nullptr);
 	if (!_window)
 	{
 		throw std::runtime_error("Failed to create OpenGL window.\n");
@@ -44,7 +44,12 @@ GLFWwindow* Window::get() const
 	return _window;
 }
 
-glm::mat4 Window::projectionMatrix() const
+GLfloat Window::height() const
 {
-	return glm::perspective(glm::radians(45.0f), _width / _height, 0.1f, 100.0f);
+	return _height;
+}
+
+GLfloat Window::width() const
+{
+	return _width;
 }
