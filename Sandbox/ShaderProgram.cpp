@@ -33,28 +33,19 @@ ShaderProgram& ShaderProgram::use()
 	return *this;
 }
 
-Uniform ShaderProgram::addUniform(const std::string& name, const UniformType type)
+ShaderProgram& ShaderProgram::operator()()
 {
-	if (_uniforms.find(name) != _uniforms.end())
-	{
-		throw std::runtime_error("Uniform " + name + " already exists.");
-	}
+	return use();
+}
+
+GLuint ShaderProgram::getUniform(const std::string& name) const
+{
 	const auto loc = glGetUniformLocation(_id, name.c_str());
 	if (loc == -1)
 	{
-		throw std::runtime_error("Uniform " + name + " not found or has reserved prefix 'gl_'.\n");
+		throw std::runtime_error("Uniform " + name + " not found.\n");
 	}
-	return _uniforms[name] = { static_cast<GLuint>(loc), type };
-}
-
-Uniform ShaderProgram::uniform(const std::string& name) const
-{
-	const auto& it = _uniforms.find(name);
-	if (it == _uniforms.end())
-	{
-		throw std::runtime_error("No uniform " + name + " exists.\n");
-	}
-	return it->second;
+	return loc;
 }
 
 GLuint ShaderProgram::index() const

@@ -87,5 +87,8 @@
     <None Include="fragmentShader.fs">
       <Filter>shaders</Filter>
     </None>
+    <None Include="lamp.fs">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -176,6 +176,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="fragmentShader.fs" />
+    <None Include="lamp.fs" />
     <None Include="vertexShader.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

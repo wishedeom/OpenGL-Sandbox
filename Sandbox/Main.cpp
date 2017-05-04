@@ -32,49 +32,49 @@ struct Vertex
 	glm::vec2 texture;
 };
 
-const std::array<GLfloat, 5 * 6 * 6> vertices =
-{	// Position				// Texture
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-	0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+const std::array<GLfloat, 6 * 6 * 6> vertices =
+{	// Position				// Normal
+	-0.5f, -0.5f, -0.5f,   0.0f,  0.0f, -1.0f,
+	0.5f, -0.5f, -0.5f,   0.0f,  0.0f, -1.0f,
+	0.5f,  0.5f, -0.5f,   0.0f,  0.0f, -1.0f,
+	0.5f,  0.5f, -0.5f,   0.0f,  0.0f, -1.0f,
+	-0.5f,  0.5f, -0.5f,   0.0f,  0.0f, -1.0f,
+	-0.5f, -0.5f, -0.5f,   0.0f,  0.0f, -1.0f,
 
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	-0.5f, -0.5f,  0.5f,   0.0f,  0.0f, 1.0f,
+	0.5f, -0.5f,  0.5f,   0.0f,  0.0f, 1.0f,
+	0.5f,  0.5f,  0.5f,   0.0f,  0.0f, 1.0f,
+	0.5f,  0.5f,  0.5f,   0.0f,  0.0f, 1.0f,
+	-0.5f,  0.5f,  0.5f,   0.0f,  0.0f, 1.0f,
+	-0.5f, -0.5f,  0.5f,   0.0f,  0.0f, 1.0f,
 
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	-0.5f,  0.5f,  0.5f,  -1.0f,  0.0f,  0.0f,
+	-0.5f,  0.5f, -0.5f,  -1.0f,  0.0f,  0.0f,
+	-0.5f, -0.5f, -0.5f,  -1.0f,  0.0f,  0.0f,
+	-0.5f, -0.5f, -0.5f,  -1.0f,  0.0f,  0.0f,
+	-0.5f, -0.5f,  0.5f,  -1.0f,  0.0f,  0.0f,
+	-0.5f,  0.5f,  0.5f,  -1.0f,  0.0f,  0.0f,
 
-	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	0.5f,  0.5f,  0.5f,   1.0f,  0.0f,  0.0f,
+	0.5f,  0.5f, -0.5f,   1.0f,  0.0f,  0.0f,
+	0.5f, -0.5f, -0.5f,   1.0f,  0.0f,  0.0f,
+	0.5f, -0.5f, -0.5f,   1.0f,  0.0f,  0.0f,
+	0.5f, -0.5f,  0.5f,   1.0f,  0.0f,  0.0f,
+	0.5f,  0.5f,  0.5f,   1.0f,  0.0f,  0.0f,
 
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	-0.5f, -0.5f, -0.5f,   0.0f, -1.0f,  0.0f,
+	0.5f, -0.5f, -0.5f,   0.0f, -1.0f,  0.0f,
+	0.5f, -0.5f,  0.5f,   0.0f, -1.0f,  0.0f,
+	0.5f, -0.5f,  0.5f,   0.0f, -1.0f,  0.0f,
+	-0.5f, -0.5f,  0.5f,   0.0f, -1.0f,  0.0f,
+	-0.5f, -0.5f, -0.5f,   0.0f, -1.0f,  0.0f,
 
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+	-0.5f,  0.5f, -0.5f,   0.0f,  1.0f,  0.0f,
+	0.5f,  0.5f, -0.5f,   0.0f,  1.0f,  0.0f,
+	0.5f,  0.5f,  0.5f,   0.0f,  1.0f,  0.0f,
+	0.5f,  0.5f,  0.5f,   0.0f,  1.0f,  0.0f,
+	-0.5f,  0.5f,  0.5f,   0.0f,  1.0f,  0.0f,
+	-0.5f,  0.5f, -0.5f,   0.0f,  1.0f,  0.0f
 };
 
 int main() try
@@ -89,11 +89,13 @@ int main() try
 	shaderProgram
 		.attach(VertexShader(fromFile("vertexShader.vs")))
 		.attach(FragmentShader(fromFile("fragmentShader.fs")))
-		.link()
-		.use();
+		.link();
 
-	Texture container("container.jpg", RequiredComponents::RGB);
-	Texture awesomeFace("awesomeface.png", RequiredComponents::RGB);
+	ShaderProgram lampShader;
+	lampShader
+		.attach(VertexShader(fromFile("vertexShader.vs")))
+		.attach(FragmentShader(fromFile("lamp.fs")))
+		.link();
 
 	// Cube models
 	GLuint VBO;
@@ -107,10 +109,10 @@ int main() try
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(GLfloat), vertices.data(), GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*) 0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*) 0);
 	glEnableVertexAttribArray(0);
 
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*) (3 * sizeof(GLfloat)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*) (3 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(1);
 
 	glBindVertexArray(0);
@@ -120,28 +122,50 @@ int main() try
 	glGenVertexArrays(1, &lightVAO);
 	glBindVertexArray(lightVAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*) 0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*) 0);
 	glEnableVertexAttribArray(0);
 	glBindVertexArray(0);
 
-	shaderProgram.use();
+	const GLint viewPosLoc = shaderProgram.getUniform("viewPos");
 
-	glClearColor(0.1f, 1.0f, 0.1f, 1.0f);
+	const GLint lightPosLoc = glGetUniformLocation(shaderProgram, "lightPos");
+	glm::vec3 lightPos = { 1.2f, 1.0f, 2.0f };
 
-	const auto modelLoc = glGetUniformLocation(shaderProgram, "model");
-	const auto projectionLoc = glGetUniformLocation(shaderProgram, "projection");
-	const auto viewLoc = glGetUniformLocation(shaderProgram, "view");
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+	// Set uniforms
+	shaderProgram();
+	const auto modelLoc = shaderProgram.getUniform("model");
+	const auto projectionLoc = shaderProgram.getUniform("projection");
+	const auto viewLoc = shaderProgram.getUniform("view");
+
+	// Materials
+	glUniform3f(shaderProgram.getUniform("material.ambient"), 1.0f, 0.0f, 0.0f);
+	glUniform3f(shaderProgram.getUniform("material.diffuse"), 1.0f, 0.5f, 0.31f);
+	glUniform3f(shaderProgram.getUniform("material.specular"), 0.5f, 0.5f, 0.5f);
+	glUniform1f(shaderProgram.getUniform("material.shininess"), 32.0f);
+
+	// Light values
+	glUniform3f(shaderProgram.getUniform("light.ambient"), 0.2f, 0.2f, 0.2f);
+	glUniform3f(shaderProgram.getUniform("light.diffuse"), 0.5f, 0.5f, 0.5f);
+	glUniform3f(shaderProgram.getUniform("light.specular"), 1.0f, 1.0f, 1.0f);
+
+	// Lamp
+	const auto lightModelLoc = lampShader.getUniform("model");
+	const auto lightProjectionLoc = lampShader.getUniform("projection");
+	const auto lightViewLoc = lampShader.getUniform("view");
 
 	glEnable(GL_DEPTH_TEST);
 
-	const size_t numCubes = 10;
+	const size_t numCubes = 50;
+	const float radius = 15.0f;
 	std::array<glm::vec3, numCubes> positions;
 	std::array<glm::vec3, numCubes> axes;
 
 	for (size_t i = 0; i < numCubes; ++i)
 	{
-		positions[i] = glm::ballRand(5.0f);
-		axes[i] = glm::ballRand(5.0f);
+		positions[i] = glm::ballRand(radius);
+		axes[i] = glm::ballRand(1.0f);
 	}
 
 	GLdouble lastFrame = 0.0f;
@@ -155,24 +179,35 @@ int main() try
 		inputHandler.update();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		lampShader();
+		lightPos = glm::vec3(glm::sin(currentFrame), glm::cos(currentFrame), 0.0f);
+		{
+			glm::mat4 model;
+			model = glm::translate(model, lightPos);
+			model = glm::scale(model, glm::vec3(0.2f));
+			glUniformMatrix4fv(lightModelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		}
+		glUniformMatrix4fv(lightViewLoc, 1, GL_FALSE, glm::value_ptr(camera.view()));
+		glUniformMatrix4fv(lightProjectionLoc, 1, GL_FALSE, glm::value_ptr(camera.projection()));
+
+		glBindVertexArray(lightVAO);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+		glBindVertexArray(0);
+
+		shaderProgram();
 		const auto projection = camera.projection();
 		glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(camera.view()));
-
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, container);
-		glUniform1i(glGetUniformLocation(shaderProgram, "uTexture0"), 0);
-
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, awesomeFace);
-		glUniform1i(glGetUniformLocation(shaderProgram, "uTexture1"), 1);
+		const auto viewPos = camera.position();
+		glUniform3f(viewPosLoc, viewPos.x, viewPos.y, viewPos.z);
+		glUniform3f(lightPosLoc, lightPos.x, lightPos.y, lightPos.z);
 
 		glBindVertexArray(VAO);
 		for (size_t i = 0; i < numCubes; ++i)
 		{
 			glm::mat4 model;
 			model = glm::translate(model, positions[i]);
-			model = glm::rotate(model, glm::radians(5.0f * (i + 1) * static_cast<float>(glfwGetTime())), axes[i]);
+			model = glm::rotate(model, glm::radians(5.0f * (i + 1) * static_cast<float>(currentFrame)), axes[i]);
 			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
@@ -186,5 +221,6 @@ int main() try
 catch (const std::runtime_error& e)
 {
 	std::cout << e.what();
+	std::cin.get();
 	return -1;
 }
