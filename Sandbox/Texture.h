@@ -7,13 +7,7 @@
 
 #include "utils.h"
 
-enum class TextureTarget
-	: GLenum
-{
-	Texture2D = GL_TEXTURE_2D,
-};
-
-enum class RequiredComponents
+enum class Components
 	: int
 {
 	Default  =  0,
@@ -24,7 +18,7 @@ enum class RequiredComponents
 class Texture final
 {
 public:
-	Texture(const std::string& filename, const RequiredComponents req = RequiredComponents::Default);
+	Texture(const std::string& filename, const Components req);
 	GLuint id() const;
 	operator GLuint() const;
 

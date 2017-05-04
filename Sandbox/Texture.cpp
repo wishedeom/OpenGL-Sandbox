@@ -1,15 +1,13 @@
 #ifndef STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_IMPLEMENTATION
 #pragma warning (push, 0)
-//#pragma warning (disable: 4244)
-//#pragma warning (disable: 4456)
 #include "stb_image.h"
 #pragma warning (pop)
 #endif // !STB_IMAGE_IMPLEMENTATION
 
 #include "Texture.h"
 
-Texture::Texture(const std::string& filename, const RequiredComponents req)
+Texture::Texture(const std::string& filename, const Components req)
 {
 	glGenTextures(1, &_id);
 	glBindTexture(GL_TEXTURE_2D, _id);

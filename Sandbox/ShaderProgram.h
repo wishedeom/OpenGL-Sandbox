@@ -14,8 +14,7 @@ public:
 	ShaderProgram();
 	ShaderProgram& attach(const Shader& shader);
 	ShaderProgram& link();
-	ShaderProgram& use();
-	ShaderProgram& operator()();
+	void use();
 	GLuint getUniform(const std::string& name) const;
 	GLuint index() const;
 	operator GLuint() const;

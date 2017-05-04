@@ -27,15 +27,9 @@ ShaderProgram& ShaderProgram::link()
 	return *this;
 }
 
-ShaderProgram& ShaderProgram::use()
+void ShaderProgram::use()
 {
 	glUseProgram(_id);
-	return *this;
-}
-
-ShaderProgram& ShaderProgram::operator()()
-{
-	return use();
 }
 
 GLuint ShaderProgram::getUniform(const std::string& name) const

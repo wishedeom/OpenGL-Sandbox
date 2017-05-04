@@ -7,10 +7,11 @@
 #include <glm/glm.hpp>
 #pragma warning (pop)
 
+#include "Texture.h"
+
 struct Material
 {
-	glm::vec3 ambient;
-	glm::vec3 diffuse;
-	glm::vec3 specular;
+	Texture diffuse;
+	Texture specular;
 	GLfloat shininess;
 };
