@@ -82,6 +82,15 @@
     <ClInclude Include="Material.h">
       <Filter>header</Filter>
     </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLight.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="vertexShader.vs">

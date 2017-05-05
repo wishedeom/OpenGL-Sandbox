@@ -165,9 +165,12 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Context.h" />
+    <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="FragmentShader.h" />
     <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
+    <ClInclude Include="PointLight.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Texture.h" />

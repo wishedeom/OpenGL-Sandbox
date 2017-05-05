@@ -15,6 +15,9 @@
 
 #include "Camera.h"
 #include "Context.h"
+#include "DirectionalLight.h"
+#include "PointLight.h"
+#include "Light.h"
 #include "FragmentShader.h"
 #include "InputHandler.h"
 #include "Material.h"
