@@ -91,6 +91,9 @@
     <ClInclude Include="PointLight.h">
       <Filter>header</Filter>
     </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="vertexShader.vs">
