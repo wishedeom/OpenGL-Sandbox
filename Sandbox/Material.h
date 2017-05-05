@@ -9,9 +9,13 @@
 
 #include "Texture.h"
 
+class ShaderProgram;
+
 struct Material
 {
 	Texture diffuse;
 	Texture specular;
 	GLfloat shininess;
+
+	void bind(const ShaderProgram& shader) const;
 };
