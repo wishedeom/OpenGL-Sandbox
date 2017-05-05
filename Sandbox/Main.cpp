@@ -89,7 +89,7 @@ int main() try
 		.attach(FragmentShader(fromFile("lamp.fs")))
 		.link();
 
-	const Material gold
+	const Material crate
 	{
 		{ "container2.png",          Components::RGB }, // Diffuse map
 		{ "container2_specular.png", Components::RGB }, // Specular map
@@ -130,8 +130,8 @@ int main() try
 
 	const GLint viewPosLoc = shader.getUniform("viewPos");
 
-	const GLint lightPosLoc = glGetUniformLocation(shader, "lightPos");
-	glm::vec3 lightPos = { 1.2f, 1.0f, 2.0f };
+	const GLint lightPosLoc = glGetUniformLocation(shader, "directionalLight.direction");
+	glm::vec3 lightPos = { -0.2f, -1.0f, -0.3f };
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -142,20 +142,25 @@ int main() try
 	const auto viewLoc = shader.getUniform("view");
 
 	// Materials
-	glUniform1f(shader.getUniform("material.shininess"), gold.shininess);
+	glUniform1f(shader.getUniform("material.shininess"), crate.shininess);
 
 	glUniform1i(shader.getUniform("material.diffuse"), 0);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, gold.diffuse);
+	glBindTexture(GL_TEXTURE_2D, crate.diffuse);
 
 	glUniform1i(shader.getUniform("material.specular"), 1);
 	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, gold.specular);
+	glBindTexture(GL_TEXTURE_2D, crate.specular);
 
 	// Light values
-	glUniform3f(shader.getUniform("light.ambient"), 0.2f, 0.2f, 0.2f);
-	glUniform3f(shader.getUniform("light.diffuse"), 0.5f, 0.5f, 0.5f);
-	glUniform3f(shader.getUniform("light.specular"), 1.0f, 1.0f, 1.0f);
+	glUniform3f(shader.getUniform("directionalLight.colours.ambient"), 0.1f, 0.1f, 0.1f);
+	glUniform3f(shader.getUniform("directionalLight.colours.diffuse"), 0.5f, 0.5f, 0.5f);
+	glUniform3f(shader.getUniform("directionalLight.colours.specular"), 0.5f, 0.0f, 0.0f);
+
+	// Attenuation
+	//glUniform1f(shader.getUniform("light.constant"), 1.0f);
+	//glUniform1f(shader.getUniform("light.linear"),   0.09f);
+	//glUniform1f(shader.getUniform("light.quadratic"), 0.0032f);
 
 	// Lamp
 	const auto lightModelLoc = lampShader.getUniform("model");
@@ -187,7 +192,6 @@ int main() try
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		lampShader.use();
-		lightPos = glm::vec3(glm::sin(currentFrame), glm::cos(currentFrame), 0.0f);
 		{
 			glm::mat4 model;
 			model = glm::translate(model, lightPos);

@@ -7,12 +7,31 @@ struct Material
 	float shininess;
 };
 
-struct Light
+struct Colours
 {
-	vec3 position;
 	vec3 ambient;
 	vec3 diffuse;
 	vec3 specular;
+};
+
+struct Attenuation
+{
+	float constant;
+	float linear;
+	float quadratic;
+};
+
+struct DirectionalLight
+{
+	vec3 direction;
+	Colours colours;
+};
+
+struct PointLight
+{
+	vec3 position;
+	Attenuation attenuation;
+	Colours colours;
 };
 
 in vec3 fragPos;
@@ -21,30 +40,50 @@ in vec2 vTexture;
 
 out vec4 fColour;
 
-uniform vec3 lightPos;
 uniform vec3 viewPos;
 uniform Material material;
-uniform Light light;
+uniform DirectionalLight directionalLight;
+
+vec3 directionalLightColour(DirectionalLight light);
+vec3 pointLightColour(PointLight light);
+float computeAttenutation(Attenuation a, float distance);
 
 void main()
+{        
+    fColour = vec4(directionalLightColour(directionalLight), 1.0f);
+}
+
+vec3 directionalLightColour(DirectionalLight light)
 {
-	vec3 diffuseTex = vec3(texture(material.diffuse, vTexture));
+	vec3 direction = normalize(-light.direction);
+	float diff = max(dot(vNormal, direction), 0.0f);
+	vec3 reflection = reflect(-direction, vNormal);
+	float spec = pow(max(dot(fragPos - viewPos, reflection), 0.0f), material.shininess);
+	
+	vec3 ambient = light.colours.ambient * vec3(texture(material.diffuse, vTexture));
+	vec3 diffuse = light.colours.diffuse * diff * vec3(texture(material.diffuse, vTexture));
+	vec3 specular = light.colours.specular * spec * vec3(texture(material.specular, vTexture));
+	
+	return ambient + diffuse + specular;
+}
 
-    // Ambient
-    vec3 ambient = light.ambient * diffuseTex;
+vec3 pointLightColour(PointLight light)
+{
+	vec3 direction = normalize(light.position - fragPos);
+	float diff = max(dot(vNormal, direction), 0.0f);
+	vec3 reflection = reflect(-direction, vNormal);
+	float spec = pow(max(dot(fragPos - viewPos, reflection), 0.0f), material.shininess);
+	float distance = length(light.position - fragPos);
+	float attenuation = computeAttenutation(light.attenuation, distance);
 
-    // Diffuse 
-    vec3 norm = normalize(vNormal);
-    vec3 lightDir = normalize(lightPos - fragPos);
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = light.diffuse * diff * diffuseTex;
-    
-    // Specular
-    vec3 viewDir = normalize(viewPos - fragPos);
-    vec3 reflectDir = reflect(-lightDir, norm);  
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-    vec3 specular = light.specular * spec * vec3(texture(material.specular, vTexture));
-        
-    vec3 result = ambient + diffuse + specular;
-    fColour = vec4(result, 1.0f);
+	vec3 ambient = light.colours.ambient * vec3(texture(material.diffuse, vTexture));
+	vec3 diffuse = light.colours.diffuse * diff * vec3(texture(material.diffuse, vTexture));
+	vec3 specular = light.colours.specular * spec * vec3(texture(material.specular, vTexture));
+
+	return (ambient + diffuse + specular) * attenuation;
+}
+
+float computeAttenutation(Attenuation a, float distance)
+{
+	return 1.0f / (a.constant + (a.linear + a.quadratic * distance) * distance);
 }
