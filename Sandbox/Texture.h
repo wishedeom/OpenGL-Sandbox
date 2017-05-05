@@ -18,13 +18,21 @@ enum class Components
 class Texture final
 {
 public:
-	Texture(const std::string& filename, const Components req);
+	enum class Type
+	{
+		Diffuse,
+		Specular,
+	};
+
+	Texture(const std::string& filename, const Components req, const Type type);
 	GLuint id() const;
 	operator GLuint() const;
+	Type type() const;
 
 private:
 	GLuint _id;
 	GLsizei _width;
 	GLsizei _height;
 	GLsizei _channels;
+	Type _type;
 };

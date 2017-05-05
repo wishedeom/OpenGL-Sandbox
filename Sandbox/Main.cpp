@@ -94,9 +94,9 @@ int main() try
 
 	const Material crate
 	{
-		{ "container2.png",          Components::RGB }, // Diffuse map
-		{ "container2_specular.png", Components::RGB }, // Specular map
-		0.4f                                            // Shininess
+		{ "container2.png",          Components::RGB, Texture::Type::Diffuse  },  // Diffuse map
+		{ "container2_specular.png", Components::RGB, Texture::Type::Specular },  // Specular map
+		0.4f                                                                      // Shininess
 	};
 
 	// Cube models

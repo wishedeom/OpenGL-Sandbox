@@ -7,7 +7,8 @@
 
 #include "Texture.h"
 
-Texture::Texture(const std::string& filename, const Components req)
+Texture::Texture(const std::string& filename, const Components req, const Type type)
+	: _type { type }
 {
 	glGenTextures(1, &_id);
 	glBindTexture(GL_TEXTURE_2D, _id);
@@ -27,4 +28,9 @@ GLuint Texture::id() const
 Texture::operator GLuint() const
 {
 	return id();
+}
+
+Texture::Type Texture::type() const
+{
+	return _type;
 }
