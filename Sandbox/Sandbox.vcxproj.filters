@@ -12,6 +12,9 @@
     <Filter Include="shaders">
       <UniqueIdentifier>{d366c52c-5127-47b4-aabe-c0f27998f5a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Input Actions">
+      <UniqueIdentifier>{94e9f819-c0a6-41b4-9eea-857841d5f28f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -51,6 +54,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="InputAction.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -101,6 +107,9 @@
       <Filter>header</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="InputAction.h">
       <Filter>header</Filter>
     </ClInclude>
   </ItemGroup>

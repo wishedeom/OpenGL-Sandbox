@@ -7,17 +7,17 @@
 
 //static void keyCallback(GLFWwindow* const window, const GLint key, const GLint scancode, const GLint action, const GLint mode);
 
-InputHandler::InputHandler(const Window& window, Camera& camera)
+PlayerController::PlayerController(const Window& window, Camera& camera)
 	: _camera { camera }
 {
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetWindowUserPointer(window, this);
-	glfwSetKeyCallback(window, _keyboardCallback);
-	glfwSetCursorPosCallback(window, _cursorPositionCallback);
-	glfwSetScrollCallback(window, _scrollWheelCallback);
+	glfwSetKeyCallback(window, KeyboardCallback);
+	glfwSetCursorPosCallback(window, CursorPositionCallback);
+	glfwSetScrollCallback(window, ScrollWheelCallback);
 }
 
-Camera& InputHandler::camera()
+Camera& PlayerController::camera()
 {
 	return _camera;
 }
@@ -32,7 +32,7 @@ Camera& InputHandler::camera()
 //	_lateralDirection = direction;
 //}
 
-void InputHandler::update()
+void PlayerController::update()
 {
 	switch (_axialDirection)
 	{
@@ -59,9 +59,9 @@ void InputHandler::update()
 	_camera.rotateUp(glm::sign(diff.y) * glm::radians(_sensitivity));
 } 
 
-static void _keyboardCallback(GLFWwindow* const window, const GLint key, const GLint, const GLint action, const GLint)
+static void KeyboardCallback(GLFWwindow* const window, const GLint key, const GLint, const GLint action, const GLint)
 {
-	static auto& handler = *static_cast<InputHandler*>(glfwGetWindowUserPointer(window));
+	static auto& handler = *static_cast<PlayerController*>(glfwGetWindowUserPointer(window));
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 	{
 		glfwSetWindowShouldClose(window, GL_TRUE);
@@ -112,15 +112,15 @@ static void _keyboardCallback(GLFWwindow* const window, const GLint key, const G
 	}
 }
 
-static void _cursorPositionCallback(GLFWwindow* const window, const double x, const double y)
+static void CursorPositionCallback(GLFWwindow* const window, const double x, const double y)
 {
-	static auto& handler = *static_cast<InputHandler*>(glfwGetWindowUserPointer(window));
+	static auto& handler = *static_cast<PlayerController*>(glfwGetWindowUserPointer(window));
 	handler._mousePosition = { x, y };
 }
 
-void _scrollWheelCallback(GLFWwindow * const window, const double /*x*/, const double y)
+void ScrollWheelCallback(GLFWwindow * const window, const double /*x*/, const double y)
 {
-	static auto& handler = *static_cast<InputHandler*>(glfwGetWindowUserPointer(window));
+	static auto& handler = *static_cast<PlayerController*>(glfwGetWindowUserPointer(window));
 	static auto& camera = handler.camera();
 	const auto fov = camera.fov();
 	if (fov >= 1.0f && fov <= 45.0f)

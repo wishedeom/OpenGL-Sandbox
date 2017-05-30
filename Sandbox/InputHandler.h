@@ -17,15 +17,15 @@ enum class LateralDirection
 	Right,
 };
 
-class InputHandler final
+class PlayerController final
 {
 private:
-	friend static void _keyboardCallback(GLFWwindow* const window, const GLint key, const GLint, const GLint action, const GLint);
-	friend static void _cursorPositionCallback(GLFWwindow* const window, const double x, const double y);
-	friend static void _scrollWheelCallback(GLFWwindow* const window, const double x, const double y);
+	friend static void KeyboardCallback(GLFWwindow* const window, const GLint key, const GLint, const GLint action, const GLint);
+	friend static void CursorPositionCallback(GLFWwindow* const window, const double x, const double y);
+	friend static void ScrollWheelCallback(GLFWwindow* const window, const double x, const double y);
 
 public:
-	InputHandler(const Window& window, Camera& camera);
+	PlayerController(const Window& window, Camera& camera);
 	Camera& camera();
 	//LateralDirection lateralDirection() const;
 	//void lateralDirection(const LateralDirection& direction);

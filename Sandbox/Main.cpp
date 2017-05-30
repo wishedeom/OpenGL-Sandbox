@@ -19,6 +19,7 @@
 #include "PointLight.h"
 #include "Light.h"
 #include "FragmentShader.h"
+#include "InputAction.h"
 #include "InputHandler.h"
 #include "Material.h"
 #include "ShaderProgram.h"
@@ -78,7 +79,7 @@ int main() try
 	const Window window(1600, 900, "OpenGL Sandbox");
 	context.initializeGLEW(window);
 	Camera camera(window, { 0.0f, 0.0f, 10.0f }, { 0.0f, 0.0f, -1.0f });
-	InputHandler inputHandler(window, camera);
+	PlayerController inputHandler(window, camera);
 
 	ShaderProgram shader;
 	shader
