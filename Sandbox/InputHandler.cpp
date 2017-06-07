@@ -1,127 +1,96 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#pragma warning (push, 0)
+#include <glm/glm.hpp>
+#pragma warning (pop)
+
+#include "inputhandler.h"
+#include "gameaction.h"
+#include "playercontroller.h"
 #include "Camera.h"
-#include "InputHandler.h"
 #include "Window.h"
 
-//static void keyCallback(GLFWwindow* const window, const GLint key, const GLint scancode, const GLint action, const GLint mode);
-
-PlayerController::PlayerController(const Window& window, Camera& camera)
-	: _camera { camera }
+InputHandler::InputHandler(PlayerController& playerController, const InputScheme& inputScheme)
+	: _playerController { &playerController }
+	, _inputScheme { inputScheme }
 {
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	glfwSetWindowUserPointer(window, this);
-	glfwSetKeyCallback(window, KeyboardCallback);
-	glfwSetCursorPosCallback(window, CursorPositionCallback);
-	glfwSetScrollCallback(window, ScrollWheelCallback);
+	const auto& window = _playerController->camera().window();
+	glfwSetKeyCallback(window, keyboardCallback);
+	glfwSetCursorPosCallback(window, cursorPositionCallback);
+	glfwSetScrollCallback(window, scrollWheelCallback);
+	glfwSetWindowUserPointer(playerController.camera().window(), this);
 }
 
-Camera& PlayerController::camera()
+void InputHandler::signal(const InputAction inputAction)
 {
-	return _camera;
+	_playerController->signal(_inputScheme[inputAction]);
 }
 
-//LateralDirection InputHandler::lateralDirection() const
-//{
-//	return LateralDirection();
-//}
-//
-//void InputHandler::lateralDirection(const LateralDirection& direction)
-//{
-//	_lateralDirection = direction;
-//}
-
-void PlayerController::update()
+void InputHandler::keyboardCallback(GLFWwindow* const window, const GLint key, const GLint, const GLint action, const GLint)
 {
-	switch (_axialDirection)
-	{
-		case AxialDirection::Forward:
-			_camera.translate(_speed * _camera.forward());
-			break;
-		case AxialDirection::Backward:
-			_camera.translate(-_speed * _camera.forward());;
-			break;
-	}
-	switch (_lateralDirection)
-	{
-		case LateralDirection::Left:
-			_camera.translate(-_speed * _camera.right());
-			break;
-		case LateralDirection::Right:
-			_camera.translate(_speed * _camera.right());
-			break;
-	}
+	static auto& inputHandler = *static_cast<InputHandler*>(glfwGetWindowUserPointer(window));
 
-	const auto diff = _mousePosition - _oldMousePosition;
-	_oldMousePosition = _mousePosition;
-	_camera.rotateRight(glm::sign(diff.x) * glm::radians(_sensitivity));
-	_camera.rotateUp(glm::sign(diff.y) * glm::radians(_sensitivity));
-} 
-
-static void KeyboardCallback(GLFWwindow* const window, const GLint key, const GLint, const GLint action, const GLint)
-{
-	static auto& handler = *static_cast<PlayerController*>(glfwGetWindowUserPointer(window));
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 	{
-		glfwSetWindowShouldClose(window, GL_TRUE);
+		inputHandler.signal(InputAction::EscPress);
 	}
-	if (key == GLFW_KEY_W)
+	else if (key == GLFW_KEY_W)
 	{
 		if (action == GLFW_PRESS)
 		{
-			handler._axialDirection = AxialDirection::Forward;
+			inputHandler.signal(InputAction::WPress);
 		}
 		else if (action == GLFW_RELEASE)
 		{
-			handler._axialDirection = AxialDirection::None;
+			inputHandler.signal(InputAction::WRelease);
 		}
 	}
-	if (key == GLFW_KEY_S)
+	else if (key == GLFW_KEY_S)
 	{
 		if (action == GLFW_PRESS)
 		{
-			handler._axialDirection = AxialDirection::Backward;
+			inputHandler.signal(InputAction::SPress);
 		}
 		else if (action == GLFW_RELEASE)
 		{
-			handler._axialDirection = AxialDirection::None;
+			inputHandler.signal(InputAction::SRelease);
 		}
 	}
-	if (key == GLFW_KEY_A)
+	else if (key == GLFW_KEY_A)
 	{
 		if (action == GLFW_PRESS)
 		{
-			handler._lateralDirection = LateralDirection::Left;
+			inputHandler.signal(InputAction::APress);
 		}
 		else if (action == GLFW_RELEASE)
 		{
-			handler._lateralDirection = LateralDirection::None;
+			inputHandler.signal(InputAction::ARelease);
 		}
 	}
-	if (key == GLFW_KEY_D)
+	else if (key == GLFW_KEY_D)
 	{
 		if (action == GLFW_PRESS)
 		{
-			handler._lateralDirection = LateralDirection::Right;
+			inputHandler.signal(InputAction::DPress);
 		}
 		else if (action == GLFW_RELEASE)
 		{
-			handler._lateralDirection = LateralDirection::None;
+			inputHandler.signal(InputAction::DRelease);
 		}
 	}
 }
 
-static void CursorPositionCallback(GLFWwindow* const window, const double x, const double y)
+static void cursorPositionCallback(GLFWwindow* const window, const double x, const double y)
 {
-	static auto& handler = *static_cast<PlayerController*>(glfwGetWindowUserPointer(window));
-	handler._mousePosition = { x, y };
+	static auto& handler = *static_cast<InputHandler*>(glfwGetWindowUserPointer(window));
+	handler._playerController->setMousePosition(x, y);
 }
 
-void ScrollWheelCallback(GLFWwindow * const window, const double /*x*/, const double y)
+void scrollWheelCallback(GLFWwindow * const window, const double /*x*/, const double y)
 {
-	static auto& handler = *static_cast<PlayerController*>(glfwGetWindowUserPointer(window));
-	static auto& camera = handler.camera();
+	static auto& handler = *static_cast<InputHandler*>(glfwGetWindowUserPointer(window));
+	static auto& camera = handler._playerController->camera();
 	const auto fov = camera.fov();
 	if (fov >= 1.0f && fov <= 45.0f)
 	{

@@ -12,7 +12,7 @@
 class Window final
 {
 public:
-	Window(const GLint height, const GLint width, const std::string& title);
+	Window(const GLint height, const GLint width, const std::string& title, bool fullScreen = true);
 	void makeContextCurrent() const;
 	void close() const;
 	bool shouldClose() const;

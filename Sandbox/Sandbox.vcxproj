@@ -153,8 +153,9 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Context.cpp" />
     <ClCompile Include="FragmentShader.cpp" />
-    <ClCompile Include="InputAction.cpp" />
-    <ClCompile Include="InputHandler.cpp" />
+    <ClCompile Include="inputhandler.cpp" />
+    <ClCompile Include="inputscheme.cpp" />
+    <ClCompile Include="playercontroller.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -170,8 +171,11 @@
     <ClInclude Include="Context.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="FragmentShader.h" />
-    <ClInclude Include="InputAction.h" />
-    <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="gameaction.h" />
+    <ClInclude Include="inputaction.h" />
+    <ClInclude Include="inputhandler.h" />
+    <ClInclude Include="inputscheme.h" />
+    <ClInclude Include="playercontroller.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />

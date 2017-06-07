@@ -30,9 +30,10 @@ public:
 	void setFov(const GLfloat f);
 	glm::mat4 view() const;
 	glm::mat4 projection() const;
+	const Window& window();
 
 private:
-	const Window& _window;
+	const Window* _window;
 	glm::vec3 _position;
 	glm::vec3 _direction;
 	GLfloat _fov = 45.0f;

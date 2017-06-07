@@ -4,7 +4,7 @@
 const glm::vec3 Camera::worldUp = { 0.0f, 1.0f, 0.0f };
 
 Camera::Camera(const Window& window, const glm::vec3& position, const glm::vec3& direction)
-	: _window { window }
+	: _window { &window }
 	, _position { position }
 	, _direction { direction }
 {}
@@ -66,5 +66,10 @@ glm::mat4 Camera::view() const
 
 glm::mat4 Camera::projection() const
 {
-	return glm::perspective(glm::radians(_fov), _window.width() / _window.height(), 0.1f, 1000.0f);
+	return glm::perspective(glm::radians(_fov), _window->width() / _window->height(), 0.1f, 1000.0f);
+}
+
+const Window& Camera::window()
+{
+	return *_window;
 }

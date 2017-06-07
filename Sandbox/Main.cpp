@@ -19,8 +19,10 @@
 #include "PointLight.h"
 #include "Light.h"
 #include "FragmentShader.h"
-#include "InputAction.h"
-#include "InputHandler.h"
+#include "gameaction.h"
+#include "inputhandler.h"
+#include "inputscheme.h"
+#include "playercontroller.h"
 #include "Material.h"
 #include "ShaderProgram.h"
 #include "Texture.h"
@@ -76,10 +78,12 @@ const std::array<GLfloat, (3 + 3 + 2) * 6 * 6> vertices =
 int main() try
 {
 	const Context context(OpenGL::Version{ 3, 3 });
-	const Window window(1600, 900, "OpenGL Sandbox");
+	const Window window(1600, 900, "OpenGL Sandbox", false);
 	context.initializeGLEW(window);
 	Camera camera(window, { 0.0f, 0.0f, 10.0f }, { 0.0f, 0.0f, -1.0f });
-	PlayerController inputHandler(window, camera);
+	PlayerController controller(window, camera);
+	InputScheme scheme;
+	InputHandler inputHandler(controller, scheme);
 
 	ShaderProgram shader;
 	shader
@@ -192,7 +196,7 @@ int main() try
 		lastFrame = currentFrame;
 
 		glfwPollEvents();
-		inputHandler.update();
+		controller.update();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		lampShader.use();

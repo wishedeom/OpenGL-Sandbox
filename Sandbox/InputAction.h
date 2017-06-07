@@ -2,8 +2,13 @@
 
 enum class InputAction
 {
-	MoveForward,
-	MoveBackward,
-	MoveRight,
-	MoveLeft,
+	APress,
+	ARelease,
+	DPress,
+	DRelease,
+	SPress,
+	SRelease,
+	WPress,
+	WRelease,
+	EscPress,
 };

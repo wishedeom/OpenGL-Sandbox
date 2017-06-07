@@ -1,8 +1,9 @@
 #include "Window.h"
 
-Window::Window(const GLint height, const GLint width, const std::string& title)
+Window::Window(const GLint height, const GLint width, const std::string& title, bool fullScreen /*= true*/)
 {
-	_window = glfwCreateWindow(height, width, title.c_str(), glfwGetPrimaryMonitor(), nullptr);
+	auto monitor = fullScreen ? glfwGetPrimaryMonitor() : nullptr;
+	_window = glfwCreateWindow(height, width, title.c_str(), monitor, nullptr);
 	if (!_window)
 	{
 		throw std::runtime_error("Failed to create OpenGL window.\n");
