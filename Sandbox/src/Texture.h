@@ -24,7 +24,7 @@ public:
 		Specular,
 	};
 
-	Texture(const std::string& filename, Components req, Type type);
+	Texture(const std::string& filename, const Components req, const Type type);
 	GLuint id() const;
 	operator GLuint() const;
 	Type type() const;

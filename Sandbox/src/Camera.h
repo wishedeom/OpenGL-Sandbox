@@ -10,8 +10,6 @@
 #include <glm/gtx/rotate_vector.hpp>
 #pragma warning (pop)
 
-#include "transform.h"
-
 class Window;
 
 class Camera final
@@ -36,8 +34,7 @@ public:
 
 private:
 	const Window* _window;
-	component::Transform _transform;
-	//glm::vec3 _position;
-	//glm::vec3 _direction;
+	glm::vec3 _position;
+	glm::vec3 _direction;
 	GLfloat _fov = 45.0f;
 };

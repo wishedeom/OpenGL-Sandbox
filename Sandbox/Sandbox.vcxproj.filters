@@ -8,6 +8,12 @@
     <Filter Include="shaders">
       <UniqueIdentifier>{d366c52c-5127-47b4-aabe-c0f27998f5a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\memory">
+      <UniqueIdentifier>{27423958-6b99-4d09-8ad0-3c77648b1ab6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\entities">
+      <UniqueIdentifier>{ee4dc1d7-7bda-4124-8910-d4546fdc3bf6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -26,9 +32,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="VertexShader.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="FragmentShader.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="ShaderProgram.cpp">
@@ -53,6 +56,18 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="inputscheme.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="FragmentShader.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="entity.cpp">
+      <Filter>src\entities</Filter>
+    </ClCompile>
+    <ClCompile Include="component.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="transform.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -108,12 +123,23 @@
     <ClInclude Include="inputhandler.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="inputscheme.h" />
     <ClInclude Include="gameaction.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="inputaction.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="inputscheme.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="entity.h">
+      <Filter>src\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="component.h">
+      <Filter>src\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="transform.h">
+      <Filter>src\entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

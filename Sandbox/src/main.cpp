@@ -16,7 +16,6 @@
 #include "Camera.h"
 #include "Context.h"
 #include "DirectionalLight.h"
-#include "entity.h"
 #include "PointLight.h"
 #include "Light.h"
 #include "FragmentShader.h"
@@ -30,8 +29,6 @@
 #include "VertexShader.h"
 #include "Window.h"
 #include "utils.h"
-#include "transform.h"
-#include "Mesh.h"
 
 const std::array<GLfloat, (3 + 3 + 2) * 6 * 6> vertices =
 {	// Position           // Normal            // Texture
@@ -90,14 +87,14 @@ int main() try
 
 	ShaderProgram shader;
 	shader
-		.attach(VertexShader(fromFile("vertexShader.vs")))
-		.attach(FragmentShader(fromFile("fragmentShader.fs")))
+		.attach(VertexShader(fromFile("shaders/vertexShader.vs")))
+		.attach(FragmentShader(fromFile("shaders/fragmentShader.fs")))
 		.link();
 
 	ShaderProgram lampShader;
 	lampShader
-		.attach(VertexShader(fromFile("vertexShader.vs")))
-		.attach(FragmentShader(fromFile("lamp.fs")))
+		.attach(VertexShader(fromFile("shaders/vertexShader.vs")))
+		.attach(FragmentShader(fromFile("shaders/lamp.fs")))
 		.link();
 
 	const Material crate
@@ -106,47 +103,6 @@ int main() try
 		{ "container2_specular.png", Components::RGB, Texture::Type::Specular },  // Specular map
 		0.4f                                                                      // Shininess
 	};
-
-	const Mesh cubeMesh =
-		Mesh::Builder()
-		.addVertex({ { -0.5f, -0.5f, -0.5f }, {  0.0f,  0.0f, -1.0f }, { 0.0f, 0.0f } })
-		.addVertex({ {  0.5f, -0.5f, -0.5f }, {  0.0f,  0.0f, -1.0f }, { 1.0f, 0.0f } })
-		.addVertex({ {  0.5f,  0.5f, -0.5f }, {  0.0f,  0.0f, -1.0f }, { 1.0f, 1.0f } })
-		.addVertex({ {  0.5f,  0.5f, -0.5f }, {  0.0f,  0.0f, -1.0f }, { 1.0f, 1.0f } })
-		.addVertex({ { -0.5f,  0.5f, -0.5f }, {  0.0f,  0.0f, -1.0f }, { 0.0f, 1.0f	} })
-		.addVertex({ { -0.5f, -0.5f, -0.5f }, {  0.0f,  0.0f, -1.0f }, { 0.0f, 0.0f } })
-		.addVertex({ { -0.5f, -0.5f,  0.5f }, {  0.0f,  0.0f,  1.0f }, { 0.0f, 0.0f } })
-		.addVertex({ {  0.5f, -0.5f,  0.5f }, {  0.0f,  0.0f,  1.0f }, { 1.0f, 0.0f } })
-		.addVertex({ {  0.5f,  0.5f,  0.5f }, {  0.0f,  0.0f,  1.0f }, { 1.0f, 1.0f } })
-		.addVertex({ {  0.5f,  0.5f,  0.5f }, {  0.0f,  0.0f,  1.0f }, { 1.0f, 1.0f } })
-		.addVertex({ { -0.5f,  0.5f,  0.5f }, {  0.0f,  0.0f,  1.0f }, { 0.0f, 1.0f } })
-		.addVertex({ { -0.5f, -0.5f,  0.5f }, {  0.0f,  0.0f,  1.0f }, { 0.0f, 0.0f	} })
-		.addVertex({ { -0.5f,  0.5f,  0.5f }, { -1.0f,  0.0f,  0.0f }, { 1.0f, 0.0f	} })
-		.addVertex({ { -0.5f,  0.5f, -0.5f }, { -1.0f,  0.0f,  0.0f }, { 1.0f, 1.0f	} })
-		.addVertex({ { -0.5f, -0.5f, -0.5f }, { -1.0f,  0.0f,  0.0f }, { 0.0f, 1.0f	} })
-		.addVertex({ { -0.5f, -0.5f, -0.5f }, { -1.0f,  0.0f,  0.0f }, { 0.0f, 1.0f	} })
-		.addVertex({ { -0.5f, -0.5f,  0.5f }, { -1.0f,  0.0f,  0.0f }, { 0.0f, 0.0f	} })
-		.addVertex({ { -0.5f,  0.5f,  0.5f }, { -1.0f,  0.0f,  0.0f }, { 1.0f, 0.0f	} })
-		.addVertex({ {  0.5f,  0.5f,  0.5f }, {  1.0f,  0.0f,  0.0f }, { 1.0f, 0.0f	} })
-		.addVertex({ {  0.5f,  0.5f, -0.5f }, {  1.0f,  0.0f,  0.0f }, { 1.0f, 1.0f	} })
-		.addVertex({ {  0.5f, -0.5f, -0.5f }, {  1.0f,  0.0f,  0.0f }, { 0.0f, 1.0f	} })
-		.addVertex({ {  0.5f, -0.5f, -0.5f }, {  1.0f,  0.0f,  0.0f }, { 0.0f, 1.0f	} })
-		.addVertex({ {  0.5f, -0.5f,  0.5f }, {  1.0f,  0.0f,  0.0f }, { 0.0f, 0.0f	} })
-		.addVertex({ {  0.5f,  0.5f,  0.5f }, {  1.0f,  0.0f,  0.0f }, { 1.0f, 0.0f	} })
-		.addVertex({ { -0.5f, -0.5f, -0.5f }, {  0.0f, -1.0f,  0.0f }, { 0.0f, 1.0f	} })
-		.addVertex({ {  0.5f, -0.5f, -0.5f }, {  0.0f, -1.0f,  0.0f }, { 1.0f, 1.0f	} })
-		.addVertex({ {  0.5f, -0.5f,  0.5f }, {  0.0f, -1.0f,  0.0f }, { 1.0f, 0.0f	} })
-		.addVertex({ {  0.5f, -0.5f,  0.5f }, {  0.0f, -1.0f,  0.0f }, { 1.0f, 0.0f	} })
-		.addVertex({ { -0.5f, -0.5f,  0.5f }, {  0.0f, -1.0f,  0.0f }, { 0.0f, 0.0f	} })
-		.addVertex({ { -0.5f, -0.5f, -0.5f }, {  0.0f, -1.0f,  0.0f }, { 0.0f, 1.0f	} })
-		.addVertex({ { -0.5f,  0.5f, -0.5f }, {  0.0f,  1.0f,  0.0f }, { 0.0f, 1.0f	} })
-		.addVertex({ {  0.5f,  0.5f, -0.5f }, {  0.0f,  1.0f,  0.0f }, { 1.0f, 1.0f	} })
-		.addVertex({ {  0.5f,  0.5f,  0.5f }, {  0.0f,  1.0f,  0.0f }, { 1.0f, 0.0f	} })
-		.addVertex({ {  0.5f,  0.5f,  0.5f }, {  0.0f,  1.0f,  0.0f }, { 1.0f, 0.0f	} })
-		.addVertex({ { -0.5f,  0.5f,  0.5f }, {  0.0f,  1.0f,  0.0f }, { 0.0f, 0.0f	} })
-		.addVertex({ { -0.5f,  0.5f, -0.5f }, {  0.0f,  1.0f,  0.0f }, { 0.0f, 1.0f } })
-		.setMaterial(crate)
-		.build();
 
 	// Cube models
 	GLuint VBO;
@@ -232,12 +188,6 @@ int main() try
 		axes[i] = glm::ballRand(1.0f);
 	}
 
-	Entity entity;
-	entity.addComponent<component::Transform>();
-	entity.tryGetComponent<component::Transform>().value();
-	entity.removeComponent<component::Transform>();
-	//transform;
-
 	GLdouble lastFrame = 0.0f;
 	while (!window.shouldClose())
 	{
@@ -278,7 +228,6 @@ int main() try
 			model = glm::translate(model, positions[i]);
 			model = glm::rotate(model, glm::radians(5.0f * (i + 1) * static_cast<float>(currentFrame)), axes[i]);
 			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-			//cubeMesh.draw(shader);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
 		glBindVertexArray(0);

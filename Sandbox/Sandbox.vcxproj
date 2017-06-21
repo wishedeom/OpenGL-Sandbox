@@ -151,7 +151,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="component.cpp" />
     <ClCompile Include="Context.cpp" />
+    <ClCompile Include="entity.cpp" />
     <ClCompile Include="FragmentShader.cpp" />
     <ClCompile Include="inputhandler.cpp" />
     <ClCompile Include="inputscheme.cpp" />
@@ -162,14 +164,17 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="transform.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="VertexShader.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="component.h" />
     <ClInclude Include="Context.h" />
     <ClInclude Include="DirectionalLight.h" />
+    <ClInclude Include="entity.h" />
     <ClInclude Include="FragmentShader.h" />
     <ClInclude Include="gameaction.h" />
     <ClInclude Include="inputaction.h" />
@@ -183,6 +188,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="transform.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="VertexShader.h" />

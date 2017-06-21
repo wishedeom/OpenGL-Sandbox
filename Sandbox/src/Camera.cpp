@@ -4,49 +4,49 @@
 const glm::vec3 Camera::worldUp = { 0.0f, 1.0f, 0.0f };
 
 Camera::Camera(const Window& window, const glm::vec3& position, const glm::vec3& direction)
-	: _window(&window)
-	, _transform(position, direction)
+	: _window { &window }
+	, _position { position }
+	, _direction { direction }
 {}
 
 glm::vec3 Camera::position() const
 {
-	return _transform.position();
+	return _position;
 }
 
 glm::vec3 Camera::direction() const
 {
-	return _transform.direction();
+	return _direction;
 }
 
 glm::vec3 Camera::forward() const
 {
-	const auto dir = direction();
-	return glm::normalize(glm::vec3(dir.x, 0.0f, dir.z));
+	return glm::normalize(glm::vec3(_direction.x, 0.0f, _direction.z));
 }
 
 glm::vec3 Camera::right() const
 {
-	return glm::normalize(-glm::cross(worldUp, direction()));
+	return glm::normalize(-glm::cross(worldUp, _direction));
 }
 
 glm::vec3 Camera::up() const
 {
-	return glm::cross(direction(), right());
+	return glm::cross(_direction, right());
 }
 
 void Camera::translate(const glm::vec3& v)
 {
-	_transform.setPosition(_transform.position() + v);
+	_position += v;
 }
 
 void Camera::rotateRight(const float angleRad)
 {
-	_transform.setDirection(glm::rotate(direction(), -angleRad, worldUp));
+	_direction = glm::rotate(_direction, -angleRad, worldUp);
 }
 
 void Camera::rotateUp(const float angleRad)
 {
-	_transform.setDirection(glm::rotate(direction(), -angleRad, right()));
+	_direction = glm::rotate(_direction, -angleRad, right());
 }
 
 GLfloat Camera::fov() const
@@ -61,8 +61,7 @@ void Camera::setFov(const GLfloat f)
 
 glm::mat4 Camera::view() const
 {
-	const auto pos = position();
-	return glm::lookAt(pos, pos + direction(), worldUp);
+	return glm::lookAt(_position, _position + _direction, worldUp);
 }
 
 glm::mat4 Camera::projection() const

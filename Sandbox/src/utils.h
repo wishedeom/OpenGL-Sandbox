@@ -15,7 +15,7 @@ void checkShaderCompilationErrors(const GLuint id, const ShaderType type);
 
 // Converts an enum class value to its underlying integral value
 template <typename E>
-constexpr auto underlyingCast(E value) -> typename std::underlying_type<E>::type
+constexpr auto toIntegral(E value) -> typename std::underlying_type<E>::type
 {
 	return static_cast<std::underlying_type<E>::type>(value);
 }

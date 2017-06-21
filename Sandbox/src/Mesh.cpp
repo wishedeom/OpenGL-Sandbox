@@ -1,11 +1,12 @@
 #include "Mesh.h"
+//#include "ShaderProgram.h"
 
 Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices, const Material& material)
 	: _vertices { vertices }
 	, _indices { indices }
 	, _material { material }
 {
-	init();
+	_init();
 }
 
 void Mesh::draw(const ShaderProgram& shader) const
@@ -15,18 +16,11 @@ void Mesh::draw(const ShaderProgram& shader) const
 
 	// Draw mesh
 	glBindVertexArray(_vao);
-	if (_indices.empty())
-	{
-		glDrawArrays(GL_TRIANGLES, 0, _vertices.size());
-	}
-	else
-	{
-		glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, 0);
-	}
+	glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
 
-void Mesh::init()
+void Mesh::_init()
 {
 	// Setup mesh
 	// Generate OpenGL objects
@@ -60,41 +54,4 @@ void Mesh::init()
 
 	// Unbind VAO
 	glBindVertexArray(0);
-}
-
-Mesh::Builder::Builder() = default;
-
-Mesh::Builder& Mesh::Builder::setVertices(const std::vector<Vertex>& vertices)
-{
-	_vertices = vertices;
-	return *this;
-}
-
-Mesh::Builder& Mesh::Builder::setIndices(const std::vector<GLuint>& indices)
-{
-	_indices = indices;
-	return *this;
-}
-
-Mesh::Builder& Mesh::Builder::setMaterial(const Material& material)
-{
-	_material = material;
-	return *this;
-}
-
-Mesh::Builder& Mesh::Builder::addVertex(const Vertex& vertex)
-{
-	_vertices.push_back(vertex);
-	return *this;
-}
-
-Mesh::Builder& Mesh::Builder::addIndex(GLuint index)
-{
-	_indices.push_back(index);
-	return *this;
-}
-
-Mesh Mesh::Builder::build() const
-{
-	return Mesh(_vertices, _indices, *_material);
 }

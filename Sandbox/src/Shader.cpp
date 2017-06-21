@@ -25,7 +25,7 @@ Shader::operator GLuint() const
 GLuint createShader(const std::string& source, const ShaderType type)
 {
 	// Reference to OpenGL shader object
-	const auto id = glCreateShader(underlyingCast(type));
+	const auto id = glCreateShader(toIntegral(type));
 
 	// Shader source code as c-style array
 	const auto src = source.c_str();
