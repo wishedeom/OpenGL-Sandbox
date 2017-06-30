@@ -8,16 +8,13 @@ void Material::bind(const ShaderProgram& shader) const
 	glActiveTexture(GL_TEXTURE0);
 	glUniform1i(shader.getUniform("material.diffuse"), 0);
 	glBindTexture(GL_TEXTURE_2D, diffuse);
-	reportOpenGLErrors();
 
 
 	// Bind specular texture
 	glActiveTexture(GL_TEXTURE1);
 	glUniform1i(shader.getUniform("material.specular"), 1);
 	glBindTexture(GL_TEXTURE_2D, specular);
-	//reportOpenGLErrors();
 
 	// Bind shininess
 	glUniform1f(shader.getUniform("material.shininess"), shininess);
-	//reportOpenGLErrors();
 }

@@ -17,8 +17,8 @@ class Mesh final
 public:
 	class Builder;
 
-	Mesh(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices, const Material& material);
-	void draw(const ShaderProgram& shader, const Camera& camera, const glm::mat4& transform) const;
+	Mesh(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices);
+	void draw(const ShaderProgram& shader, const Camera& camera, const glm::mat4& transform = {}) const;
 
 private:
 	void init();
@@ -26,7 +26,6 @@ private:
 private:
 	std::vector<Vertex> _vertices;
 	std::vector<GLuint> _indices;
-	Material _material;
 	GLuint _vao;
 	GLuint _vbo;
 	GLuint _ebo;
@@ -46,5 +45,4 @@ public:
 private:
 	std::vector<Vertex> _vertices;
 	std::vector<GLuint> _indices;
-	std::optional<Material> _material;
 };

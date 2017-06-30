@@ -1,6 +1,7 @@
 #include "Camera.h"
 #include "ShaderProgram.h"
 #include "Window.h"
+#include "utils.h"
 
 const glm::vec3 Camera::worldUp = { 0.0f, 1.0f, 0.0f };
 

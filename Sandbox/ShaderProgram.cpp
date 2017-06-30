@@ -1,5 +1,6 @@
 #include "Shader.h"
 #include "ShaderProgram.h"
+#include "utils.h"
 
 ShaderProgram::ShaderProgram()
 	: _id { glCreateProgram() }

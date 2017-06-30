@@ -33,51 +33,6 @@
 #include "transform.h"
 #include "Mesh.h"
 
-const std::array<GLfloat, (3 + 3 + 2) * 6 * 6> vertices =
-{	// Position           // Normal            // Texture
-	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
-	0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.0f,
-	0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
-	0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
-
-	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
-	0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 0.0f,
-	0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
-	0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
-
-	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-
-	0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-	0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
-	0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-	0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-	0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
-	0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-
-	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
-	0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 1.0f,
-	0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
-	0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 0.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
-
-	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,
-	0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 1.0f,
-	0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
-	0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f
-};
-
 int main() try
 {
 	const Context context(OpenGL::Version{ 3, 3 });
@@ -90,147 +45,22 @@ int main() try
 
 	ShaderProgram shader;
 	shader
-		.attach(VertexShader(fromFile("vertexShader.vs")))
-		.attach(FragmentShader(fromFile("fragmentShader.fs")))
+		.attach(VertexShader(fromFile("simpleVertexShader.vs")))
+		.attach(FragmentShader(fromFile("simpleFragmentShader.fs")))
 		.link();
 
-	ShaderProgram lampShader;
-	lampShader
-		.attach(VertexShader(fromFile("vertexShader.vs")))
-		.attach(FragmentShader(fromFile("lamp.fs")))
-		.link();
-
-	const Material crate
-	{
-		{ "container2.png",          Components::RGB, Texture::Type::Diffuse  },  // Diffuse map
-		{ "container2_specular.png", Components::RGB, Texture::Type::Specular },  // Specular map
-		0.4f                                                                      // Shininess
-	};
-
-	const Mesh cubeMesh =
+	const Mesh mesh =
 		Mesh::Builder()
-		.addVertex({ { -0.5f, -0.5f, -0.5f }, {  0.0f,  0.0f, -1.0f }, { 0.0f, 0.0f } })
-		.addVertex({ {  0.5f, -0.5f, -0.5f }, {  0.0f,  0.0f, -1.0f }, { 1.0f, 0.0f } })
-		.addVertex({ {  0.5f,  0.5f, -0.5f }, {  0.0f,  0.0f, -1.0f }, { 1.0f, 1.0f } })
-		.addVertex({ {  0.5f,  0.5f, -0.5f }, {  0.0f,  0.0f, -1.0f }, { 1.0f, 1.0f } })
-		.addVertex({ { -0.5f,  0.5f, -0.5f }, {  0.0f,  0.0f, -1.0f }, { 0.0f, 1.0f	} })
-		.addVertex({ { -0.5f, -0.5f, -0.5f }, {  0.0f,  0.0f, -1.0f }, { 0.0f, 0.0f } })
-		.addVertex({ { -0.5f, -0.5f,  0.5f }, {  0.0f,  0.0f,  1.0f }, { 0.0f, 0.0f } })
-		.addVertex({ {  0.5f, -0.5f,  0.5f }, {  0.0f,  0.0f,  1.0f }, { 1.0f, 0.0f } })
-		.addVertex({ {  0.5f,  0.5f,  0.5f }, {  0.0f,  0.0f,  1.0f }, { 1.0f, 1.0f } })
-		.addVertex({ {  0.5f,  0.5f,  0.5f }, {  0.0f,  0.0f,  1.0f }, { 1.0f, 1.0f } })
-		.addVertex({ { -0.5f,  0.5f,  0.5f }, {  0.0f,  0.0f,  1.0f }, { 0.0f, 1.0f } })
-		.addVertex({ { -0.5f, -0.5f,  0.5f }, {  0.0f,  0.0f,  1.0f }, { 0.0f, 0.0f	} })
-		.addVertex({ { -0.5f,  0.5f,  0.5f }, { -1.0f,  0.0f,  0.0f }, { 1.0f, 0.0f	} })
-		.addVertex({ { -0.5f,  0.5f, -0.5f }, { -1.0f,  0.0f,  0.0f }, { 1.0f, 1.0f	} })
-		.addVertex({ { -0.5f, -0.5f, -0.5f }, { -1.0f,  0.0f,  0.0f }, { 0.0f, 1.0f	} })
-		.addVertex({ { -0.5f, -0.5f, -0.5f }, { -1.0f,  0.0f,  0.0f }, { 0.0f, 1.0f	} })
-		.addVertex({ { -0.5f, -0.5f,  0.5f }, { -1.0f,  0.0f,  0.0f }, { 0.0f, 0.0f	} })
-		.addVertex({ { -0.5f,  0.5f,  0.5f }, { -1.0f,  0.0f,  0.0f }, { 1.0f, 0.0f	} })
-		.addVertex({ {  0.5f,  0.5f,  0.5f }, {  1.0f,  0.0f,  0.0f }, { 1.0f, 0.0f	} })
-		.addVertex({ {  0.5f,  0.5f, -0.5f }, {  1.0f,  0.0f,  0.0f }, { 1.0f, 1.0f	} })
-		.addVertex({ {  0.5f, -0.5f, -0.5f }, {  1.0f,  0.0f,  0.0f }, { 0.0f, 1.0f	} })
-		.addVertex({ {  0.5f, -0.5f, -0.5f }, {  1.0f,  0.0f,  0.0f }, { 0.0f, 1.0f	} })
-		.addVertex({ {  0.5f, -0.5f,  0.5f }, {  1.0f,  0.0f,  0.0f }, { 0.0f, 0.0f	} })
-		.addVertex({ {  0.5f,  0.5f,  0.5f }, {  1.0f,  0.0f,  0.0f }, { 1.0f, 0.0f	} })
-		.addVertex({ { -0.5f, -0.5f, -0.5f }, {  0.0f, -1.0f,  0.0f }, { 0.0f, 1.0f	} })
-		.addVertex({ {  0.5f, -0.5f, -0.5f }, {  0.0f, -1.0f,  0.0f }, { 1.0f, 1.0f	} })
-		.addVertex({ {  0.5f, -0.5f,  0.5f }, {  0.0f, -1.0f,  0.0f }, { 1.0f, 0.0f	} })
-		.addVertex({ {  0.5f, -0.5f,  0.5f }, {  0.0f, -1.0f,  0.0f }, { 1.0f, 0.0f	} })
-		.addVertex({ { -0.5f, -0.5f,  0.5f }, {  0.0f, -1.0f,  0.0f }, { 0.0f, 0.0f	} })
-		.addVertex({ { -0.5f, -0.5f, -0.5f }, {  0.0f, -1.0f,  0.0f }, { 0.0f, 1.0f	} })
-		.addVertex({ { -0.5f,  0.5f, -0.5f }, {  0.0f,  1.0f,  0.0f }, { 0.0f, 1.0f	} })
-		.addVertex({ {  0.5f,  0.5f, -0.5f }, {  0.0f,  1.0f,  0.0f }, { 1.0f, 1.0f	} })
-		.addVertex({ {  0.5f,  0.5f,  0.5f }, {  0.0f,  1.0f,  0.0f }, { 1.0f, 0.0f	} })
-		.addVertex({ {  0.5f,  0.5f,  0.5f }, {  0.0f,  1.0f,  0.0f }, { 1.0f, 0.0f	} })
-		.addVertex({ { -0.5f,  0.5f,  0.5f }, {  0.0f,  1.0f,  0.0f }, { 0.0f, 0.0f	} })
-		.addVertex({ { -0.5f,  0.5f, -0.5f }, {  0.0f,  1.0f,  0.0f }, { 0.0f, 1.0f } })
-		.setMaterial(crate)
+		.addVertex( { { -0.5f, -0.5f, 0.0f } } )
+		.addVertex( { { -0.5f,  0.5f, 0.0f } } )
+		.addVertex( { {  0.5f, -0.5f, 0.0f } } )
+		.addVertex( { {  0.5f,  0.5f, 0.0f } } )
+		.setIndices({0, 1, 2, 1, 3, 2})
 		.build();
-
-	// Cube models
-	GLuint VBO;
-	glGenBuffers(1, &VBO);
-
-	GLuint VAO;
-	glGenVertexArrays(1, &VAO);
-
-	glBindVertexArray(VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(GLfloat), vertices.data(), GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*) 0);
-	glEnableVertexAttribArray(0);
-
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*) (3 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(1);
-
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*) (6 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(2);
-
-	glBindVertexArray(0);
-
-	// Light
-	GLuint lightVAO;
-	glGenVertexArrays(1, &lightVAO);
-	glBindVertexArray(lightVAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*) 0);
-	glEnableVertexAttribArray(0);
-	glBindVertexArray(0);
-
-	const GLint viewPosLoc = shader.getUniform("viewPos");
-
-	const GLint lightPosLoc = glGetUniformLocation(shader, "directionalLight.direction");
-	glm::vec3 lightPos = { -0.2f, -1.0f, -0.3f };
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-	// Set uniforms
-	shader.use();
-	const auto modelLoc = shader.getUniform("model");
-	const auto projectionLoc = shader.getUniform("projection");
-	const auto viewLoc = shader.getUniform("view");
-
-	// Materials
-	glUniform1f(shader.getUniform("material.shininess"), crate.shininess);
-
-	glUniform1i(shader.getUniform("material.diffuse"), 0);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, crate.diffuse);
-
-	glUniform1i(shader.getUniform("material.specular"), 1);
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, crate.specular);
-
-	// Light values
-	glUniform3f(shader.getUniform("directionalLight.colours.ambient"), 0.1f, 0.1f, 0.1f);
-	glUniform3f(shader.getUniform("directionalLight.colours.diffuse"), 0.5f, 0.5f, 0.5f);
-	glUniform3f(shader.getUniform("directionalLight.colours.specular"), 0.5f, 0.0f, 0.0f);
-
-	// Attenuation
-	//glUniform1f(shader.getUniform("light.constant"), 1.0f);
-	//glUniform1f(shader.getUniform("light.linear"),   0.09f);
-	//glUniform1f(shader.getUniform("light.quadratic"), 0.0032f);
-
-	// Lamp
-	const auto lightModelLoc = lampShader.getUniform("model");
-	const auto lightProjectionLoc = lampShader.getUniform("projection");
-	const auto lightViewLoc = lampShader.getUniform("view");
-
 	glEnable(GL_DEPTH_TEST);
-
-	std::array<glm::vec3, 1> positions = { { { 0, 1, 0 } } };
-	std::array<glm::vec3, 1> axes = { { { 0, 1, 0 } } };;
-
-	Entity entity;
-	{
-		using namespace component;
-		entity.addComponent<component::Transform>();
-		entity.tryGetComponent<component::Transform>().value();
-		entity.removeComponent<component::Transform>();
-	}
 
 	GLdouble lastFrame = 0.0f;
 	while (!window.shouldClose())
@@ -243,37 +73,7 @@ int main() try
 		controller.update();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		lampShader.use();
-		{
-			glm::mat4 model;
-			model = glm::translate(model, lightPos);
-			model = glm::scale(model, glm::vec3(0.2f));
-			glUniformMatrix4fv(lightModelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		}
-		glUniformMatrix4fv(lightViewLoc, 1, GL_FALSE, glm::value_ptr(camera.view()));
-		glUniformMatrix4fv(lightProjectionLoc, 1, GL_FALSE, glm::value_ptr(camera.projection()));
-
-		glBindVertexArray(lightVAO);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-		glBindVertexArray(0);
-
-		shader.use();
-		const auto projection = camera.projection();
-		glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
-		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(camera.view()));
-		const auto viewPos = camera.position();
-		glUniform3f(viewPosLoc, viewPos.x, viewPos.y, viewPos.z);
-		glUniform3f(lightPosLoc, lightPos.x, lightPos.y, lightPos.z);
-
-		glBindVertexArray(VAO);
-		glm::mat4 model;
-		model = glm::translate(model, positions[0]);
-		model = glm::rotate(model, glm::radians(5.0f * static_cast<float>(currentFrame)), axes[0]);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-		glBindVertexArray(0);
-
-		cubeMesh.draw(shader, camera, {});
+		mesh.draw(shader, camera, glm::rotate(glm::mat4(), static_cast<float>(currentFrame), glm::vec3(0.0f, 1.0f, 0.0f)));
 
 		window.swapBuffers();
 	}
