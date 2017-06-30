@@ -12,8 +12,8 @@ namespace component
 		: public Component
 	{
 	public:
-		Transform();
-		Transform(const glm::vec3& position, const glm::vec3& direction);
+		Transform(const glm::vec3& position = {}, const glm::vec3& direction = {});
+		Transform(Entity& entity, const glm::vec3& position = {}, const glm::vec3& direction = {});
 		virtual ~Transform() override = default;
 		
 		glm::vec3 position() const;
@@ -24,6 +24,8 @@ namespace component
 
 		void setPosition(const glm::vec3& position);
 		void setDirection(const glm::vec3& direction);
+
+		virtual void update(double deltaTime) override;
 
 	private:
 		glm::vec3 _position;

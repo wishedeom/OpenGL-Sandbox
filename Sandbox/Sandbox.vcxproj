@@ -157,6 +157,7 @@
     <ClCompile Include="FragmentShader.cpp" />
     <ClCompile Include="inputhandler.cpp" />
     <ClCompile Include="inputscheme.cpp" />
+    <ClCompile Include="physics.cpp" />
     <ClCompile Include="playercontroller.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="inputaction.h" />
     <ClInclude Include="inputhandler.h" />
     <ClInclude Include="inputscheme.h" />
+    <ClInclude Include="physics.h" />
     <ClInclude Include="playercontroller.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
@@ -197,6 +199,8 @@
   <ItemGroup>
     <None Include="fragmentShader.fs" />
     <None Include="lamp.fs" />
+    <None Include="simpleFragmentShader.fs" />
+    <None Include="simpleVertexShader.vs" />
     <None Include="vertexShader.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

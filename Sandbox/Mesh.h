@@ -9,14 +9,16 @@
 #include "Vertex.h"
 #include "Material.h"
 
+class Camera;
 class ShaderProgram;
 
 class Mesh final
 {
 public:
-	Mesh(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices, const Material& material);
-	void draw(const ShaderProgram& shader) const;
 	class Builder;
+
+	Mesh(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices, const Material& material);
+	void draw(const ShaderProgram& shader, const Camera& camera, const glm::mat4& transform) const;
 
 private:
 	void init();

@@ -1,4 +1,6 @@
+#include "Camera.h"
 #include "Mesh.h"
+#include "ShaderProgram.h"
 
 Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices, const Material& material)
 	: _vertices { vertices }
@@ -8,10 +10,16 @@ Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indic
 	init();
 }
 
-void Mesh::draw(const ShaderProgram& shader) const
+void Mesh::draw(const ShaderProgram& shader, const Camera& camera, const glm::mat4& transform) const
 {
 	// Bind material to shader
 	_material.bind(shader);
+
+	// Bind camera to shader
+	camera.bind(shader);
+
+	// Bind model-space transform to shader
+	glUniformMatrix4fv(shader.getUniform("model"), 1, GL_FALSE, glm::value_ptr(transform));
 
 	// Draw mesh
 	glBindVertexArray(_vao);
@@ -22,6 +30,7 @@ void Mesh::draw(const ShaderProgram& shader) const
 	else
 	{
 		glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, 0);
+		//reportOpenGLErrors();
 	}
 	glBindVertexArray(0);
 }

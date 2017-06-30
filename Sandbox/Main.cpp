@@ -221,22 +221,16 @@ int main() try
 
 	glEnable(GL_DEPTH_TEST);
 
-	const size_t numCubes = 50;
-	const float radius = 15.0f;
-	std::array<glm::vec3, numCubes> positions;
-	std::array<glm::vec3, numCubes> axes;
-
-	for (size_t i = 0; i < numCubes; ++i)
-	{
-		positions[i] = glm::ballRand(radius);
-		axes[i] = glm::ballRand(1.0f);
-	}
+	std::array<glm::vec3, 1> positions = { { { 0, 1, 0 } } };
+	std::array<glm::vec3, 1> axes = { { { 0, 1, 0 } } };;
 
 	Entity entity;
-	entity.addComponent<component::Transform>();
-	entity.tryGetComponent<component::Transform>().value();
-	entity.removeComponent<component::Transform>();
-	//transform;
+	{
+		using namespace component;
+		entity.addComponent<component::Transform>();
+		entity.tryGetComponent<component::Transform>().value();
+		entity.removeComponent<component::Transform>();
+	}
 
 	GLdouble lastFrame = 0.0f;
 	while (!window.shouldClose())
@@ -272,16 +266,14 @@ int main() try
 		glUniform3f(lightPosLoc, lightPos.x, lightPos.y, lightPos.z);
 
 		glBindVertexArray(VAO);
-		for (size_t i = 0; i < numCubes; ++i)
-		{
-			glm::mat4 model;
-			model = glm::translate(model, positions[i]);
-			model = glm::rotate(model, glm::radians(5.0f * (i + 1) * static_cast<float>(currentFrame)), axes[i]);
-			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-			//cubeMesh.draw(shader);
-			glDrawArrays(GL_TRIANGLES, 0, 36);
-		}
+		glm::mat4 model;
+		model = glm::translate(model, positions[0]);
+		model = glm::rotate(model, glm::radians(5.0f * static_cast<float>(currentFrame)), axes[0]);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 		glBindVertexArray(0);
+
+		cubeMesh.draw(shader, camera, {});
 
 		window.swapBuffers();
 	}

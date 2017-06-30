@@ -11,7 +11,7 @@
 
 #include "component.h"
 
-class Entity final
+class Entity
 {
 	using ID = unsigned;
 	using ComponentArray = std::vector<std::unique_ptr<component::Component>>;
@@ -45,6 +45,9 @@ public:
 	std::optional<C*> tryGetComponent() const;
 
 	template <class C>
+	C& get() const;
+
+	template <class C>
 	bool removeComponent();
 
 private:
@@ -64,7 +67,7 @@ inline bool Entity::addComponent()
 	{
 		return false;
 	}
-	_components.push_back(std::make_unique<C>());
+	_components.push_back(std::make_unique<C>(*this));
 	return true;
 }
 
@@ -80,6 +83,12 @@ inline std::optional<C*> Entity::tryGetComponent() const
 		}
 	}
 	return nullptr;
+}
+
+template<class C>
+inline C& Entity::get() const
+{
+	return *tryGetComponent<C>().value();
 }
 
 template<class C>

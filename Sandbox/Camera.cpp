@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "ShaderProgram.h"
 #include "Window.h"
 
 const glm::vec3 Camera::worldUp = { 0.0f, 1.0f, 0.0f };
@@ -73,4 +74,10 @@ glm::mat4 Camera::projection() const
 const Window& Camera::window()
 {
 	return *_window;
+}
+
+void Camera::bind(const ShaderProgram& shader) const
+{
+	glUniformMatrix4fv(shader.getUniform("projection"), 1, GL_FALSE, glm::value_ptr(projection()));
+	glUniformMatrix4fv(shader.getUniform("view"), 1, GL_FALSE, glm::value_ptr(view()));
 }

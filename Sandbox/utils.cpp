@@ -1,4 +1,5 @@
 #include <fstream>
+#include <iostream>
 #include <sstream>
 
 #include "utils.h"
@@ -30,4 +31,13 @@ void checkShaderCompilationErrors(const GLuint id, const ShaderType type)
 	std::string infoString(infoLog);
 	delete[] infoLog;
 	throw std::runtime_error("Error: " + shaderTypeNames.at(type) + " shader compilation failed.\n" + infoString + '\n');
+}
+
+void reportOpenGLErrors()
+{
+	GLenum err;
+	while ((err = glGetError()) != GL_NO_ERROR)
+	{
+		std::cerr << "OpenGL error: " << err << '\n';
+	}
 }

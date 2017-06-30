@@ -70,6 +70,9 @@
     <ClCompile Include="transform.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="physics.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -141,6 +144,9 @@
     <ClInclude Include="transform.h">
       <Filter>src\entities</Filter>
     </ClInclude>
+    <ClInclude Include="physics.h">
+      <Filter>src\entities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="vertexShader.vs">
@@ -150,6 +156,12 @@
       <Filter>shaders</Filter>
     </None>
     <None Include="lamp.fs">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="simpleFragmentShader.fs">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="simpleVertexShader.vs">
       <Filter>shaders</Filter>
     </None>
   </ItemGroup>

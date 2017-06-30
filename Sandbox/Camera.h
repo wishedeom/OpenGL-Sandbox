@@ -10,8 +10,10 @@
 #include <glm/gtx/rotate_vector.hpp>
 #pragma warning (pop)
 
+#include "entity.h"
 #include "transform.h"
 
+class ShaderProgram;
 class Window;
 
 class Camera final
@@ -34,10 +36,10 @@ public:
 	glm::mat4 projection() const;
 	const Window& window();
 
+	void bind(const ShaderProgram& shader) const;
+
 private:
 	const Window* _window;
 	component::Transform _transform;
-	//glm::vec3 _position;
-	//glm::vec3 _direction;
 	GLfloat _fov = 45.0f;
 };

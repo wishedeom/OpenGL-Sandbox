@@ -2,10 +2,14 @@
 
 const glm::vec3 worldUp = { 0.0f, 1.0f, 0.0f };
 
-component::Transform::Transform() = default;
-
 component::Transform::Transform(const glm::vec3& position, const glm::vec3& direction)
 	: _position(position)
+	, _direction(direction)
+{}
+
+component::Transform::Transform(Entity& entity, const glm::vec3& position, const glm::vec3& direction)
+	: Component(entity)
+	, _position(position)
 	, _direction(direction)
 {}
 
@@ -42,4 +46,9 @@ void component::Transform::setPosition(const glm::vec3& position)
 void component::Transform::setDirection(const glm::vec3& direction)
 {
 	_direction = direction;
+}
+
+void component::Transform::update(double deltaTime)
+{
+	Component::update(deltaTime);
 }

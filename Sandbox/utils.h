@@ -19,3 +19,5 @@ constexpr auto underlyingCast(E value) -> typename std::underlying_type<E>::type
 {
 	return static_cast<std::underlying_type<E>::type>(value);
 }
+
+void reportOpenGLErrors();
