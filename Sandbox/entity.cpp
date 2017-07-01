@@ -53,3 +53,11 @@ void Entity::setName(const std::string& name)
 {
 	_name = name;
 }
+
+void Entity::update(const double deltaTime)
+{
+	for (const auto& component : _components)
+	{
+		component->update(deltaTime);
+	}
+}

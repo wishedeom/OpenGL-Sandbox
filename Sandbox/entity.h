@@ -50,6 +50,8 @@ public:
 	template <class C>
 	bool removeComponent();
 
+	void update(double deltaTime);
+
 private:
 	template <class C>
 	ComponentArray::iterator findComponent();

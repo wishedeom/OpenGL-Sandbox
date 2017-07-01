@@ -14,6 +14,6 @@ void component::Physics::update(const double deltaTime)
 	using namespace component;
 	auto& transform = entity().get<Transform>();
 
-	_velocity.z += g * static_cast<float>(deltaTime);
-	transform.position() += _velocity;
+	_velocity.y += g * static_cast<float>(deltaTime);
+	transform.setPosition(transform.position() + _velocity * static_cast<float>(deltaTime));
 }

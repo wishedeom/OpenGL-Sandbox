@@ -32,6 +32,7 @@
 #include "utils.h"
 #include "transform.h"
 #include "Mesh.h"
+#include "physics.h"
 
 int main() try
 {
@@ -62,6 +63,7 @@ int main() try
 		{{  0.5f,  0.5f, 0.0f }}
 	});
 	testEntity.get<component::Mesh>().setIndices({ 0, 1, 2, 1, 3, 2 });
+	testEntity.addComponent<component::Physics>();
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -78,6 +80,7 @@ int main() try
 		controller.update();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		testEntity.update(deltaTime);
 		testEntity.get<component::Mesh>().draw(shader, camera);
 
 		window.swapBuffers();
