@@ -12,9 +12,11 @@ namespace component
 		: public Component
 	{
 	public:
-		Transform(const glm::vec3& position = {}, const glm::vec3& direction = {});
-		Transform(Entity& entity, const glm::vec3& position = {}, const glm::vec3& direction = {});
+		Transform(const glm::vec3& position = {}, const glm::vec3& direction = { 0.0f, 1.0f, 0.0f });
+		Transform(Entity& entity, const glm::vec3& position = {}, const glm::vec3& direction = { 0.0f, 1.0f, 0.0f });
 		virtual ~Transform() override = default;
+
+		glm::mat4 matrix() const;
 		
 		glm::vec3 position() const;
 		glm::vec3 direction() const;

@@ -12,37 +12,32 @@
 class Camera;
 class ShaderProgram;
 
-class Mesh final
+namespace component
 {
-public:
-	class Builder;
+	class Mesh final
+		: public Component
+	{
+	public:
+		class Builder;
 
-	Mesh(const std::vector<Vertex>& vertices, const std::vector<GLuint>& indices);
-	void draw(const ShaderProgram& shader, const Camera& camera, const glm::mat4& transform = {}) const;
+		Mesh(Entity& entity);
+		void draw(const ShaderProgram& shader, const Camera& camera, const glm::mat4& transform = glm::mat4()) const;
+		void setVertices(const std::vector<Vertex>& vertices);
+		void setIndices(const std::vector<GLuint>& indices);
 
-private:
-	void init();
+	private:
+		void init();
+		void bindVertexData() const;
+		void bindIndexData() const;
 
-private:
-	std::vector<Vertex> _vertices;
-	std::vector<GLuint> _indices;
-	GLuint _vao;
-	GLuint _vbo;
-	GLuint _ebo;
-};
+	private:
+		std::vector<Vertex> _vertices;
+		std::vector<GLuint> _indices;
+		GLuint _vao;
+		GLuint _vbo;
+		GLuint _ebo;
 
-class Mesh::Builder final
-{
-public:
-	Builder();
-	Builder& setVertices(const std::vector<Vertex>& vertices);
-	Builder& setIndices(const std::vector<GLuint>& indices);
-	Builder& setMaterial(const Material& material);
-	Builder& addVertex(const Vertex& vertex);
-	Builder& addIndex(GLuint index);
-	Mesh build() const;
-
-private:
-	std::vector<Vertex> _vertices;
-	std::vector<GLuint> _indices;
-};
+		// Inherited via Component
+		virtual void update(double) override;
+	};
+}

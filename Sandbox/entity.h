@@ -67,7 +67,7 @@ inline bool Entity::addComponent()
 	{
 		return false;
 	}
-	_components.push_back(std::make_unique<C>(*this));
+	_components.push_back(std::move(std::make_unique<C>(*this)));
 	return true;
 }
 
@@ -82,7 +82,7 @@ inline std::optional<C*> Entity::tryGetComponent() const
 			return ptr;
 		}
 	}
-	return nullptr;
+	return {};
 }
 
 template<class C>

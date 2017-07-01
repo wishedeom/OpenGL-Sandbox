@@ -28,7 +28,7 @@ ShaderProgram& ShaderProgram::link()
 	return *this;
 }
 
-void ShaderProgram::use()
+void ShaderProgram::use() const
 {
 	glUseProgram(_id);
 }

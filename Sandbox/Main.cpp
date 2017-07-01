@@ -49,14 +49,19 @@ int main() try
 		.attach(FragmentShader(fromFile("simpleFragmentShader.fs")))
 		.link();
 
-	const Mesh mesh =
-		Mesh::Builder()
-		.addVertex( { { -0.5f, -0.5f, 0.0f } } )
-		.addVertex( { { -0.5f,  0.5f, 0.0f } } )
-		.addVertex( { {  0.5f, -0.5f, 0.0f } } )
-		.addVertex( { {  0.5f,  0.5f, 0.0f } } )
-		.setIndices({0, 1, 2, 1, 3, 2})
-		.build();
+	Entity testEntity;
+
+	testEntity.addComponent<component::Transform>();
+	
+	testEntity.addComponent<component::Mesh>();
+	testEntity.get<component::Mesh>().setVertices
+	({
+		{{ -0.5f, -0.5f, 0.0f }},
+		{{ -0.5f,  0.5f, 0.0f }},
+		{{  0.5f, -0.5f, 0.0f }},
+		{{  0.5f,  0.5f, 0.0f }}
+	});
+	testEntity.get<component::Mesh>().setIndices({ 0, 1, 2, 1, 3, 2 });
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -73,7 +78,7 @@ int main() try
 		controller.update();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		mesh.draw(shader, camera, glm::rotate(glm::mat4(), static_cast<float>(currentFrame), glm::vec3(0.0f, 1.0f, 0.0f)));
+		testEntity.get<component::Mesh>().draw(shader, camera);
 
 		window.swapBuffers();
 	}
