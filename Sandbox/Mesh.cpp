@@ -4,8 +4,9 @@
 
 using namespace component;
 
-Mesh::Mesh(Entity& entity)
+Mesh::Mesh(Entity& entity, const Data& data)
 	: Component(entity)
+	, _data(data)
 {
 	init();
 }

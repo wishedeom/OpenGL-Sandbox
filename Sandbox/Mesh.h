@@ -18,9 +18,14 @@ namespace component
 		: public Component
 	{
 	public:
-		class Builder;
+		struct Data final
+		{
+			std::vector<Vertex> _vertices;
+			std::vector<GLuint> _indices;
+		};
 
-		Mesh(Entity& entity);
+		//Mesh(Entity& entity);
+		Mesh(Entity& entity, const Data& data = {});
 		void draw(const ShaderProgram& shader, const Camera& camera, const glm::mat4& transform = glm::mat4()) const;
 		void setVertices(const std::vector<Vertex>& vertices);
 		void setIndices(const std::vector<GLuint>& indices);
@@ -31,6 +36,7 @@ namespace component
 		void bindIndexData() const;
 
 	private:
+		Data _data;
 		std::vector<Vertex> _vertices;
 		std::vector<GLuint> _indices;
 		GLuint _vao;

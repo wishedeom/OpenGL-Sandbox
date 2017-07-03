@@ -71,7 +71,7 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="physics.cpp">
-      <Filter>src</Filter>
+      <Filter>src\entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
