@@ -151,6 +151,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="collision.cpp" />
+    <ClCompile Include="collisionvolume.cpp" />
     <ClCompile Include="component.cpp" />
     <ClCompile Include="Context.cpp" />
     <ClCompile Include="entity.cpp" />
@@ -164,14 +166,18 @@
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
+    <ClCompile Include="spherecollider.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="transform.cpp" />
     <ClCompile Include="utils.cpp" />
+    <ClCompile Include="VAOBinding.cpp" />
     <ClCompile Include="VertexShader.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="collision.h" />
+    <ClInclude Include="collisionvolume.h" />
     <ClInclude Include="component.h" />
     <ClInclude Include="Context.h" />
     <ClInclude Include="DirectionalLight.h" />
@@ -189,9 +195,11 @@
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
+    <ClInclude Include="spherecollider.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="transform.h" />
     <ClInclude Include="utils.h" />
+    <ClInclude Include="VAOBinding.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="VertexShader.h" />
     <ClInclude Include="Window.h" />

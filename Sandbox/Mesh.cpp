@@ -1,6 +1,7 @@
 #include "Camera.h"
 #include "Mesh.h"
 #include "ShaderProgram.h"
+#include "VAOBinding.h"
 
 using namespace component;
 
@@ -9,6 +10,15 @@ Mesh::Mesh(Entity& entity, const Data& data)
 	, _data(data)
 {
 	init();
+}
+
+void component::Mesh::draw(const ShaderProgram& shader, const Camera& camera, const glm::mat4& transform)
+{
+	// TEMP
+	//setVertices(_data.vertices);
+	//setIndices(_data.indices);
+
+	static_cast<const Mesh&>(*this).draw(shader, camera, transform);
 }
 
 void Mesh::draw(const ShaderProgram& shader, const Camera& camera, const glm::mat4& /*transform*/ /*= glm::mat4()*/) const
@@ -24,9 +34,8 @@ void Mesh::draw(const ShaderProgram& shader, const Camera& camera, const glm::ma
 	glUniformMatrix4fv(shader.getUniform("model"), 1, GL_FALSE, glm::value_ptr(entity().get<Transform>().matrix()));
 
 	// Draw mesh
-	glBindVertexArray(_vao);
+	VAOBinding vaoBinding(_vao);
 	glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
 }
 
 void component::Mesh::setVertices(const std::vector<Vertex>& vertices)
@@ -80,6 +89,47 @@ void Mesh::init()
 }
 
 void component::Mesh::update(double)
-{
+{}
 
+Mesh::Data Mesh::Data::makeCube()
+{
+	static const Data data = []() -> Data
+	{
+		std::vector<Vertex> vertices;
+		for (int i = 1; i >= -1; --i)
+		{
+			for (int j = 1; j >= -1; --j)
+			{
+				for (int k = 1; k >= -1; --k)
+				{
+					const glm::vec3 point = { i, j, k };
+					const Vertex v = { 0.5f * point };
+					vertices.push_back(v);
+				}
+			}
+		}
+		std::vector<GLuint> indices = { 0, 1, 2, 1, 3, 2 };
+		return { vertices, indices };
+	}();
+	return data;
+}
+
+Mesh::Data Mesh::Data::makeSquare()
+{
+	static const Data data = []() -> Data
+	{
+		std::vector<Vertex> vertices;
+		for (int i = -1; i <= 1; ++i)
+		{
+			for (int j = -1; j <= 1; ++j)
+			{
+				const glm::vec3 point = { i, j, 0.0f };
+				const Vertex v = { 0.5f * point };
+				vertices.push_back(v);
+			}
+		}
+		std::vector<GLuint> indices = { 0, 1, 2, 1, 3, 2 };
+		return { vertices, indices };
+	}();
+	return data;
 }

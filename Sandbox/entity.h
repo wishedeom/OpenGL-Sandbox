@@ -14,7 +14,7 @@
 class Entity
 {
 	using ID = unsigned;
-	using ComponentArray = std::vector<std::unique_ptr<component::Component>>;
+	using ComponentCollection = std::vector<std::unique_ptr<component::Component>>;
 
 	static ID _nextID;
 	static std::map<ID, Entity*> _entityRegistry;
@@ -39,10 +39,10 @@ public:
 	void setName(const std::string& name);
 
 	template <class C>
-	bool addComponent();
+	bool add();
 
 	template <class C>
-	std::optional<C*> tryGetComponent() const;
+	C* tryGetComponent() const;
 
 	template <class C>
 	C& get() const;
@@ -54,29 +54,30 @@ public:
 
 private:
 	template <class C>
-	ComponentArray::iterator findComponent();
+	ComponentCollection::iterator findComponent();
 
-	const ID _id;
-	std::string _name;
-	ComponentArray _components;
+	const ID m_id;
+	std::string m_name;
+	ComponentCollection m_components;
 };
 
-template<class C>
-inline bool Entity::addComponent()
+template <class C>
+inline bool Entity::add()
 {
-	const auto& maybe = tryGetComponent<C>();
-	if (maybe.has_value())
+	const auto component = tryGetComponent<C>();
+	if (component != nullptr)
 	{
 		return false;
 	}
-	_components.push_back(std::move(std::make_unique<C>(*this)));
+
+	m_components.push_back(std::move(std::make_unique<C>(*this)));
 	return true;
 }
 
-template<class C>
-inline std::optional<C*> Entity::tryGetComponent() const
+template <class C>
+inline C* Entity::tryGetComponent() const
 {
-	for (const auto& component : _components)
+	for (const auto& component : m_components)
 	{
 		auto ptr = dynamic_cast<C*>(component.get());
 		if (ptr != nullptr)
@@ -84,31 +85,31 @@ inline std::optional<C*> Entity::tryGetComponent() const
 			return ptr;
 		}
 	}
-	return {};
+	return nullptr;
 }
 
 template<class C>
 inline C& Entity::get() const
 {
-	return *tryGetComponent<C>().value();
+	return *tryGetComponent<C>();
 }
 
 template<class C>
 inline bool Entity::removeComponent()
 {
 	const auto& it = findComponent<C>();
-	if (it == _components.end())
+	if (it == m_components.end())
 	{
 		return false;
 	}
-	_components.erase(it);
+	m_components.erase(it);
 	return true;
 }
 
 template<class C>
 inline std::vector<std::unique_ptr<component::Component>>::iterator Entity::findComponent()
 {
-	return std::find_if(_components.begin(), _components.end(), [](const auto& component)
+	return std::find_if(m_components.begin(), m_components.end(), [](const auto& component)
 	{
 		return dynamic_cast<C*>(component.get()) != nullptr;
 	});

@@ -73,6 +73,18 @@
     <ClCompile Include="physics.cpp">
       <Filter>src\entities</Filter>
     </ClCompile>
+    <ClCompile Include="collisionvolume.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="spherecollider.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="collision.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="VAOBinding.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -146,6 +158,18 @@
     </ClInclude>
     <ClInclude Include="physics.h">
       <Filter>src\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="collision.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="collisionvolume.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="spherecollider.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="VAOBinding.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

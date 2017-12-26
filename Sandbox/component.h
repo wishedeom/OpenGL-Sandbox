@@ -12,7 +12,8 @@ namespace component
 		virtual ~Component() = 0;
 
 		bool isAttachedToEntity() const;
-		Entity& entity() const;
+		const Entity& entity() const;
+		Entity& entity();
 		virtual void update(double) = 0 {}
 
 	private:

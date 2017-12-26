@@ -20,12 +20,15 @@ namespace component
 	public:
 		struct Data final
 		{
-			std::vector<Vertex> _vertices;
-			std::vector<GLuint> _indices;
+			std::vector<Vertex> vertices;
+			std::vector<GLuint> indices;
+
+			static Data makeCube();
+			static Data makeSquare();
 		};
 
-		//Mesh(Entity& entity);
 		Mesh(Entity& entity, const Data& data = {});
+		void draw(const ShaderProgram& shader, const Camera& camera, const glm::mat4& transform = glm::mat4());
 		void draw(const ShaderProgram& shader, const Camera& camera, const glm::mat4& transform = glm::mat4()) const;
 		void setVertices(const std::vector<Vertex>& vertices);
 		void setIndices(const std::vector<GLuint>& indices);

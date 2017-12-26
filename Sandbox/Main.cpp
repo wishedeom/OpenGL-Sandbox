@@ -46,15 +46,15 @@ int main() try
 
 	ShaderProgram shader;
 	shader
-		.attach(VertexShader(fromFile("simpleVertexShader.vs")))
-		.attach(FragmentShader(fromFile("simpleFragmentShader.fs")))
+		.attach(VertexShader(util::fromFile("simpleVertexShader.vs")))
+		.attach(FragmentShader(util::fromFile("simpleFragmentShader.fs")))
 		.link();
 
 	Entity testEntity;
 
-	testEntity.addComponent<component::Transform>();
+	testEntity.add<component::Transform>();
 	
-	testEntity.addComponent<component::Mesh>();
+	testEntity.add<component::Mesh>();
 	testEntity.get<component::Mesh>().setVertices
 	({
 		{{ -0.5f, -0.5f, 0.0f }},
@@ -63,7 +63,8 @@ int main() try
 		{{  0.5f,  0.5f, 0.0f }}
 	});
 	testEntity.get<component::Mesh>().setIndices({ 0, 1, 2, 1, 3, 2 });
-	testEntity.addComponent<component::Physics>();
+	//testEntity.get<component::Mesh>() = component::Mesh(testEntity, component::Mesh::Data::makeSquare());
+	//testEntity.add<component::Physics>();
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 

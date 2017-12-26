@@ -4,7 +4,7 @@
 
 #include "utils.h"
 
-std::string fromFile(const std::string& filename)
+std::string util::fromFile(const std::string& filename)
 {
 	std::ifstream file(filename);
 	if (!file)
@@ -16,7 +16,7 @@ std::string fromFile(const std::string& filename)
 	return ss.str();
 }
 
-void checkShaderCompilationErrors(const GLuint id, const ShaderType type)
+void util::checkShaderCompilationErrors(const GLuint id, const ShaderType type)
 {
 	GLint success;
 	glGetShaderiv(id, GL_COMPILE_STATUS, &success);
@@ -33,7 +33,7 @@ void checkShaderCompilationErrors(const GLuint id, const ShaderType type)
 	throw std::runtime_error("Error: " + shaderTypeNames.at(type) + " shader compilation failed.\n" + infoString + '\n');
 }
 
-void reportOpenGLErrors()
+void util::reportOpenGLErrors()
 {
 	GLenum err;
 	while ((err = glGetError()) != GL_NO_ERROR)

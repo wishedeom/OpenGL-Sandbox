@@ -14,14 +14,14 @@ std::optional<Entity*> Entity::get(const ID id)
 }
 
 Entity::Entity(const std::string& name /*= ""*/)
-	: _id(_nextID++)
-	, _name(name)
+	: m_id(_nextID++)
+	, m_name(name)
 {
-	_entityRegistry[_id] = this;
+	_entityRegistry[m_id] = this;
 }
 
 Entity::Entity(const Entity& entity)
-	: Entity(entity._name)
+	: Entity(entity.m_name)
 {
 	//for (const auto& component : entity._components)
 	//{
@@ -31,32 +31,32 @@ Entity::Entity(const Entity& entity)
 
 Entity::~Entity()
 {
-	_entityRegistry.erase(_entityRegistry.find(_id));
+	_entityRegistry.erase(_entityRegistry.find(m_id));
 }
 
 size_t Entity::id() const
 {
-	return _id;
+	return m_id;
 }
 
 const std::string& Entity::name() const
 {
-	return _name;
+	return m_name;
 }
 
 std::string Entity::name()
 {
-	return _name;
+	return m_name;
 }
 
 void Entity::setName(const std::string& name)
 {
-	_name = name;
+	m_name = name;
 }
 
 void Entity::update(const double deltaTime)
 {
-	for (const auto& component : _components)
+	for (const auto& component : m_components)
 	{
 		component->update(deltaTime);
 	}

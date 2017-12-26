@@ -15,7 +15,12 @@ bool component::Component::isAttachedToEntity() const
 	return _entity != nullptr;
 }
 
-Entity& component::Component::entity() const
+const Entity& component::Component::entity() const
+{
+	return *_entity;
+}
+
+Entity& component::Component::entity()
 {
 	return *_entity;
 }
