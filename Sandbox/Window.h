@@ -23,7 +23,9 @@ public:
 	GLfloat width() const;
 
 private:
-	GLFWwindow* _window;
+	void InitializeDimensions();
+
+	GLFWwindow* m_window;
 	GLfloat _height;
 	GLfloat _width;
 };

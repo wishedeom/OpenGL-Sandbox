@@ -33,22 +33,23 @@
 #include "transform.h"
 #include "Mesh.h"
 #include "physics.h"
+#include "src/opengl/error.h"
 
 int main() try
 {
 	const Context context(OpenGL::Version{ 3, 3 });
 	const Window window(1600, 900, "OpenGL Sandbox", false);
-	context.initializeGLEW(window);
+	context.Initialize(window);
 	Camera camera(window, { 0.0f, 0.0f, 10.0f }, { 0.0f, 0.0f, -1.0f });
 	PlayerController controller(window, camera);
 	InputScheme scheme;
 	InputHandler inputHandler(controller, scheme);
 
-	ShaderProgram shader;
-	shader
-		.attach(VertexShader(util::fromFile("simpleVertexShader.vs")))
-		.attach(FragmentShader(util::fromFile("simpleFragmentShader.fs")))
-		.link();
+	OpenGL::ClearErrorFlag();
+	auto shader = ShaderProgram()
+					.AttachShader(VertexShader(util::fromFile("simpleVertexShader.vs")))
+					.AttachShader(FragmentShader(util::fromFile("simpleFragmentShader.fs")))
+					.Link();
 
 	Entity testEntity;
 
@@ -60,7 +61,7 @@ int main() try
 		{{ -0.5f, -0.5f, 0.0f }},
 		{{ -0.5f,  0.5f, 0.0f }},
 		{{  0.5f, -0.5f, 0.0f }},
-		{{  0.5f,  0.5f, 0.0f }}
+		{{  0.5f,  0.5f, 0.0f }},
 	});
 	testEntity.get<component::Mesh>().setIndices({ 0, 1, 2, 1, 3, 2 });
 	//testEntity.get<component::Mesh>() = component::Mesh(testEntity, component::Mesh::Data::makeSquare());
@@ -89,7 +90,7 @@ int main() try
 
 	return 0;
 }
-catch (const std::runtime_error& e)
+catch (const std::exception& e)
 {
 	std::cout << e.what();
 	std::cin.get();

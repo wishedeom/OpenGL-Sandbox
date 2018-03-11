@@ -1,38 +1,43 @@
 #include "Window.h"
+#include "src/opengl/error.h"
+
+#include <tuple>
+
+static std::pair<int, int> GetFrameBufferSize(GLFWwindow& window);
 
 Window::Window(const GLint height, const GLint width, const std::string& title, bool fullScreen /*= true*/)
 {
 	auto monitor = fullScreen ? glfwGetPrimaryMonitor() : nullptr;
-	_window = glfwCreateWindow(height, width, title.c_str(), monitor, nullptr);
-	if (!_window)
+	m_window = glfwCreateWindow(height, width, title.c_str(), monitor, nullptr);
+	if (!m_window)
 	{
 		throw std::runtime_error("Failed to create OpenGL window.\n");
 	}
-	int iwidth, iheight;
-	glfwGetFramebufferSize(_window, &iwidth, &iheight);
-	_width = static_cast<float>(iwidth);
-	_height = static_cast<float>(iheight);
+
+	InitializeDimensions();
 	makeContextCurrent();
+
+	CHECK_ERRORS;
 }
 
 void Window::makeContextCurrent() const
 {
-	glfwMakeContextCurrent(_window);
+	glfwMakeContextCurrent(m_window);
 }
 
 void Window::close() const
 {
-	glfwSetWindowShouldClose(_window, GL_TRUE);
+	glfwSetWindowShouldClose(m_window, GL_TRUE);
 }
 
 bool Window::shouldClose() const
 {
-	return glfwWindowShouldClose(_window);
+	return glfwWindowShouldClose(m_window);
 }
 
 void Window::swapBuffers() const
 {
-	glfwSwapBuffers(_window);
+	glfwSwapBuffers(m_window);
 }
 
 Window::operator GLFWwindow*() const
@@ -42,7 +47,7 @@ Window::operator GLFWwindow*() const
 
 GLFWwindow* Window::get() const
 {
-	return _window;
+	return m_window;
 }
 
 GLfloat Window::height() const
@@ -53,4 +58,18 @@ GLfloat Window::height() const
 GLfloat Window::width() const
 {
 	return _width;
+}
+
+void Window::InitializeDimensions()
+{
+	const auto [width, height] = GetFrameBufferSize(*m_window);
+	_width = static_cast<float>(width);
+	_height = static_cast<float>(height);
+}
+
+std::pair<int, int> GetFrameBufferSize(GLFWwindow& window)
+{
+	int width, height;
+	glfwGetFramebufferSize(&window, &width, &height);
+	return { width, height };
 }

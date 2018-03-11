@@ -85,6 +85,12 @@
     <ClCompile Include="VAOBinding.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\opengl\functions.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\opengl\error.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -171,6 +177,10 @@
     <ClInclude Include="VAOBinding.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\opengl\types.h" />
+    <ClInclude Include="src\opengl\util.h" />
+    <ClInclude Include="src\opengl\functions.h" />
+    <ClInclude Include="src\opengl\error.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="vertexShader.vs">

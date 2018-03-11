@@ -24,14 +24,14 @@ void component::Mesh::draw(const ShaderProgram& shader, const Camera& camera, co
 void Mesh::draw(const ShaderProgram& shader, const Camera& camera, const glm::mat4& /*transform*/ /*= glm::mat4()*/) const
 {
 	// Use shader program
-	shader.use();
+	shader.Use();
 
 	// Bind camera to shader
 	camera.bind(shader);
 
 	// Bind model-space transform to shader
-	//glUniformMatrix4fv(shader.getUniform("model"), 1, GL_FALSE, glm::value_ptr(glm::mat4()));
-	glUniformMatrix4fv(shader.getUniform("model"), 1, GL_FALSE, glm::value_ptr(entity().get<Transform>().matrix()));
+	//glUniformMatrix4fv(shader.GetUniformLocation("model"), 1, GL_FALSE, glm::value_ptr(glm::mat4()));
+	glUniformMatrix4fv(shader.GetUniformLocation("model"), 1, GL_FALSE, glm::value_ptr(entity().get<Transform>().matrix()));
 
 	// Draw mesh
 	VAOBinding vaoBinding(_vao);

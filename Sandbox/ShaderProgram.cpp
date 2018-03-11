@@ -1,54 +1,66 @@
 #include "Shader.h"
 #include "ShaderProgram.h"
 #include "utils.h"
+#include "src/opengl/error.h"
+#include "src/opengl/functions.h"
 
 ShaderProgram::ShaderProgram()
-	: _id { glCreateProgram() }
-{
-	GLint success;
-	GLchar infoLog[512];
+	: m_id(OpenGL::CreateProgram())
+{}
 
-	glGetShaderiv(_id, GL_LINK_STATUS, &success);
-	if (!success)
+ShaderProgram& ShaderProgram::AttachShader(const Shader& shader)
+{
+	OpenGL::AttachShader(m_id, shader);
+	return *this;
+}
+
+ShaderProgram& ShaderProgram::Link()
+{
+	using namespace OpenGL;
+
+	LinkProgram(m_id);
+
+	const bool linkStatus = GetParameter(ProgramParameter::LinkStatus);
+	if (!linkStatus)
 	{
-		glGetShaderInfoLog(_id, 512, nullptr, infoLog);
-		throw std::runtime_error("Error: shader program linking failed.\n" + std::string(infoLog) + '\n');
+		throw std::runtime_error("Error: Program linking failed.\n" + GetInfoLog() + '\n');
 	}
-}
 
-ShaderProgram& ShaderProgram::attach(const Shader& shader)
-{
-	glAttachShader(_id, shader);
 	return *this;
 }
 
-ShaderProgram& ShaderProgram::link()
+void ShaderProgram::Use() const
 {
-	glLinkProgram(_id);
-	return *this;
+	OpenGL::UseProgram(m_id);
 }
 
-void ShaderProgram::use() const
+GLuint ShaderProgram::GetUniformLocation(const std::string& name) const
 {
-	glUseProgram(_id);
-}
-
-GLuint ShaderProgram::getUniform(const std::string& name) const
-{
-	const auto loc = glGetUniformLocation(_id, name.c_str());
-	if (loc == -1)
+	const auto location = OpenGL::GetUniformLocation(m_id, name);
+	if (!location.has_value())
 	{
 		throw std::runtime_error("Uniform " + name + " not found.\n");
 	}
-	return loc;
+
+	return location.value();
 }
 
-GLuint ShaderProgram::index() const
+GLuint ShaderProgram::GetIndex() const
 {
-	return _id;
+	return m_id;
+}
+
+GLuint ShaderProgram::GetParameter(const OpenGL::ProgramParameter parameter) const
+{
+	return GetProgramParameter(m_id, parameter);
 }
 
 ShaderProgram::operator GLuint() const
 {
-	return index();
+	return GetIndex();
+}
+
+std::string ShaderProgram::GetInfoLog() const
+{
+	return OpenGL::GetProgramInfoLog(m_id);
 }

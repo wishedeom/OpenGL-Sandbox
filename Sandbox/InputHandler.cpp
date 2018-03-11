@@ -15,11 +15,11 @@ InputHandler::InputHandler(PlayerController& playerController, const InputScheme
 	: _playerController { &playerController }
 	, _inputScheme { inputScheme }
 {
-	const auto& window = _playerController->camera().window();
+	const auto& window = _playerController->GetCamera().window();
 	glfwSetKeyCallback(window, keyboardCallback);
 	glfwSetCursorPosCallback(window, cursorPositionCallback);
 	glfwSetScrollCallback(window, scrollWheelCallback);
-	glfwSetWindowUserPointer(playerController.camera().window(), this);
+	glfwSetWindowUserPointer(playerController.GetCamera().window(), this);
 }
 
 void InputHandler::signal(const InputAction inputAction)
@@ -90,7 +90,7 @@ static void cursorPositionCallback(GLFWwindow* const window, const double x, con
 void scrollWheelCallback(GLFWwindow * const window, const double /*x*/, const double y)
 {
 	static auto& handler = *static_cast<InputHandler*>(glfwGetWindowUserPointer(window));
-	static auto& camera = handler._playerController->camera();
+	static auto& camera = handler._playerController->GetCamera();
 	const auto fov = camera.fov();
 	if (fov >= 1.0f && fov <= 45.0f)
 	{

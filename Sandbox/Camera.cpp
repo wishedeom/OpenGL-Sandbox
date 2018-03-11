@@ -79,6 +79,6 @@ const Window& Camera::window()
 
 void Camera::bind(const ShaderProgram& shader) const
 {
-	glUniformMatrix4fv(shader.getUniform("projection"), 1, GL_FALSE, glm::value_ptr(projection()));
-	glUniformMatrix4fv(shader.getUniform("view"), 1, GL_FALSE, glm::value_ptr(view()));
+	glUniformMatrix4fv(shader.GetUniformLocation("projection"), 1, GL_FALSE, glm::value_ptr(projection()));
+	glUniformMatrix4fv(shader.GetUniformLocation("view"), 1, GL_FALSE, glm::value_ptr(view()));
 }

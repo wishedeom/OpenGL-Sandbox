@@ -14,7 +14,7 @@ PlayerController::PlayerController(const Window& window, Camera& camera)
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
-Camera& PlayerController::camera()
+Camera& PlayerController::GetCamera()
 {
 	return *_camera;
 }

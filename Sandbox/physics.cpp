@@ -12,7 +12,7 @@ void component::Physics::update(const double deltaTime)
 {
 	static constexpr float g = -9.8f;
 	using namespace component;
-	const auto transform = entity().tryGetComponent<Transform>();
+	const auto transform = entity().GetComponent<Transform>();
 
 	if (transform == nullptr)
 	{

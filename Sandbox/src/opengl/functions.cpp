@@ -1,0 +1,89 @@
+#include "functions.h"
+#include "error.h"
+#include "C:\Projects\Sandbox\Sandbox\utils.h"
+
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
+#include <iostream>
+#include <type_traits>
+
+template <typename F, typename... Args>
+inline auto InjectErrorChecking(const F& f, Args&&... args)
+{
+	using ReturnType = decltype(f(std::forward<Args>(args)...));
+
+	if constexpr (std::is_same_v<ReturnType, void>)
+	{
+		f(std::forward<Args>(args)...);
+		CHECK_ERRORS;
+	}
+	else
+	{
+		const auto ret = f(std::forward<Args>(args)...);
+		CHECK_ERRORS;
+		return ret;
+	}
+}
+
+GLuint OpenGL::CreateProgram()
+{
+	return InjectErrorChecking(glCreateProgram);
+}
+
+GLint OpenGL::GetShaderParameter(const GLuint shader, const GLenum paramName)
+{
+	GLint out;
+	glGetShaderiv(shader, paramName, &out);
+	CHECK_ERRORS;
+	return out;
+}
+
+GLint OpenGL::GetProgramParameter(const GLuint programID, const ProgramParameter parameter)
+{
+	GLint out;
+	glGetProgramiv(programID, util::to_underlying(parameter), &out);
+	CHECK_ERRORS;
+	return out;
+}
+
+void OpenGL::LinkProgram(const GLuint programID)
+{
+	InjectErrorChecking(glLinkProgram, programID);
+}
+
+std::string OpenGL::GetProgramInfoLog(const GLuint programID)
+{
+	const auto length = GetProgramParameter(programID, ProgramParameter::InfoLogLength);
+	
+	std::string log;
+	log.reserve(length);
+	
+	glGetProgramInfoLog(programID, length, nullptr, log.data());
+	CHECK_ERRORS;
+	
+	return log;
+}
+
+void OpenGL::AttachShader(const GLuint programID, const GLuint shaderID)
+{
+	InjectErrorChecking(glAttachShader, programID, shaderID);
+}
+
+void OpenGL::UseProgram(const GLuint programID)
+{
+	InjectErrorChecking(glUseProgram, programID);
+}
+
+std::optional<GLuint> OpenGL::GetUniformLocation(const GLuint programID, const std::string_view& uniformName)
+{
+	const auto location = glGetUniformLocation(programID, uniformName.data());
+	CHECK_ERRORS;
+
+	if (location == -1)
+	{
+		return std::nullopt;
+	}
+
+	return location;
+}

@@ -26,7 +26,7 @@ class PlayerController final
 public:
 	PlayerController(const Window& window, Camera& camera);
 
-	Camera& camera();
+	Camera& GetCamera();
 	void update();
 	void signal(const GameAction action);
 	void setMousePosition(double x, double y);

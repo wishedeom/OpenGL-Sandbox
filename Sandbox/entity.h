@@ -38,22 +38,22 @@ public:
 
 	void setName(const std::string& name);
 
-	template <class C>
+	template <typename C>
 	bool add();
 
-	template <class C>
-	C* tryGetComponent() const;
+	template <typename C>
+	C* GetComponent() const;
 
-	template <class C>
+	template <typename C>
 	C& get() const;
 
-	template <class C>
+	template <typename C>
 	bool removeComponent();
 
 	void update(double deltaTime);
 
 private:
-	template <class C>
+	template <typename C>
 	ComponentCollection::iterator findComponent();
 
 	const ID m_id;
@@ -61,25 +61,25 @@ private:
 	ComponentCollection m_components;
 };
 
-template <class C>
+template <typename C>
 inline bool Entity::add()
 {
-	const auto component = tryGetComponent<C>();
+	const auto component = GetComponent<C>();
 	if (component != nullptr)
 	{
 		return false;
 	}
 
-	m_components.push_back(std::move(std::make_unique<C>(*this)));
+	m_components.push_back(std::make_unique<C>(*this));
 	return true;
 }
 
-template <class C>
-inline C* Entity::tryGetComponent() const
+template <typename C>
+inline C* Entity::GetComponent() const
 {
 	for (const auto& component : m_components)
 	{
-		auto ptr = dynamic_cast<C*>(component.get());
+		const auto ptr = dynamic_cast<C*>(component.get());
 		if (ptr != nullptr)
 		{
 			return ptr;
@@ -88,13 +88,13 @@ inline C* Entity::tryGetComponent() const
 	return nullptr;
 }
 
-template<class C>
+template<typename C>
 inline C& Entity::get() const
 {
-	return *tryGetComponent<C>();
+	return *GetComponent<C>();
 }
 
-template<class C>
+template<typename C>
 inline bool Entity::removeComponent()
 {
 	const auto& it = findComponent<C>();
@@ -106,7 +106,7 @@ inline bool Entity::removeComponent()
 	return true;
 }
 
-template<class C>
+template<typename C>
 inline std::vector<std::unique_ptr<component::Component>>::iterator Entity::findComponent()
 {
 	return std::find_if(m_components.begin(), m_components.end(), [](const auto& component)
