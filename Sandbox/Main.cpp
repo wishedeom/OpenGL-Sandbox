@@ -34,45 +34,45 @@
 #include "Mesh.h"
 #include "physics.h"
 #include "src/opengl/error.h"
+#include "src/colour.h"
 
 int main() try
 {
-	const Context context(OpenGL::Version{ 3, 3 });
-	const Window window(1600, 900, "OpenGL Sandbox", false);
-	context.Initialize(window);
+	const auto window = Context::Get().MakeWindow(1600, 900, "OpenGL Sandbox", false);
 	Camera camera(window, { 0.0f, 0.0f, 10.0f }, { 0.0f, 0.0f, -1.0f });
 	PlayerController controller(window, camera);
 	InputScheme scheme;
 	InputHandler inputHandler(controller, scheme);
 
-	OpenGL::ClearErrorFlag();
-	auto shader = ShaderProgram()
-					.AttachShader(VertexShader(util::fromFile("simpleVertexShader.vs")))
-					.AttachShader(FragmentShader(util::fromFile("simpleFragmentShader.fs")))
-					.Link();
+	const auto shader = ShaderProgram()
+						.AttachShader(VertexShader(util::ReadFile("simpleVertexShader.vs")))
+						.AttachShader(FragmentShader(util::ReadFile("simpleFragmentShader.fs")))
+						.Link();
 
 	Entity testEntity;
 
-	testEntity.add<component::Transform>();
+	testEntity.AddComponent<component::Transform>();
 	
-	testEntity.add<component::Mesh>();
-	testEntity.get<component::Mesh>().setVertices
-	({
-		{{ -0.5f, -0.5f, 0.0f }},
-		{{ -0.5f,  0.5f, 0.0f }},
-		{{  0.5f, -0.5f, 0.0f }},
-		{{  0.5f,  0.5f, 0.0f }},
-	});
-	testEntity.get<component::Mesh>().setIndices({ 0, 1, 2, 1, 3, 2 });
-	//testEntity.get<component::Mesh>() = component::Mesh(testEntity, component::Mesh::Data::makeSquare());
-	//testEntity.add<component::Physics>();
+	testEntity.AddComponent<component::Mesh>(component::Mesh::Data::makeCube());
+	//testEntity.get<component::Mesh>().setVertices
+	//({
+	//	{{ -0.5f, -0.5f, 0.0f }},
+	//	{{ -0.5f,  0.5f, 0.0f }},
+	//	{{  0.5f, -0.5f, 0.0f }},
+	//	{{  0.5f,  0.5f, 0.0f }},
+	//});
+	//testEntity.get<component::Mesh>().setIndices({ 0, 1, 2, 1, 3, 2 });
+	testEntity.get<component::Mesh>().setVertices(component::Mesh::Data::makeSquare().vertices);
+	testEntity.get<component::Mesh>().setIndices(component::Mesh::Data::makeSquare().indices);
+	//testEntity.Get<component::Mesh>() = component::Mesh(testEntity, component::Mesh::Data::makeSquare());
+	//testEntity.AddComponent<component::Physics>();
 
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	glEnable(GL_DEPTH_TEST);
 
 	GLdouble lastFrame = 0.0f;
-	while (!window.shouldClose())
+	while (!window.ShouldClose())
 	{
 		const GLdouble currentFrame = glfwGetTime();
 		const GLdouble deltaTime = currentFrame - lastFrame;
@@ -85,7 +85,7 @@ int main() try
 		testEntity.update(deltaTime);
 		testEntity.get<component::Mesh>().draw(shader, camera);
 
-		window.swapBuffers();
+		window.SwapBuffers();
 	}
 
 	return 0;

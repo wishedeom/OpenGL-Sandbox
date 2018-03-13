@@ -1,7 +1,7 @@
 #include "Shader.h"
 #include "utils.h"
 
-GLuint createShader(const std::string& source, const ShaderType type);
+GLuint createShader(const std::string& source, const OpenGL::ShaderType type);
 
 Shader::Shader(const std::string& source, const ShaderType type)
 	: _id { createShader(source, type) }
@@ -22,7 +22,7 @@ Shader::operator GLuint() const
 	return index();
 }
 
-GLuint createShader(const std::string& source, const ShaderType type)
+GLuint createShader(const std::string& source, const OpenGL::ShaderType type)
 {
 	// Reference to OpenGL shader object
 	const auto id = glCreateShader(util::to_underlying(type));
@@ -37,7 +37,7 @@ GLuint createShader(const std::string& source, const ShaderType type)
 	glCompileShader(id);
 	
 	// Error checking
-	util::checkShaderCompilationErrors(id, type);
+	util::CheckShaderCompilationErrors(id, type);
 	
 	return id;
 }

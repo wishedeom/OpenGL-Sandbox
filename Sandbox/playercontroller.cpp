@@ -69,7 +69,7 @@ void PlayerController::signal(const GameAction action)
 			_lateralDirection = LateralDirection::None;
 			break;
 		case GameAction::CloseWindow:
-			_camera->window().close();
+			_camera->window().Close();
 			break;
 	}
 }

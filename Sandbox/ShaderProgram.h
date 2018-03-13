@@ -14,8 +14,17 @@ class ShaderProgram final
 {
 public:
 	ShaderProgram();
-	ShaderProgram& AttachShader(const Shader& shader);
-	ShaderProgram& Link();
+	ShaderProgram(ShaderProgram&& rhs);
+	ShaderProgram& operator=(ShaderProgram&& rhs);
+
+	ShaderProgram(const ShaderProgram&) = delete;
+	ShaderProgram& operator=(const ShaderProgram&) = delete;
+
+	ShaderProgram& AttachShader(const Shader& shader) &;
+	ShaderProgram& Link() &;
+
+	ShaderProgram&& AttachShader(const Shader& shader) &&;
+	ShaderProgram&& Link() &&;
 	
 	void Use() const;
 	

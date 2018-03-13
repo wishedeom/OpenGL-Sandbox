@@ -5,66 +5,78 @@
 
 static std::pair<int, int> GetFrameBufferSize(GLFWwindow& window);
 
-Window::Window(const GLint height, const GLint width, const std::string& title, bool fullScreen /*= true*/)
+Window::Window(const GLint height, const GLint width, const std::string_view& title, bool fullScreen /*= true*/)
 {
 	auto monitor = fullScreen ? glfwGetPrimaryMonitor() : nullptr;
-	m_window = glfwCreateWindow(height, width, title.c_str(), monitor, nullptr);
+	m_window = glfwCreateWindow(height, width, title.data(), monitor, nullptr);
 	if (!m_window)
 	{
 		throw std::runtime_error("Failed to create OpenGL window.\n");
 	}
 
 	InitializeDimensions();
-	makeContextCurrent();
+	MakeContextCurrent();
 
 	CHECK_ERRORS;
 }
 
-void Window::makeContextCurrent() const
+Window::Window(Window&& rhs)
+{
+	*this = std::move(rhs);
+}
+
+Window& Window::operator=(Window&& rhs)
+{
+	m_window = rhs.m_window;
+	rhs.m_window = nullptr;
+	return *this;
+}
+
+void Window::MakeContextCurrent() const
 {
 	glfwMakeContextCurrent(m_window);
 }
 
-void Window::close() const
+void Window::Close() const
 {
 	glfwSetWindowShouldClose(m_window, GL_TRUE);
 }
 
-bool Window::shouldClose() const
+bool Window::ShouldClose() const
 {
 	return glfwWindowShouldClose(m_window);
 }
 
-void Window::swapBuffers() const
+void Window::SwapBuffers() const
 {
 	glfwSwapBuffers(m_window);
 }
 
 Window::operator GLFWwindow*() const
 {
-	return get();
+	return Get();
 }
 
-GLFWwindow* Window::get() const
+GLFWwindow* Window::Get() const
 {
 	return m_window;
 }
 
-GLfloat Window::height() const
+GLfloat Window::Height() const
 {
-	return _height;
+	return m_height;
 }
 
-GLfloat Window::width() const
+GLfloat Window::Width() const
 {
-	return _width;
+	return m_width;
 }
 
 void Window::InitializeDimensions()
 {
 	const auto [width, height] = GetFrameBufferSize(*m_window);
-	_width = static_cast<float>(width);
-	_height = static_cast<float>(height);
+	m_width = static_cast<float>(width);
+	m_height = static_cast<float>(height);
 }
 
 std::pair<int, int> GetFrameBufferSize(GLFWwindow& window)

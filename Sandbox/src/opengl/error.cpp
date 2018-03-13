@@ -42,8 +42,8 @@ constexpr const char* OpenGL::ToString(const Error error)
 			return "ContextLost";
 		case Error::InvalidEnum:
 			return "InvalidEnum";
-		case Error::InavlidValue:
-			return "InavlidValue";
+		case Error::InvalidValue:
+			return "InvalidValue";
 		case Error::InvalidOperation:
 			return "InvalidOperation";
 		case Error::InvalidFramebufferOperation:

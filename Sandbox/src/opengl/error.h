@@ -33,7 +33,7 @@ enum class OpenGL::Error
 	NoError                     = GL_NO_ERROR,
 	ContextLost                 = GL_CONTEXT_LOST,
 	InvalidEnum                 = GL_INVALID_ENUM,
-	InavlidValue                = GL_INVALID_VALUE,
+	InvalidValue                = GL_INVALID_VALUE,
 	InvalidOperation            = GL_INVALID_OPERATION,
 	InvalidFramebufferOperation = GL_INVALID_FRAMEBUFFER_OPERATION,
 	OutOfMemory                 = GL_OUT_OF_MEMORY,

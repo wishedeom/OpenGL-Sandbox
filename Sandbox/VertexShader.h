@@ -7,5 +7,5 @@ class VertexShader final
 {
 public:
 	VertexShader(const std::string& source);
-	~VertexShader() override;
+	virtual ~VertexShader() override = default;
 };

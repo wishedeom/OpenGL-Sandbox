@@ -2,8 +2,8 @@
 
 #include "Light.h"
 
-struct DirectionalLight final
-	: Light
-{
-	glm::vec3 direction;
-};
+//struct DirectionalLight final
+//	: Light
+//{
+//	glm::vec3 direction;
+//};

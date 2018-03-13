@@ -8,13 +8,26 @@ ShaderProgram::ShaderProgram()
 	: m_id(OpenGL::CreateProgram())
 {}
 
-ShaderProgram& ShaderProgram::AttachShader(const Shader& shader)
+ShaderProgram::ShaderProgram(ShaderProgram&& rhs)
+{
+	*this = std::move(rhs);
+}
+
+ShaderProgram& ShaderProgram::operator=(ShaderProgram&& rhs)
+{
+	m_id = rhs.m_id;
+	rhs.m_id = 0;
+
+	return *this;
+}
+
+ShaderProgram& ShaderProgram::AttachShader(const Shader& shader) &
 {
 	OpenGL::AttachShader(m_id, shader);
 	return *this;
 }
 
-ShaderProgram& ShaderProgram::Link()
+ShaderProgram& ShaderProgram::Link() &
 {
 	using namespace OpenGL;
 
@@ -27,6 +40,16 @@ ShaderProgram& ShaderProgram::Link()
 	}
 
 	return *this;
+}
+
+ShaderProgram&& ShaderProgram::AttachShader(const Shader& shader) &&
+{
+	return std::move(this->AttachShader(shader));
+}
+
+ShaderProgram&& ShaderProgram::Link() &&
+{
+	return std::move(this->Link());
 }
 
 void ShaderProgram::Use() const

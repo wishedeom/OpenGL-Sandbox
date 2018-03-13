@@ -7,20 +7,19 @@
 #include <GLFW/glfw3.h>
 
 #include "Shader.h"
+#include "src/opengl/types.h"
 
 namespace util
 {
 	// Reads the entire contents of a file into a string
-	std::string fromFile(const std::string& filename);
+	std::string ReadFile(const std::string& filename);
 
-	void checkShaderCompilationErrors(const GLuint id, const ShaderType type);
+	void CheckShaderCompilationErrors(GLuint id, OpenGL::ShaderType type);
 
 	// Converts an enum class value to its underlying integral value
 	template <typename E>
-	constexpr auto to_underlying(E value) -> typename std::underlying_type<E>::type
+	constexpr auto to_underlying(const E value)
 	{
-		return static_cast<std::underlying_type<E>::type>(value);
+		return static_cast<std::underlying_type_t<E>>(value);
 	}
-
-	void reportOpenGLErrors();
 }

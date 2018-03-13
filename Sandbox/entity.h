@@ -38,8 +38,8 @@ public:
 
 	void setName(const std::string& name);
 
-	template <typename C>
-	bool add();
+	template <typename ComponentType, typename... Args>
+	bool AddComponent(Args&&... args);
 
 	template <typename C>
 	C* GetComponent() const;
@@ -61,16 +61,16 @@ private:
 	ComponentCollection m_components;
 };
 
-template <typename C>
-inline bool Entity::add()
+template <typename ComponentType, typename... Args>
+inline bool Entity::AddComponent(Args&&... args)
 {
-	const auto component = GetComponent<C>();
+	const auto component = GetComponent<ComponentType>();
 	if (component != nullptr)
 	{
 		return false;
 	}
 
-	m_components.push_back(std::make_unique<C>(*this));
+	m_components.push_back(std::make_unique<ComponentType>(*this, std::forward<Args>(args)...));
 	return true;
 }
 

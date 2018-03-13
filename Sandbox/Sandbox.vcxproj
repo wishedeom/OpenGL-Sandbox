@@ -167,6 +167,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="spherecollider.cpp" />
+    <ClCompile Include="src\colour.cpp" />
     <ClCompile Include="src\opengl\error.cpp" />
     <ClCompile Include="src\opengl\functions.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -198,6 +199,8 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="spherecollider.h" />
+    <ClInclude Include="src\clamped.h" />
+    <ClInclude Include="src\colour.h" />
     <ClInclude Include="src\opengl\error.h" />
     <ClInclude Include="src\opengl\functions.h" />
     <ClInclude Include="src\opengl\types.h" />

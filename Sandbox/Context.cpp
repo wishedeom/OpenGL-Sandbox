@@ -20,9 +20,27 @@ namespace OpenGL
 
 using namespace OpenGL;
 
-Context::Context(const Version version)
+const OpenGL::Version Context::version = { 3, 3 };
+
+Context& Context::Get()
 {
-	glfwInit();
+	static Context context;
+	return context;
+}
+
+Context::Context()
+{
+	glfwSetErrorCallback([](const int errCode, const char* const errMsg)
+	{
+		throw std::runtime_error("GLFW Error (" + std::to_string(errCode) + "): " + errMsg + '\n');
+	});
+	
+	const bool success = glfwInit();
+	if (!success)
+	{
+		throw std::runtime_error("GLFW Initialization failed.\n");
+	}
+
 	SetVersion(version.major, version.minor);
 	SetProfile(Profile::Core);
 	SetIsResizable(Resizable::False);
@@ -33,7 +51,17 @@ Context::~Context()
 	glfwTerminate();
 }
 
-void Context::Initialize(const Window&) const
+Window Context::MakeWindow(const GLint height, const GLint width, const std::string_view& title, const bool fullScreen /*= false*/) const
+{
+	Window window(height, width, title, fullScreen);
+	if (!m_isGLEWInitialized)
+	{
+		InitializeGLEW();
+	}
+	return window;
+}
+
+void Context::InitializeGLEW() const
 {
 	glewExperimental = util::to_underlying(GLEWExperimental::True);
 
@@ -42,6 +70,8 @@ void Context::Initialize(const Window&) const
 	{
 		throw std::runtime_error("Failed to initialize GLEW.\n");
 	}
+
+	m_isGLEWInitialized = true;
 }
 
 void OpenGL::SetVersion(const GLint major, const GLint minor)

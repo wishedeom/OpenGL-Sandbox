@@ -69,7 +69,7 @@ glm::mat4 Camera::view() const
 
 glm::mat4 Camera::projection() const
 {
-	return glm::perspective(glm::radians(_fov), _window->width() / _window->height(), 0.1f, 1000.0f);
+	return glm::perspective(glm::radians(_fov), _window->Width() / _window->Height(), 0.1f, 1000.0f);
 }
 
 const Window& Camera::window()

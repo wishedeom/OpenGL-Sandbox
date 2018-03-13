@@ -31,10 +31,10 @@ GLuint OpenGL::CreateProgram()
 	return InjectErrorChecking(glCreateProgram);
 }
 
-GLint OpenGL::GetShaderParameter(const GLuint shader, const GLenum paramName)
+GLint OpenGL::GetShaderParameter(const GLuint shader, const ShaderParameter paramName)
 {
 	GLint out;
-	glGetShaderiv(shader, paramName, &out);
+	glGetShaderiv(shader, util::to_underlying(paramName), &out);
 	CHECK_ERRORS;
 	return out;
 }
@@ -62,6 +62,19 @@ std::string OpenGL::GetProgramInfoLog(const GLuint programID)
 	glGetProgramInfoLog(programID, length, nullptr, log.data());
 	CHECK_ERRORS;
 	
+	return log;
+}
+
+std::string OpenGL::GetShaderInfoLog(const GLuint programID)
+{
+	const auto length = GetProgramParameter(programID, ProgramParameter::InfoLogLength);
+
+	std::string log;
+	log.reserve(length);
+
+	glGetShaderInfoLog(programID, length, nullptr, log.data());
+	CHECK_ERRORS;
+
 	return log;
 }
 

@@ -7,5 +7,5 @@ class FragmentShader final
 {
 public:
 	FragmentShader(const std::string& source);
-	~FragmentShader() override;
+	virtual ~FragmentShader() override = default;
 };
