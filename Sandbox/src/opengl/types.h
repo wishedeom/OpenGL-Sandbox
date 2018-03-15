@@ -15,8 +15,11 @@ namespace OpenGL
 	enum class ProgramParameter : GLenum;
 	enum class ShaderParameter : GLenum;
 	enum class ShaderType : GLenum;
+	enum class Capability : GLenum;
+	enum class Buffer : GLenum;
 
 	constexpr const char* ToString(ShaderType type);
+	Buffer operator|(Buffer lhs, Buffer rhs);
 }
 
 enum class OpenGL::ShaderType
@@ -75,4 +78,20 @@ enum class OpenGL::ShaderParameter
 	CompileStatus      = GL_COMPILE_STATUS,
 	InfoLogLength      = GL_INFO_LOG_LENGTH,
 	ShaderSourceLength = GL_SHADER_SOURCE_LENGTH,
+};
+
+enum class OpenGL::Capability
+	: GLenum
+{
+	DepthTest = GL_DEPTH_TEST,
+	CullFace  = GL_CULL_FACE,
+};
+
+enum class OpenGL::Buffer
+	: GLenum
+{
+	Color        = GL_COLOR_BUFFER_BIT,
+	Depth        = GL_DEPTH_BUFFER_BIT,
+	Accumulation = GL_ACCUM_BUFFER_BIT,
+	Stencil      = GL_STENCIL_BUFFER_BIT,
 };

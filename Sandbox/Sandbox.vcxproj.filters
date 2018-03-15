@@ -94,6 +94,9 @@
     <ClCompile Include="src\colour.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\opengl\types.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">

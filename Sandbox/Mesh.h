@@ -12,41 +12,33 @@
 class Camera;
 class ShaderProgram;
 
-namespace component
+class Mesh final
 {
-	class Mesh final
-		: public Component
-	{
-	public:
-		struct Data final
-		{
-			std::vector<Vertex> vertices;
-			std::vector<GLuint> indices;
+public:
+	using Vertices = std::vector<Vertex>;
+	using Indices = std::vector<GLuint>;
 
-			static Data makeCube();
-			static Data makeSquare();
-		};
+	Mesh(Vertices vertices, Indices indices);
+	void draw(const ShaderProgram& shader, const Camera& camera, const glm::mat4& transform = glm::mat4());
+	void draw(const ShaderProgram& shader, const Camera& camera, const glm::mat4& transform = glm::mat4()) const;
+	void setVertices(const std::vector<Vertex>& vertices);
+	void setIndices(const std::vector<GLuint>& indices);
 
-		Mesh(Entity& entity, const Data& data = {});
-		void draw(const ShaderProgram& shader, const Camera& camera, const glm::mat4& transform = glm::mat4());
-		void draw(const ShaderProgram& shader, const Camera& camera, const glm::mat4& transform = glm::mat4()) const;
-		void setVertices(const std::vector<Vertex>& vertices);
-		void setIndices(const std::vector<GLuint>& indices);
+private:
+	void init();
+	void bindVertexData() const;
+	void bindIndexData() const;
 
-	private:
-		void init();
-		void bindVertexData() const;
-		void bindIndexData() const;
+private:
+	Vertices _vertices;
+	Indices _indices;
+	
+	GLuint _vao;
+	GLuint _vbo;
+	GLuint _ebo;
+};
 
-	private:
-		Data _data;
-		std::vector<Vertex> _vertices;
-		std::vector<GLuint> _indices;
-		GLuint _vao;
-		GLuint _vbo;
-		GLuint _ebo;
-
-		// Inherited via Component
-		virtual void update(double) override;
-	};
-}
+Mesh MakeCube();
+Mesh MakeSquare();
+Mesh MakeQuad(const glm::vec3& pivot, const glm::vec3& hCorner, const glm::vec3& vCorner);
+Mesh MakeSphere();

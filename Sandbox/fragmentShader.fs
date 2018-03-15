@@ -41,16 +41,17 @@ in vec2 vTexture;
 out vec4 fColour;
 
 uniform vec3 viewPos;
-uniform Material material;
-uniform DirectionalLight directionalLight;
+//uniform Material material;
+//uniform DirectionalLight directionalLight;
 
 vec3 directionalLightColour(DirectionalLight light);
 vec3 pointLightColour(PointLight light);
 float computeAttenutation(Attenuation a, float distance);
 
 void main()
-{        
-    fColour = vec4(directionalLightColour(directionalLight), 1.0f);
+{
+    fColour = vec4(fragPos, 1.0f);
+	fColour = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 vec3 directionalLightColour(DirectionalLight light)

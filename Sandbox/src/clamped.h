@@ -19,6 +19,9 @@ public:
 	Clamped& operator=(const Clamped<T, MinProvider, MaxProvider>&) = default;
 	Clamped& operator=(Clamped<T, MinProvider, MaxProvider>&&) = default;
 
+	operator const T&() const;
+	operator T();
+
 	const T& Value() const;
 	T Value();
 
@@ -58,6 +61,18 @@ template <typename T, typename MinProvider, typename MaxProvider>
 inline Clamped<T, MinProvider, MaxProvider>& Clamped<T, MinProvider, MaxProvider>::operator=(T x)
 {
 	m_value = std::move(x);
+}
+
+template<typename T, typename MinProvider, typename MaxProvider>
+inline Clamped<T, MinProvider, MaxProvider>::operator const T&() const
+{
+	return Value();
+}
+
+template<typename T, typename MinProvider, typename MaxProvider>
+inline Clamped<T, MinProvider, MaxProvider>::operator T()
+{
+	return Value();
 }
 
 template <typename T, typename MinProvider, typename MaxProvider>

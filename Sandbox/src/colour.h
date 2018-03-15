@@ -12,4 +12,6 @@ struct Colour final
 	ValueType a;
 
 	Colour(float r, float g, float b, float a);
+
+	static const Colour Black;
 };

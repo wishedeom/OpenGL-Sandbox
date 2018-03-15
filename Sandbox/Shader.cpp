@@ -1,6 +1,8 @@
 #include "Shader.h"
 #include "utils.h"
 
+#include <iostream>
+
 GLuint createShader(const std::string& source, const OpenGL::ShaderType type);
 
 Shader::Shader(const std::string& source, const ShaderType type)
@@ -24,6 +26,8 @@ Shader::operator GLuint() const
 
 GLuint createShader(const std::string& source, const OpenGL::ShaderType type)
 {
+	std::cout << source << '\n';
+
 	// Reference to OpenGL shader object
 	const auto id = glCreateShader(util::to_underlying(type));
 

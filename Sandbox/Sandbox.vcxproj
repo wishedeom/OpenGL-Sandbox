@@ -170,6 +170,7 @@
     <ClCompile Include="src\colour.cpp" />
     <ClCompile Include="src\opengl\error.cpp" />
     <ClCompile Include="src\opengl\functions.cpp" />
+    <ClCompile Include="src\opengl\types.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="transform.cpp" />
     <ClCompile Include="utils.cpp" />

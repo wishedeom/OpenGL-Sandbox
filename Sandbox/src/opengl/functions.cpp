@@ -1,6 +1,7 @@
 #include "functions.h"
 #include "error.h"
-#include "C:\Projects\Sandbox\Sandbox\utils.h"
+#include "../../utils.h"
+#include "../colour.h"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -67,7 +68,7 @@ std::string OpenGL::GetProgramInfoLog(const GLuint programID)
 
 std::string OpenGL::GetShaderInfoLog(const GLuint programID)
 {
-	const auto length = GetProgramParameter(programID, ProgramParameter::InfoLogLength);
+	const auto length = GetShaderParameter(programID, ShaderParameter::InfoLogLength);
 
 	std::string log;
 	log.reserve(length);
@@ -99,4 +100,24 @@ std::optional<GLuint> OpenGL::GetUniformLocation(const GLuint programID, const s
 	}
 
 	return location;
+}
+
+void OpenGL::ClearColour(const Colour& colour)
+{
+	InjectErrorChecking(glClearColor, colour.r, colour.g, colour.b, colour.a);
+}
+
+void OpenGL::Enable(const Capability cap)
+{
+	InjectErrorChecking(glEnable, util::to_underlying(cap));
+}
+
+void OpenGL::Disable(const Capability cap)
+{
+	InjectErrorChecking(glDisable, util::to_underlying(cap));
+}
+
+void OpenGL::Clear(const Buffer buffer)
+{
+	InjectErrorChecking(glClear, util::to_underlying(buffer));
 }

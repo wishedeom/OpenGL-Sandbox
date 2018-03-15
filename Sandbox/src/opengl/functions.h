@@ -8,6 +8,8 @@
 #include <string_view>
 #include <optional>
 
+struct Colour;
+
 namespace OpenGL
 {
 	GLuint CreateProgram();
@@ -23,4 +25,9 @@ namespace OpenGL
 	std::optional<GLuint> GetUniformLocation(GLuint programID, const std::string_view& uniformName);
 
 	GLuint CreateShader();
+	void ClearColour(const Colour& colour);
+
+	void Enable(Capability cap);
+	void Disable(Capability cap);
+	void Clear(Buffer buffer);
 }

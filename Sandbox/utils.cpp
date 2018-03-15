@@ -29,5 +29,7 @@ void util::CheckShaderCompilationErrors(const GLuint id, const OpenGL::ShaderTyp
 		return;
 	}
 
-	throw std::runtime_error("Error: " + std::string(ToString(type)) + " shader compilation failed.\n" + GetShaderInfoLog(id) + '\n');
+	const auto infoLog = GetShaderInfoLog(id);
+
+	throw std::runtime_error("Error: " + std::string(ToString(type)) + " shader compilation failed.\n" + infoLog + '\n');
 }
