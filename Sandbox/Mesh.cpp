@@ -156,32 +156,29 @@ Mesh MakeQuad(const glm::vec3& pivot, const glm::vec3& hCorner, const glm::vec3&
 	return { std::move(vertices), std::move(indices) };
 }
 
-Mesh MakeSphere()
+Mesh MakeSphere(float radius /*= 1.0f*/, size_t sections /*= 100*/)
 {
-	static constexpr auto rotationalSections = 10;
-	static constexpr auto horizontalSections = 10;
-
 	std::vector<Vertex> vertices;
-	vertices.push_back({ 0.0f, -1.0f, 0.0f });
-	
-	for (int level = 0; level < horizontalSections; ++level)
+	vertices.push_back({ 0.0f, -radius, 0.0f });
+
+	for (int level = 0; level < sections; ++level)
 	{
-		const auto azimuth = (level + 1.0f) / (horizontalSections + 1.0f) * pi<float> - pi<float> / 2;
-		const auto y = std::sin(azimuth);
-		const auto radius = std::cos(azimuth);
-		for (int i = 0; i < rotationalSections; ++i)
+		const auto azimuth = (level + 1.0f) / (sections + 1.0f) * pi<float> - pi<float> / 2;
+		const auto y = radius * std::sin(azimuth);
+		const auto r = radius * std::cos(azimuth);
+		for (int i = 0; i < sections; ++i)
 		{
-			const auto angle = 2.0f * pi<float> * i / rotationalSections;
-			const auto x = radius * std::cos(angle);
-			const auto z = radius * std::sin(angle);
+			const auto angle = 2.0f * pi<float> * i / sections;
+			const auto x = r * std::cos(angle);
+			const auto z = r * std::sin(angle);
 
 			vertices.push_back({ x, y, z });
 		}
 	}
-	vertices.push_back({ 0.0f, 1.0f, 0.0f });
+	vertices.push_back({ 0.0f, radius, 0.0f });
 
 	std::vector<GLuint> indices;
-	for (int i = 1; i < rotationalSections; ++i)
+	for (int i = 1; i < sections; ++i)
 	{
 		indices.push_back(0);
 		indices.push_back(i + 1);
@@ -190,27 +187,27 @@ Mesh MakeSphere()
 
 	indices.push_back(0);
 	indices.push_back(1);
-	indices.push_back(rotationalSections);
-	
-	for (int level = 0; level < horizontalSections; ++level)
+	indices.push_back(sections);
+
+	for (int level = 0; level < sections; ++level)
 	{
-		for (int i = (level - 1) * rotationalSections + 1; i < level * rotationalSections + 1; ++i)
+		for (int i = (level - 1) * sections + 1; i < level * sections + 1; ++i)
 		{
 			indices.push_back(i);
 			indices.push_back(i + 1);
-			indices.push_back(i + rotationalSections);
+			indices.push_back(i + sections);
 
 			indices.push_back(i);
-			indices.push_back(i + rotationalSections);
-			indices.push_back(i + rotationalSections - 1);
+			indices.push_back(i + sections);
+			indices.push_back(i + sections - 1);
 		}
 
 		indices.push_back(vertices.size() - 2);
-		indices.push_back((horizontalSections - 1) * rotationalSections + 1);
+		indices.push_back((sections - 1) * sections + 1);
 		indices.push_back(vertices.size() - 1);
 	}
 
-	for (int i = (horizontalSections - 1) * rotationalSections + 1; i < (horizontalSections) * rotationalSections + 1; ++i)
+	for (int i = (sections - 1) * sections + 1; i < (sections) * sections + 1; ++i)
 	{
 		indices.push_back(i);
 		indices.push_back(i + 1);
@@ -218,8 +215,16 @@ Mesh MakeSphere()
 	}
 
 	indices.push_back(vertices.size() - 2);
-	indices.push_back((horizontalSections - 1) * rotationalSections + 1);
+	indices.push_back((sections - 1) * sections + 1);
 	indices.push_back(vertices.size() - 1);
 
 	return { std::move(vertices), std::move(indices) };
+}
+
+Mesh MakeSphere()
+{
+	static constexpr auto defaultRadius = 1.0f;
+	static constexpr auto defaultSections = 100;
+	
+	return MakeSphere(defaultRadius, defaultSections);
 }

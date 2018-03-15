@@ -41,4 +41,6 @@ private:
 Mesh MakeCube();
 Mesh MakeSquare();
 Mesh MakeQuad(const glm::vec3& pivot, const glm::vec3& hCorner, const glm::vec3& vCorner);
+
+Mesh MakeSphere(float radius = 1.0f, size_t sections = 100);
 Mesh MakeSphere();

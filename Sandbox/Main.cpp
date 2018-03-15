@@ -53,7 +53,7 @@ int main() try
 
 	//auto m = MakeQuad();
 	//auto m = MakeCube();
-	auto m = MakeSphere();
+	auto m = MakeSphere(2.0f);
 	auto p = MakeQuad({ -5.0f, -1.0f, -5.0f }, { 5.0f, -1.0f, -5.0f }, { -5.0f, -1.0f, 5.0f });
 
 	OpenGL::ClearColour(Colour::Black);
