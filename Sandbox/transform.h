@@ -27,7 +27,7 @@ namespace component
 		void setPosition(const glm::vec3& position);
 		void setDirection(const glm::vec3& direction);
 
-		virtual void update(double deltaTime) override;
+		virtual void Update(double deltaTime) override;
 
 	private:
 		glm::vec3 _position;

@@ -40,7 +40,7 @@
 
 int main() try
 {
-	const auto window = Context::Get().MakeWindow(900, 900, "OpenGL Sandbox", false);
+	const auto window = Context::Get().MakeWindow(300, 300, "OpenGL Sandbox", false);
 	Camera camera(window, { 0.0f, 0.0f, 10.0f }, { 0.0f, 0.0f, -1.0f });
 	PlayerController controller(window, camera);
 	InputScheme scheme;
@@ -53,13 +53,18 @@ int main() try
 
 	//auto m = MakeQuad();
 	//auto m = MakeCube();
-	auto m = MakeSphere(2.0f);
+	auto m = MakeSphere().Scale(2.0f);
+	//auto m2 = m.Scale
+
 	auto p = MakeQuad({ -5.0f, -1.0f, -5.0f }, { 5.0f, -1.0f, -5.0f }, { -5.0f, -1.0f, 5.0f });
 
-	OpenGL::ClearColour(Colour::Black);
+	OpenGL::ClearColour(Colour::Grapefruit);
 
 	Enable(OpenGL::Capability::DepthTest);
-	//Enable(OpenGL::Capability::CullFace);
+	Enable(OpenGL::Capability::CullFace);
+
+	const Entity e;
+	e.GetComponent<Component>();
 
 	GLdouble lastFrame = 0.0f;
 	while (!window.ShouldClose())
@@ -69,7 +74,7 @@ int main() try
 		lastFrame = currentFrame;
 
 		glfwPollEvents();
-		controller.update();
+		controller.Update();
 		Clear(OpenGL::Buffer::Color | OpenGL::Buffer::Depth);
 
 		const auto s = 2.0f * static_cast<float>(std::sin(lastFrame));

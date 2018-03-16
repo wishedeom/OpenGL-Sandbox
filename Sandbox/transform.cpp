@@ -64,7 +64,7 @@ void component::Transform::setDirection(const glm::vec3& direction)
 	_direction = direction;
 }
 
-void component::Transform::update(double deltaTime)
+void component::Transform::Update(double deltaTime)
 {
-	Component::update(deltaTime);
+	Component::Update(deltaTime);
 }

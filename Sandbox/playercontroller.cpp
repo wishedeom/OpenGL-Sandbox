@@ -19,7 +19,7 @@ Camera& PlayerController::GetCamera()
 	return *_camera;
 }
 
-void PlayerController::update()
+void PlayerController::Update()
 {
 	switch (_axialDirection)
 	{

@@ -60,6 +60,19 @@ void Mesh::setIndices(const std::vector<GLuint>& indices)
 	bindIndexData();
 }
 
+Mesh Mesh::Scale(const float factor) const
+{
+	Vertices vertices;
+	vertices.reserve(_vertices.size());
+
+	for (auto& vertex : _vertices)
+	{
+		vertices.push_back({ factor * vertex.position });
+	}
+
+	return { std::move(vertices), _indices };
+}
+
 void Mesh::bindVertexData() const
 {
 	glBindVertexArray(_vao);
@@ -219,12 +232,4 @@ Mesh MakeSphere(float radius /*= 1.0f*/, size_t sections /*= 100*/)
 	indices.push_back(vertices.size() - 1);
 
 	return { std::move(vertices), std::move(indices) };
-}
-
-Mesh MakeSphere()
-{
-	static constexpr auto defaultRadius = 1.0f;
-	static constexpr auto defaultSections = 100;
-	
-	return MakeSphere(defaultRadius, defaultSections);
 }

@@ -27,7 +27,7 @@ public:
 	PlayerController(const Window& window, Camera& camera);
 
 	Camera& GetCamera();
-	void update();
+	void Update();
 	void signal(const GameAction action);
 	void setMousePosition(double x, double y);
 

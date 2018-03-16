@@ -1,26 +1,24 @@
 #include "component.h"
 
-using namespace component;
+Component::Component() = default;
 
-component::Component::Component() = default;
-
-component::Component::Component(Entity& entity)
+Component::Component(Entity& entity)
 	: _entity(&entity)
 {}
 
 Component::~Component() = default;
 
-bool component::Component::isAttachedToEntity() const
+bool Component::isAttachedToEntity() const
 {
 	return _entity != nullptr;
 }
 
-const Entity& component::Component::entity() const
+const Entity& Component::entity() const
 {
 	return *_entity;
 }
 
-Entity& component::Component::entity()
+Entity& Component::entity()
 {
 	return *_entity;
 }

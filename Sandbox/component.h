@@ -2,21 +2,18 @@
 
 class Entity;
 
-namespace component
+class Component
 {
-	class Component
-	{
-	public:
-		Component();
-		Component(Entity& entity);
-		virtual ~Component() = 0;
+public:
+	Component();
+	Component(Entity& entity);
+	virtual ~Component() = 0;
 
-		bool isAttachedToEntity() const;
-		const Entity& entity() const;
-		Entity& entity();
-		virtual void update(double) = 0 {}
+	bool isAttachedToEntity() const;
+	const Entity& entity() const;
+	Entity& entity();
+	virtual void Update(double) = 0 {}
 
-	private:
-		Entity* _entity;
-	};
-}
+private:
+	Entity* _entity;
+};

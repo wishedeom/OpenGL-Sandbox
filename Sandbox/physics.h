@@ -15,7 +15,7 @@ namespace component
 		Physics(Entity& entity);
 		~Physics();
 
-		virtual void update(double deltaTime) override;
+		virtual void Update(double deltaTime) override;
 
 	private:
 		glm::vec3 _velocity;

@@ -61,6 +61,7 @@ template <typename T, typename MinProvider, typename MaxProvider>
 inline Clamped<T, MinProvider, MaxProvider>& Clamped<T, MinProvider, MaxProvider>::operator=(T x)
 {
 	m_value = std::move(x);
+	return *this;
 }
 
 template<typename T, typename MinProvider, typename MaxProvider>

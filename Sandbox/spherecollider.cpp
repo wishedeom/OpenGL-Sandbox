@@ -24,7 +24,7 @@ void component::SphereCollider::setRadius(const float radius)
 
 glm::vec3 component::SphereCollider::centre() const
 {
-	return entity().get<Transform>().position();
+	return entity().GetComponent<Transform>()->position();
 }
 
 float component::SphereCollider::radius() const
@@ -34,5 +34,5 @@ float component::SphereCollider::radius() const
 
 bool component::SphereCollider::contains(const glm::vec3& point) const
 {
-	return glm::distance(point, entity().get<Transform>().position()) <= _radius;
+	return glm::distance(point, entity().GetComponent<Transform>()->position()) <= _radius;
 }

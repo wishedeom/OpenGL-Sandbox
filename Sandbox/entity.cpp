@@ -1,63 +1,49 @@
 #include "entity.h"
 
-Entity::ID Entity::_nextID = 0;
-std::map<Entity::ID, Entity*> Entity::_entityRegistry;
+Entity::IDType Entity::s_nextID = 0;
+std::map<Entity::IDType, Entity*> Entity::s_entityRegistry;
 
-std::optional<Entity*> Entity::get(const ID id)
+Entity* Entity::Get(const IDType id)
 {
-	const auto& it = _entityRegistry.find(id);
-	if (it == _entityRegistry.end())
+	const auto it = s_entityRegistry.find(id);
+	if (it == s_entityRegistry.end())
 	{
-		return {};
+		return nullptr;
 	}
 	return it->second;
 }
 
-Entity::Entity(const std::string& name /*= ""*/)
-	: m_id(_nextID++)
+Entity::Entity(const std::string_view& name /*= ""*/)
+	: m_id(s_nextID++)
 	, m_name(name)
 {
-	_entityRegistry[m_id] = this;
-}
-
-Entity::Entity(const Entity& entity)
-	: Entity(entity.m_name)
-{
-	//for (const auto& component : entity._components)
-	//{
-	//	
-	//}
+	s_entityRegistry[m_id] = this;
 }
 
 Entity::~Entity()
 {
-	_entityRegistry.erase(_entityRegistry.find(m_id));
+	s_entityRegistry.erase(s_entityRegistry.find(m_id));
 }
 
-size_t Entity::id() const
+Entity::IDType Entity::ID() const
 {
 	return m_id;
 }
 
-const std::string& Entity::name() const
+const std::string& Entity::Name() const
 {
 	return m_name;
 }
 
-std::string Entity::name()
+std::string Entity::Name()
 {
 	return m_name;
 }
 
-void Entity::setName(const std::string& name)
-{
-	m_name = name;
-}
-
-void Entity::update(const double deltaTime)
+void Entity::Update(const double deltaTime)
 {
 	for (const auto& component : m_components)
 	{
-		component->update(deltaTime);
+		component->Update(deltaTime);
 	}
 }

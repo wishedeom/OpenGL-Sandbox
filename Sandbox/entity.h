@@ -7,79 +7,85 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <map>
+#include <stdexcept>
 
 #include "component.h"
 
 class Entity
 {
-	using ID = unsigned;
-	using ComponentCollection = std::vector<std::unique_ptr<component::Component>>;
+	using IDType = size_t;
+	using ComponentPtr = std::unique_ptr<Component>;
+	using Components = std::vector<ComponentPtr>;
 
-	static ID _nextID;
-	static std::map<ID, Entity*> _entityRegistry;
+	static IDType s_nextID;
+	static std::map<IDType, Entity*> s_entityRegistry;
 
 public:
-	static std::optional<Entity*> get(ID id);
+	static Entity* Get(IDType id);
 
-	Entity(const std::string& name = "");
+	template <typename ComponentType, typename EntityType>
+	static ComponentType* GetComponent(EntityType& entity);
+
+	Entity(const std::string_view& name = "");
 	~Entity();
 
-	Entity(const Entity& entity);
-	Entity(Entity&&) = delete;
+	Entity(const Entity& entity) = delete;
+	Entity(Entity&&) = default;
 
 	Entity& operator=(const Entity&) = delete;
 	Entity& operator=(Entity&&) = delete;
 
-	ID id() const;
+	IDType ID() const;
 
-	const std::string& name() const;
-	std::string name();
-
-	void setName(const std::string& name);
+	const std::string& Name() const;
+	std::string Name();
 
 	template <typename ComponentType, typename... Args>
-	bool AddComponent(Args&&... args);
+	ComponentType& AddComponent(Args&&... args);
 
-	template <typename C>
-	C* GetComponent() const;
+	template <typename ComponentType>
+	const ComponentType* GetComponent() const;
 
-	template <typename C>
-	C& get() const;
+	template <typename ComponentType>
+	ComponentType* GetComponent();
 
-	template <typename C>
-	bool removeComponent();
+	template <typename ComponentType>
+	void RemoveComponent();
 
-	void update(double deltaTime);
+	void Update(double deltaTime);
 
 private:
-	template <typename C>
-	ComponentCollection::iterator findComponent();
+	template <typename ComponentType>
+	Components::iterator FindComponent();
 
-	const ID m_id;
+	const IDType m_id;
 	std::string m_name;
-	ComponentCollection m_components;
+	Components m_components;
 };
 
 template <typename ComponentType, typename... Args>
-inline bool Entity::AddComponent(Args&&... args)
+inline ComponentType& Entity::AddComponent(Args&&... args)
 {
-	const auto component = GetComponent<ComponentType>();
-	if (component != nullptr)
+	const auto it = FindComponent<ComponentType>();
+	if (it != m_components.end())
 	{
-		return false;
+		throw std::runtime_exception("Component already exists.");
 	}
 
 	m_components.push_back(std::make_unique<ComponentType>(*this, std::forward<Args>(args)...));
-	return true;
+	return *m_components.back();
 }
 
-template <typename C>
-inline C* Entity::GetComponent() const
+template <typename ComponentType, typename EntityType>
+inline ComponentType* Entity::GetComponent(EntityType& entity)
 {
-	for (const auto& component : m_components)
+	static_assert(std::is_base_of_v<Component, ComponentType>);
+
+	for (const auto& component : entity.m_components)
 	{
-		const auto ptr = dynamic_cast<C*>(component.get());
+		const auto ptr = dynamic_cast<ComponentType*>(component.get());
 		if (ptr != nullptr)
 		{
 			return ptr;
@@ -88,29 +94,45 @@ inline C* Entity::GetComponent() const
 	return nullptr;
 }
 
-template<typename C>
-inline C& Entity::get() const
+template <typename ComponentType>
+inline const ComponentType* Entity::GetComponent() const
 {
-	return *GetComponent<C>();
+	//for (const auto& component : m_components)
+	//{
+	//	auto* const ptr = dynamic_cast<ComponentType*>(component.get());
+	//	if (ptr != nullptr)
+	//	{
+	//		return ptr;
+	//	}
+	//}
+	//return nullptr;
+
+	return GetComponent<const ComponentType>(*this);
 }
 
-template<typename C>
-inline bool Entity::removeComponent()
+template<typename ComponentType>
+inline ComponentType* Entity::GetComponent()
 {
-	const auto& it = findComponent<C>();
+	return GetComponent<ComponentType>(*this);
+}
+
+template <typename ComponentType>
+inline void Entity::RemoveComponent()
+{
+	const auto& it = FindComponent<ComponentType>();
 	if (it == m_components.end())
 	{
-		return false;
+		return;
 	}
+
 	m_components.erase(it);
-	return true;
 }
 
-template<typename C>
-inline std::vector<std::unique_ptr<component::Component>>::iterator Entity::findComponent()
+template <typename ComponentType>
+inline Entity::Components::iterator Entity::FindComponent()
 {
 	return std::find_if(m_components.begin(), m_components.end(), [](const auto& component)
 	{
-		return dynamic_cast<C*>(component.get()) != nullptr;
+		return dynamic_cast<ComponentType*>(component.get()) != nullptr;
 	});
 }

@@ -8,7 +8,7 @@ component::Physics::Physics(Entity& entity)
 
 component::Physics::~Physics() = default;
 
-void component::Physics::update(const double deltaTime)
+void component::Physics::Update(const double deltaTime)
 {
 	static constexpr float g = -9.8f;
 	using namespace component;
