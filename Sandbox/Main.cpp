@@ -31,9 +31,7 @@
 #include "VertexShader.h"
 #include "Window.h"
 #include "utils.h"
-#include "transform.h"
 #include "Mesh.h"
-#include "physics.h"
 #include "src/opengl/error.h"
 #include "src/opengl/functions.h"
 #include "src/colour.h"
@@ -62,9 +60,6 @@ int main() try
 
 	Enable(OpenGL::Capability::DepthTest);
 	Enable(OpenGL::Capability::CullFace);
-
-	const Entity e;
-	e.GetComponent<Component>();
 
 	GLdouble lastFrame = 0.0f;
 	while (!window.ShouldClose())

@@ -7,17 +7,18 @@ const glm::vec3 Camera::worldUp = { 0.0f, 1.0f, 0.0f };
 
 Camera::Camera(const Window& window, const glm::vec3& position, const glm::vec3& direction)
 	: _window(&window)
-	, _transform(position, direction)
+	, m_position(position)
+	, m_direction(direction)
 {}
 
 glm::vec3 Camera::position() const
 {
-	return _transform.position();
+	return m_position;
 }
 
 glm::vec3 Camera::direction() const
 {
-	return _transform.direction();
+	return m_direction;
 }
 
 glm::vec3 Camera::forward() const
@@ -38,17 +39,17 @@ glm::vec3 Camera::up() const
 
 void Camera::translate(const glm::vec3& v)
 {
-	_transform.setPosition(_transform.position() + v);
+	m_position += v;
 }
 
 void Camera::rotateRight(const float angleRad)
 {
-	_transform.setDirection(glm::rotate(direction(), -angleRad, worldUp));
+	m_direction = glm::rotate(direction(), -angleRad, worldUp);
 }
 
 void Camera::rotateUp(const float angleRad)
 {
-	_transform.setDirection(glm::rotate(direction(), -angleRad, right()));
+	m_direction = glm::rotate(direction(), -angleRad, right());
 }
 
 GLfloat Camera::fov() const

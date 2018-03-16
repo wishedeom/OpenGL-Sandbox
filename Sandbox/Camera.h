@@ -11,7 +11,6 @@
 #pragma warning (pop)
 
 #include "entity.h"
-#include "transform.h"
 
 class ShaderProgram;
 class Window;
@@ -40,6 +39,7 @@ public:
 
 private:
 	const Window* _window;
-	component::Transform _transform;
+	glm::vec3 m_position;
+	glm::vec3 m_direction;
 	GLfloat _fov = 45.0f;
 };

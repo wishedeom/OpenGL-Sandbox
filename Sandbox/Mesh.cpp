@@ -10,8 +10,6 @@
 template <typename T>
 constexpr T pi = T(M_PI);
 
-using namespace component;
-
 Mesh::Mesh(Vertices vertices, Indices indices)
 	: _vertices(std::move(vertices))
 	, _indices(std::move(indices))

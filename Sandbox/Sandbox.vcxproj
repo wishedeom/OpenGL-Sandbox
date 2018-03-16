@@ -152,27 +152,22 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="collision.cpp" />
-    <ClCompile Include="collisionvolume.cpp" />
-    <ClCompile Include="component.cpp" />
     <ClCompile Include="Context.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="FragmentShader.cpp" />
     <ClCompile Include="inputhandler.cpp" />
     <ClCompile Include="inputscheme.cpp" />
-    <ClCompile Include="physics.cpp" />
     <ClCompile Include="playercontroller.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
-    <ClCompile Include="spherecollider.cpp" />
     <ClCompile Include="src\colour.cpp" />
     <ClCompile Include="src\opengl\error.cpp" />
     <ClCompile Include="src\opengl\functions.cpp" />
     <ClCompile Include="src\opengl\types.cpp" />
     <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="transform.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="VAOBinding.cpp" />
     <ClCompile Include="VertexShader.cpp" />
@@ -181,8 +176,6 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="collision.h" />
-    <ClInclude Include="collisionvolume.h" />
-    <ClInclude Include="component.h" />
     <ClInclude Include="Context.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="entity.h" />
@@ -191,7 +184,6 @@
     <ClInclude Include="inputaction.h" />
     <ClInclude Include="inputhandler.h" />
     <ClInclude Include="inputscheme.h" />
-    <ClInclude Include="physics.h" />
     <ClInclude Include="playercontroller.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Material.h" />
@@ -199,7 +191,6 @@
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
-    <ClInclude Include="spherecollider.h" />
     <ClInclude Include="src\clamped.h" />
     <ClInclude Include="src\colour.h" />
     <ClInclude Include="src\opengl\error.h" />
@@ -207,7 +198,6 @@
     <ClInclude Include="src\opengl\types.h" />
     <ClInclude Include="src\opengl\util.h" />
     <ClInclude Include="Texture.h" />
-    <ClInclude Include="transform.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="VAOBinding.h" />
     <ClInclude Include="Vertex.h" />
