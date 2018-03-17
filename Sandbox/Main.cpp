@@ -40,7 +40,7 @@
 
 int main() try
 {
-	const auto window = Context::Get().MakeWindow(300, 300, "OpenGL Sandbox", false);
+	const auto window = Context::Get().MakeWindow(900, 900, "OpenGL Sandbox", false);
 	Camera camera(window, { 0.0f, 0.0f, 10.0f }, { 0.0f, 0.0f, -1.0f });
 	PlayerController controller(window, camera);
 	InputScheme scheme;

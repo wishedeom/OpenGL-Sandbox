@@ -7,10 +7,11 @@
 struct Vertex final
 {
 	glm::vec3 position;
+	glm::vec3 normal;
 	glm::vec3 colour;
-	//glm::vec3 normal;
 	//glm::vec2 texture;
 
+	Vertex() = default;
 	Vertex(const glm::vec3& position)
 		: position(position)
 		, colour()
