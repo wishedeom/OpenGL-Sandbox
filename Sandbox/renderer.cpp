@@ -34,6 +34,8 @@ void Renderer::Draw(const Entity& entity)
 	glUniformMatrix4fv(m_program.GetUniformLocation("model"), 1, GL_FALSE, glm::value_ptr(entity.transform));
 	CHECK_ERRORS;
 
+	m_program.SetUniformVec3("viewPosition", m_camera.position());
+
 	// Draw mesh
 	VAOBinding vaoBinding(entity.mesh._vao);
 	CHECK_ERRORS;

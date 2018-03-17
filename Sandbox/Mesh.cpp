@@ -145,6 +145,12 @@ Mesh MakeQuad(const glm::vec3& pivot, const glm::vec3& hCorner, const glm::vec3&
 {
 	const glm::vec3 lastCorner = vCorner + hCorner - pivot;
 	Mesh::Vertices vertices = { pivot, hCorner, vCorner, lastCorner };
+	const auto normal = -glm::normalize(glm::cross(hCorner - pivot, vCorner - pivot));
+	for (auto& vertex : vertices)
+	{
+		vertex.normal = normal;
+	}
+
 	Mesh::Indices indices = { 0, 2, 1, 1, 2, 3 };
 	return { std::move(vertices), std::move(indices) };
 }

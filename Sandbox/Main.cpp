@@ -75,8 +75,8 @@ int main() try
 	renderer.SetAmbientLightColour({ 1.0f, 0.0f, 0.0f, 1.0f });
 	renderer.SetAmbientLightStrength(0.1f);
 
-	renderer.SetLightColour({ 0.0f, 1.0f, 0.0f, 1.0f });
-	renderer.SetLightPosition({ 0.0f, 3.0f, 0.0f });
+	renderer.SetLightColour({ 0.0f, 0.5f, 0.0f, 1.0f });
+	renderer.SetLightPosition({ 1.0f, 4.0f, 0.0f });
 	
 	glm::vec3 velocity = { 0.0f, 10.0f, 0.0f };
 	constexpr float gravity = -9.8f;
