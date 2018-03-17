@@ -82,6 +82,9 @@
     <ClCompile Include="src\opengl\types.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="renderer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -159,6 +162,8 @@
     <ClInclude Include="src\opengl\error.h" />
     <ClInclude Include="src\colour.h" />
     <ClInclude Include="src\clamped.h" />
+    <ClInclude Include="renderer.h" />
+    <ClInclude Include="sphere.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="vertexShader.vs">

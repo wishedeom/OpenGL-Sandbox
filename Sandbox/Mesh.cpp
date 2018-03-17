@@ -4,12 +4,6 @@
 #include "VAOBinding.h"
 #include "src/opengl/error.h"
 
-#define _USE_MATH_DEFINES
-#include <math.h>
-
-template <typename T>
-constexpr T pi = T(M_PI);
-
 Mesh::Mesh(Vertices vertices, Indices indices)
 	: _vertices(std::move(vertices))
 	, _indices(std::move(indices))
@@ -17,45 +11,14 @@ Mesh::Mesh(Vertices vertices, Indices indices)
 	init();
 }
 
-void Mesh::draw(const ShaderProgram& shader, const Camera& camera, const glm::mat4& transform)
+const Mesh::Vertices& Mesh::GetVertices() const
 {
-	// TEMP
-	//setVertices(_data.vertices);
-	//setIndices(_data.indices);
-
-	static_cast<const Mesh&>(*this).draw(shader, camera, transform);
+	return _vertices;
 }
 
-void Mesh::draw(const ShaderProgram& shader, const Camera& camera, const glm::mat4& transform /*= glm::mat4()*/) const
+const Mesh::Indices& Mesh::GetIndices() const
 {
-	// Use shader program
-	shader.Use();
-
-	// Bind camera to shader
-	camera.bind(shader);
-
-	// Bind model-space transform to shader
-	//glUniformMatrix4fv(shader.GetUniformLocation("model"), 1, GL_FALSE, glm::value_ptr(glm::mat4()));
-	glUniformMatrix4fv(shader.GetUniformLocation("model"), 1, GL_FALSE, glm::value_ptr(transform));
-	CHECK_ERRORS;
-
-	// Draw mesh
-	VAOBinding vaoBinding(_vao);
-	CHECK_ERRORS;
-	glDrawElements(GL_TRIANGLES, _indices.size(), GL_UNSIGNED_INT, 0);
-	CHECK_ERRORS;
-}
-
-void Mesh::setVertices(const std::vector<Vertex>& vertices)
-{
-	_vertices = vertices;
-	bindVertexData();
-}
-
-void Mesh::setIndices(const std::vector<GLuint>& indices)
-{
-	_indices = indices;
-	bindIndexData();
+	return _indices;
 }
 
 Mesh Mesh::Scale(const float factor) const
@@ -71,13 +34,22 @@ Mesh Mesh::Scale(const float factor) const
 	return { std::move(vertices), _indices };
 }
 
+void Mesh::SetColour(const glm::vec3& colour)
+{
+	for (auto& vertex : _vertices)
+	{
+		vertex.colour = colour;
+	}
+
+	bindVertexData();
+}
+
 void Mesh::bindVertexData() const
 {
 	glBindVertexArray(_vao);
 
 	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-	//glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(decltype(_vertices)::value_type), nullptr, GL_STATIC_DRAW);
-	glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(decltype(_vertices)::value_type), _vertices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(Vertex), _vertices.data(), GL_STATIC_DRAW);
 
 	glBindVertexArray(0);
 }
@@ -94,18 +66,28 @@ void Mesh::init()
 {
 	// Setup mesh
 	// Generate OpenGL objects
-	glGenVertexArrays(1, &_vao);
-	glGenBuffers(1, &_vbo);
-	glGenBuffers(1, &_ebo);
+	glGenVertexArrays(1, &_vao); CHECK_ERRORS;
+	glGenBuffers(1, &_vbo); CHECK_ERRORS;
+	glGenBuffers(1, &_ebo); CHECK_ERRORS;
 
 	bindVertexData();
 	bindIndexData();
 
 	// Prepare vertex attribute pointers
 	// Positions
-	glBindVertexArray(_vao);
-	glVertexAttribPointer(0, sizeof(Vertex::position) / sizeof(decltype(Vertex::position)::value_type), GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) offsetof(Vertex, position));
-	glEnableVertexAttribArray(0);
+	glBindVertexArray(_vao); CHECK_ERRORS;
+
+	//glVertexAttribPointer(0, sizeof(Vertex::position) / sizeof(decltype(Vertex::position)::value_type), GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) offsetof(Vertex, position)); CHECK_ERRORS;
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 24, 0); CHECK_ERRORS;
+	//glEnableVertexAttribArray(0); CHECK_ERRORS;
+
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 24, (GLvoid*)12); CHECK_ERRORS;
+	//glVertexAttribPointer(1, sizeof(Vertex::colour) / sizeof(decltype(Vertex::colour)::value_type), GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) offsetof(Vertex, colour)); CHECK_ERRORS;
+	//glEnableVertexAttribArray(1); CHECK_ERRORS;
+
+	glEnableVertexAttribArray(0); CHECK_ERRORS;
+	glEnableVertexAttribArray(1); CHECK_ERRORS;
+
 	glBindVertexArray(0);
 }
 
@@ -170,7 +152,7 @@ Mesh MakeQuad(const glm::vec3& pivot, const glm::vec3& hCorner, const glm::vec3&
 Mesh MakeSphere(float radius /*= 1.0f*/, size_t sections /*= 100*/)
 {
 	std::vector<Vertex> vertices;
-	vertices.push_back({ 0.0f, -radius, 0.0f });
+	vertices.push_back({ { 0.0f, -radius, 0.0f } });
 
 	for (int level = 0; level < sections; ++level)
 	{
@@ -183,10 +165,10 @@ Mesh MakeSphere(float radius /*= 1.0f*/, size_t sections /*= 100*/)
 			const auto x = r * std::cos(angle);
 			const auto z = r * std::sin(angle);
 
-			vertices.push_back({ x, y, z });
+			vertices.push_back({ { x, y, z } });
 		}
 	}
-	vertices.push_back({ 0.0f, radius, 0.0f });
+	vertices.push_back({ { 0.0f, radius, 0.0f } });
 
 	std::vector<GLuint> indices;
 	for (int i = 1; i < sections; ++i)

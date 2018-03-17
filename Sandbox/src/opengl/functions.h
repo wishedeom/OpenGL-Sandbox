@@ -2,7 +2,16 @@
 
 #include "types.h"
 
-#include <GL\glew.h>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
+#pragma warning (push, 0)
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/random.hpp>
+#pragma warning (pop)
 
 #include <string>
 #include <string_view>
@@ -30,4 +39,13 @@ namespace OpenGL
 	void Enable(Capability cap);
 	void Disable(Capability cap);
 	void Clear(Buffer buffer);
+
+	template <typename T>
+	auto GetUniformSetter();
+}
+
+template <>
+inline auto OpenGL::GetUniformSetter<glm::mat4>()
+{
+	return glUniformMatrix4fv;
 }

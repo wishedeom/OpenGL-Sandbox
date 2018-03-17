@@ -57,12 +57,12 @@ void ShaderProgram::Use() const
 	OpenGL::UseProgram(m_id);
 }
 
-GLuint ShaderProgram::GetUniformLocation(const std::string& name) const
+GLuint ShaderProgram::GetUniformLocation(const std::string_view& name) const
 {
 	const auto location = OpenGL::GetUniformLocation(m_id, name);
 	if (!location.has_value())
 	{
-		throw std::runtime_error("Uniform " + name + " not found.\n");
+		throw std::runtime_error("Uniform " + std::string(name) + " not found.\n");
 	}
 
 	return location.value();

@@ -35,6 +35,8 @@
 #include "src/opengl/error.h"
 #include "src/opengl/functions.h"
 #include "src/colour.h"
+#include "renderer.h"
+#include "sphere.h"
 
 int main() try
 {
@@ -53,29 +55,77 @@ int main() try
 	//auto m = MakeCube();
 	auto m = MakeSphere().Scale(2.0f);
 	//auto m2 = m.Scale
+	Entity e = { m, {} };
 
-	auto p = MakeQuad({ -5.0f, -1.0f, -5.0f }, { 5.0f, -1.0f, -5.0f }, { -5.0f, -1.0f, 5.0f });
+	auto plane = MakeQuad({ -20.0f, 0.0f, -20.0f }, { 20.0f, 0.0f, -20.0f }, { -20.0f, 0.0f, 20.0f });
+	Entity bottomPlane { plane, glm::translate(glm::vec3 { 0.0f, -5.0f, 0.0f }) };
+	//Entity topPlane { plane, glm::rotate(glm::translate(glm::vec3 { 0.0f, 5.0f, 0.0f }), pi<float>, glm::vec3 { 1.0f, 0.0f, 0.0f }) };
+
+	e.mesh.SetColour({ 0.0f, 0.0f, 0.0f });
+	bottomPlane.mesh.SetColour({ 1.0f, 1.0f, 1.0f });
+
+	const Entity* renderables[] = { &bottomPlane, /*&topPlane,*/ &e, };
 
 	OpenGL::ClearColour(Colour::Grapefruit);
 
 	Enable(OpenGL::Capability::DepthTest);
 	Enable(OpenGL::Capability::CullFace);
+	Renderer renderer(shader, camera);
+	
+	glm::vec3 velocity = { 0.0f, 10.0f, 0.0f };
+	constexpr float gravity = -9.8f;
 
-	GLdouble lastFrame = 0.0f;
+	float lastFrame = 0.0f;
 	while (!window.ShouldClose())
 	{
-		const GLdouble currentFrame = glfwGetTime();
-		const GLdouble deltaTime = currentFrame - lastFrame;
+		const float currentFrame = glfwGetTime();
+		const float deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
 		glfwPollEvents();
 		controller.Update();
 		Clear(OpenGL::Buffer::Color | OpenGL::Buffer::Depth);
 
-		const auto s = 2.0f * static_cast<float>(std::sin(lastFrame));
-		const auto t = glm::translate(glm::mat4(), { 0.0f, s, 0.0f });
+		//const auto s = 2.0f * static_cast<float>(std::sin(lastFrame));
+		//e.transform = glm::translate(glm::mat4(), { 0.0f, s, 0.0f });
+		
+		Plane plane;
+		plane.normal = - glm::normalize(glm::cross(bottomPlane.mesh.GetVertices()[1].position - bottomPlane.mesh.GetVertices()[0].position,
+								  bottomPlane.mesh.GetVertices()[2].position - bottomPlane.mesh.GetVertices()[0].position));
+		plane.point = bottomPlane.mesh.GetVertices()[0].position - glm::vec3(0.0f, 5.0f, 0.0f);
 
-		m.draw(shader, camera, t);
+		Sphere sphere;
+		sphere.radius = 2.0f;
+		sphere.center = glm::vec3(e.transform[3]);
+
+		const auto collisionDistance = Collide(sphere, plane, velocity);
+		const auto displacement = velocity * deltaTime;
+		const auto distanceToTravel = glm::length(displacement);
+
+		if (std::numeric_limits<float>::epsilon() <= distanceToTravel && std::numeric_limits<float>::epsilon() <= collisionDistance && collisionDistance <= distanceToTravel)
+		{
+			velocity = -velocity * 0.5f;
+		}
+		else if (glm::length(velocity) < std::numeric_limits<float>::epsilon() || Intersection(sphere, plane) < std::numeric_limits<float>::infinity())
+		{
+			velocity = glm::zero<glm::vec3>();
+		}
+		else
+		{
+			velocity += gravity * deltaTime * glm::vec3 { 0.0f, 1.0f, 0.0f };
+		}
+
+		e.transform = glm::translate(e.transform, velocity * deltaTime);
+		
+		//const auto collisionDistance = Collide()
+
+		for (const auto& entity : renderables)
+		{
+			renderer.Draw(*entity);
+		}
+
+		//renderer.Draw(e);
+		//m.draw(shader, camera, t);
 		//p.draw(shader, camera/*, t2*/);
 
 		window.SwapBuffers();

@@ -7,14 +7,12 @@
 struct Vertex final
 {
 	glm::vec3 position;
+	glm::vec3 colour;
 	//glm::vec3 normal;
 	//glm::vec2 texture;
 
 	Vertex(const glm::vec3& position)
 		: position(position)
-	{}
-
-	Vertex(const std::initializer_list<float>& coordinates)
-		: position(coordinates.begin()[0], coordinates.begin()[1], coordinates.begin()[2])
+		, colour()
 	{}
 };

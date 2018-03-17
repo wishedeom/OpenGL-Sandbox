@@ -9,6 +9,12 @@
 #include "Vertex.h"
 #include "Material.h"
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
+template <typename T>
+constexpr T pi = T(M_PI);
+
 class Camera;
 class ShaderProgram;
 
@@ -19,22 +25,23 @@ public:
 	using Indices = std::vector<GLuint>;
 
 	Mesh(Vertices vertices, Indices indices);
-	void draw(const ShaderProgram& shader, const Camera& camera, const glm::mat4& transform = glm::mat4());
-	void draw(const ShaderProgram& shader, const Camera& camera, const glm::mat4& transform = glm::mat4()) const;
-	void setVertices(const std::vector<Vertex>& vertices);
-	void setIndices(const std::vector<GLuint>& indices);
+
+	const Vertices& GetVertices() const;
+	const Indices& GetIndices() const;
 
 	Mesh Scale(float factor) const;
+	void SetColour(const glm::vec3& colour);
 
 private:
 	void init();
 	void bindVertexData() const;
 	void bindIndexData() const;
 
-private:
+public:
 	Vertices _vertices;
 	Indices _indices;
 	
+public:
 	GLuint _vao;
 	GLuint _vbo;
 	GLuint _ebo;
