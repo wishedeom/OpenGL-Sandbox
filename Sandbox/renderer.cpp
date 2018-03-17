@@ -3,12 +3,16 @@
 #include "camera.h"
 #include "entity.h"
 #include "src/opengl/error.h"
+#include "src/opengl/uniformsetters.h"
 #include "VAOBinding.h"
 
 Renderer::Renderer(const ShaderProgram& program, const Camera& camera)
 	: m_program(program)
 	, m_camera(camera)
-{}
+	, m_lightColour(Colour::White)
+{
+	BindLightColour();
+}
 
 void Renderer::Draw(const Entity& entity)
 {
@@ -16,7 +20,7 @@ void Renderer::Draw(const Entity& entity)
 	m_program.Use();
 
 	// Bind camera to shader
-	m_program.SetUniform("projection", m_camera.projection());
+	m_program.SetUniformMat4("projection", m_camera.projection());
 
 	glUniformMatrix4fv(m_program.GetUniformLocation("projection"), 1, GL_FALSE, glm::value_ptr(m_camera.projection()));
 	CHECK_ERRORS;
@@ -33,13 +37,23 @@ void Renderer::Draw(const Entity& entity)
 	VAOBinding vaoBinding(entity.mesh._vao);
 	CHECK_ERRORS;
 
-	float f;
-	glGetVertexAttribfv(1, GL_VERTEX_ATTRIB_ARRAY_ENABLED, &f);
-	volatile float g = f;
-
-	float a[] = { 1.0f, 1.0f, 1.0f };
-	glVertexAttrib3fv(1, a);
-
 	glDrawElements(GL_TRIANGLES, entity.mesh._indices.size(), GL_UNSIGNED_INT, 0);
 	CHECK_ERRORS;
+}
+
+void Renderer::SetLightColour(Colour colour)
+{
+	m_lightColour = colour;
+	BindLightColour();
+}
+
+void Renderer::BindLightColour() const
+{
+	const auto loc = m_program.GetUniformLocation("lightColour");
+	const glm::vec3 colour = m_lightColour;
+	m_program.Use();
+
+	OpenGL::SetVec3(loc, m_lightColour);
+	//glUniform3fv(loc, 1, value_ptr(glm::vec3(m_lightColour)));
+	//CHECK_ERRORS;
 }

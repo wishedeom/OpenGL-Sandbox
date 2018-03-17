@@ -2,6 +2,8 @@
 
 #include "opengl/types.h"
 
+#include <glm/glm.hpp>
+
 #include <cstdint>
 
 using uint8 = uint8_t;
@@ -16,6 +18,8 @@ struct Colour final
 	ValueType a;
 
 	Colour(float r, float g, float b, float a);
+
+	operator glm::vec3() const;
 
 	static Colour From8Bit(uint8 r, uint8 g, uint8 b, uint8 a);
 

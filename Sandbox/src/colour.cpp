@@ -4,6 +4,11 @@ Colour::Colour(const float r, const float g, const float b, const float a)
 	: r(r), g(g), b(b), a(a)
 {}
 
+Colour::operator glm::vec3() const
+{
+	return { r, g, b };
+}
+
 Colour Colour::From8Bit(const uint8 r, const uint8 g, const uint8 b, const uint8 a)
 {
 	return { r / 256.0f, g / 256.0f, b / 256.0f, a / 256.0f };

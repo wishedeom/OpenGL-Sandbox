@@ -4,7 +4,9 @@ out vec4 fColour;
 
 in vec4 vColour;
 
+uniform vec3 lightColour;
+
 void main()
 {
-	fColour = vColour;
+	fColour = vColour * lightColour;
 }

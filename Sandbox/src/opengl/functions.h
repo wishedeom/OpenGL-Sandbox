@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "error.h"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -16,6 +17,7 @@
 #include <string>
 #include <string_view>
 #include <optional>
+#include <type_traits>
 
 struct Colour;
 
@@ -40,12 +42,24 @@ namespace OpenGL
 	void Disable(Capability cap);
 	void Clear(Buffer buffer);
 
-	template <typename T>
-	auto GetUniformSetter();
+	template <typename F, typename... Args>
+	inline auto InjectErrorChecking(const F& f, Args&&... args);
 }
 
-template <>
-inline auto OpenGL::GetUniformSetter<glm::mat4>()
+template <typename F, typename... Args>
+inline auto OpenGL::InjectErrorChecking(const F& f, Args&&... args)
 {
-	return glUniformMatrix4fv;
+	using ReturnType = decltype(f(std::forward<Args>(args)...));
+
+	if constexpr (std::is_same_v<ReturnType, void>)
+	{
+		f(std::forward<Args>(args)...);
+		CHECK_ERRORS;
+	}
+	else
+	{
+		const auto ret = f(std::forward<Args>(args)...);
+		CHECK_ERRORS;
+		return ret;
+	}
 }

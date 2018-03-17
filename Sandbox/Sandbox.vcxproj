@@ -168,6 +168,7 @@
     <ClCompile Include="src\opengl\error.cpp" />
     <ClCompile Include="src\opengl\functions.cpp" />
     <ClCompile Include="src\opengl\types.cpp" />
+    <ClCompile Include="src\opengl\uniformsetters.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="VAOBinding.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="src\opengl\error.h" />
     <ClInclude Include="src\opengl\functions.h" />
     <ClInclude Include="src\opengl\types.h" />
+    <ClInclude Include="src\opengl\uniformsetters.h" />
     <ClInclude Include="src\opengl\util.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="utils.h" />

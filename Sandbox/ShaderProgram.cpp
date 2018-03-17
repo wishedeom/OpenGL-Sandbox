@@ -83,6 +83,17 @@ ShaderProgram::operator GLuint() const
 	return GetIndex();
 }
 
+void ShaderProgram::SetUniformMat4(const std::string_view& name, const glm::mat4& matrix) const
+{
+	const auto location = GetUniformLocation(name);
+	if (location == -1)
+	{
+		return;
+	}
+
+	OpenGL::SetMat4(location, matrix);
+}
+
 std::string ShaderProgram::GetInfoLog() const
 {
 	return OpenGL::GetProgramInfoLog(m_id);

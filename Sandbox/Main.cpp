@@ -61,8 +61,8 @@ int main() try
 	Entity bottomPlane { plane, glm::translate(glm::vec3 { 0.0f, -5.0f, 0.0f }) };
 	//Entity topPlane { plane, glm::rotate(glm::translate(glm::vec3 { 0.0f, 5.0f, 0.0f }), pi<float>, glm::vec3 { 1.0f, 0.0f, 0.0f }) };
 
-	e.mesh.SetColour({ 0.0f, 0.0f, 0.0f });
-	bottomPlane.mesh.SetColour({ 1.0f, 1.0f, 1.0f });
+	e.mesh.SetColour(Colour::Black);
+	bottomPlane.mesh.SetColour(Colour::White);
 
 	const Entity* renderables[] = { &bottomPlane, /*&topPlane,*/ &e, };
 

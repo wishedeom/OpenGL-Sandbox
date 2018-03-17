@@ -9,6 +9,7 @@
 
 #include "src/opengl/types.h"
 #include "src/opengl/functions.h"
+#include "src/opengl/uniformsetters.h"
 
 class Shader;
 
@@ -36,23 +37,10 @@ public:
 	
 	operator GLuint() const;
 
-	template <typename T>
-	void SetUniform(const std::string_view& name, const T& value) const;
+	void SetUniformMat4(const std::string_view& name, const glm::mat4& matrix) const;
 
 private:
 	std::string GetInfoLog() const;
 
 	GLuint m_id;
 };
-
-template <typename T>
-inline void ShaderProgram::SetUniform(const std::string_view& name, const T& value) const
-{
-	const auto location = GetUniformLocation(name);
-	if (location == -1)
-	{
-		return;
-	}
-
-	OpenGL::GetUniformSetter<T>()(location, 1, GL_FALSE, glm::value_ptr(value));
-}

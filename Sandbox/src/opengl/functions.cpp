@@ -9,23 +9,23 @@
 #include <iostream>
 #include <type_traits>
 
-template <typename F, typename... Args>
-inline auto InjectErrorChecking(const F& f, Args&&... args)
-{
-	using ReturnType = decltype(f(std::forward<Args>(args)...));
-
-	if constexpr (std::is_same_v<ReturnType, void>)
-	{
-		f(std::forward<Args>(args)...);
-		CHECK_ERRORS;
-	}
-	else
-	{
-		const auto ret = f(std::forward<Args>(args)...);
-		CHECK_ERRORS;
-		return ret;
-	}
-}
+//template <typename F, typename... Args>
+//inline auto InjectErrorChecking(const F& f, Args&&... args)
+//{
+//	using ReturnType = decltype(f(std::forward<Args>(args)...));
+//
+//	if constexpr (std::is_same_v<ReturnType, void>)
+//	{
+//		f(std::forward<Args>(args)...);
+//		CHECK_ERRORS;
+//	}
+//	else
+//	{
+//		const auto ret = f(std::forward<Args>(args)...);
+//		CHECK_ERRORS;
+//		return ret;
+//	}
+//}
 
 GLuint OpenGL::CreateProgram()
 {

@@ -85,6 +85,9 @@
     <ClCompile Include="renderer.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\opengl\uniformsetters.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -164,6 +167,7 @@
     <ClInclude Include="src\clamped.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="sphere.h" />
+    <ClInclude Include="src\opengl\uniformsetters.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="vertexShader.vs">
