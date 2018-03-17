@@ -1,6 +1,11 @@
 #include "uniformsetters.h"
 #include "functions.h"
 
+void OpenGL::SetFloat(const GLint location, const float value)
+{
+	InjectErrorChecking(glUniform1f, location, value);
+}
+
 void OpenGL::SetVec3(const GLint location, const glm::vec3& vector)
 {
 	InjectErrorChecking(glUniform3fv, location, 1, value_ptr(vector));

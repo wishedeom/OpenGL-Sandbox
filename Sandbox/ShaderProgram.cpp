@@ -83,14 +83,24 @@ ShaderProgram::operator GLuint() const
 	return GetIndex();
 }
 
+void ShaderProgram::SetUniformFloat(const std::string_view& name, float value) const
+{
+	const auto location = GetUniformLocation(name);
+	Use();
+	OpenGL::SetFloat(location, value);
+}
+
+void ShaderProgram::SetUniformVec3(const std::string_view& name, const glm::vec3& vector) const
+{
+	const auto location = GetUniformLocation(name);
+	Use();
+	OpenGL::SetVec3(location, vector);
+}
+
 void ShaderProgram::SetUniformMat4(const std::string_view& name, const glm::mat4& matrix) const
 {
 	const auto location = GetUniformLocation(name);
-	if (location == -1)
-	{
-		return;
-	}
-
+	Use();
 	OpenGL::SetMat4(location, matrix);
 }
 

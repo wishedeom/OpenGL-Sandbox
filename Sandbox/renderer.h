@@ -13,13 +13,16 @@ public:
 	Renderer(const ShaderProgram& program, const Camera& camera);
 	void Draw(const Entity& entity);
 
-	void SetLightColour(Colour colour);
+	void SetAmbientLightColour(Colour colour);
+	void SetAmbientLightStrength(float strength);
 
 private:
-	void BindLightColour() const;
+	Colour BindAmbientLightColour(Colour colour) const;
+	float BindAmbientLightStrength(float strength) const;
 
 	const ShaderProgram& m_program;
 	const Camera& m_camera;
 
-	Colour m_lightColour;
+	Colour m_ambientLightColour;
+	float m_ambientLightStrength;
 };

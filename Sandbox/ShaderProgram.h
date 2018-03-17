@@ -37,6 +37,8 @@ public:
 	
 	operator GLuint() const;
 
+	void SetUniformFloat(const std::string_view& name, float value) const;
+	void SetUniformVec3(const std::string_view& name, const glm::vec3& vector) const;
 	void SetUniformMat4(const std::string_view& name, const glm::mat4& matrix) const;
 
 private:

@@ -61,16 +61,19 @@ int main() try
 	Entity bottomPlane { plane, glm::translate(glm::vec3 { 0.0f, -5.0f, 0.0f }) };
 	//Entity topPlane { plane, glm::rotate(glm::translate(glm::vec3 { 0.0f, 5.0f, 0.0f }), pi<float>, glm::vec3 { 1.0f, 0.0f, 0.0f }) };
 
-	e.mesh.SetColour(Colour::Black);
+	e.mesh.SetColour(Colour::Grapefruit);
 	bottomPlane.mesh.SetColour(Colour::White);
 
 	const Entity* renderables[] = { &bottomPlane, /*&topPlane,*/ &e, };
 
-	OpenGL::ClearColour(Colour::Grapefruit);
+	OpenGL::ClearColour(Colour::Black);
 
 	Enable(OpenGL::Capability::DepthTest);
 	Enable(OpenGL::Capability::CullFace);
+	
 	Renderer renderer(shader, camera);
+	renderer.SetAmbientLightColour({ 1.0f, 0.5f, 0.5f, 1.0f });
+	renderer.SetAmbientLightStrength(0.7f);
 	
 	glm::vec3 velocity = { 0.0f, 10.0f, 0.0f };
 	constexpr float gravity = -9.8f;

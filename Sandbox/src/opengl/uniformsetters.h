@@ -13,6 +13,7 @@
 
 namespace OpenGL
 {
+	void SetFloat(GLint location, float value);
 	void SetVec3(GLint location, const glm::vec3& vector);
 	void SetMat4(GLint location, const glm::mat4& matrix);
 }

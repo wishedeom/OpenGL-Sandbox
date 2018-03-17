@@ -9,10 +9,9 @@
 Renderer::Renderer(const ShaderProgram& program, const Camera& camera)
 	: m_program(program)
 	, m_camera(camera)
-	, m_lightColour(Colour::White)
-{
-	BindLightColour();
-}
+	, m_ambientLightColour(BindAmbientLightColour(Colour::White))
+	, m_ambientLightStrength(BindAmbientLightStrength(1.0f))
+{}
 
 void Renderer::Draw(const Entity& entity)
 {
@@ -41,19 +40,24 @@ void Renderer::Draw(const Entity& entity)
 	CHECK_ERRORS;
 }
 
-void Renderer::SetLightColour(Colour colour)
+void Renderer::SetAmbientLightColour(const Colour colour)
 {
-	m_lightColour = colour;
-	BindLightColour();
+	m_ambientLightColour = BindAmbientLightColour(colour);
 }
 
-void Renderer::BindLightColour() const
+void Renderer::SetAmbientLightStrength(const float strength)
 {
-	const auto loc = m_program.GetUniformLocation("lightColour");
-	const glm::vec3 colour = m_lightColour;
-	m_program.Use();
+	m_ambientLightStrength = BindAmbientLightStrength(strength);
+}
 
-	OpenGL::SetVec3(loc, m_lightColour);
-	//glUniform3fv(loc, 1, value_ptr(glm::vec3(m_lightColour)));
-	//CHECK_ERRORS;
+Colour Renderer::BindAmbientLightColour(const Colour colour) const
+{
+	m_program.SetUniformVec3("ambientLightColour", colour);
+	return colour;
+}
+
+float Renderer::BindAmbientLightStrength(const float strength) const
+{
+	m_program.SetUniformFloat("ambientLightStrength", strength);
+	return strength;
 }
