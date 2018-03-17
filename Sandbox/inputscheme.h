@@ -16,8 +16,10 @@ public:
 	GameAction operator[](InputAction inputAction);
 
 private:
-	static std::map<InputAction, GameAction> defaultMapping();
+	using Mapping = std::map<InputAction, GameAction>;
+	
+	static Mapping DefaultMapping();
 
-	std::map<InputAction, GameAction> _mapping;
+	Mapping m_mapping;
 };
 

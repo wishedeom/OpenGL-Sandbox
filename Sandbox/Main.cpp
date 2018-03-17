@@ -52,20 +52,15 @@ int main() try
 						.AttachShader(FragmentShader(util::ReadFile("simpleFragmentShader.fs")))
 						.Link();
 
-	//auto m = MakeQuad();
-	//auto m = MakeCube();
-	auto m = MakeSphere().Scale(2.0f);
-	//auto m2 = m.Scale
-	Entity e = { m, {} };
+	Entity e = { MakeSphere(), glm::scale(glm::mat4(), glm::vec3(2.0f, 2.0f, 2.0f)) };
 
 	auto plane = MakeQuad({ -20.0f, 0.0f, -20.0f }, { 20.0f, 0.0f, -20.0f }, { -20.0f, 0.0f, 20.0f });
 	Entity bottomPlane { plane, glm::translate(glm::vec3 { 0.0f, -5.0f, 0.0f }) };
-	//Entity topPlane { plane, glm::rotate(glm::translate(glm::vec3 { 0.0f, 5.0f, 0.0f }), pi<float>, glm::vec3 { 1.0f, 0.0f, 0.0f }) };
 
 	e.mesh.SetColour(Colour::White);
 	bottomPlane.mesh.SetColour(Colour::White);
 
-	const Entity* renderables[] = { &bottomPlane, /*&topPlane,*/ &e, };
+	const Entity* renderables[] = { &bottomPlane, &e, };
 
 	OpenGL::ClearColour(Colour::Black);
 
@@ -82,12 +77,9 @@ int main() try
 	glm::vec3 velocity = { 0.0f, 10.0f, 0.0f };
 	constexpr float gravity = -9.8f;
 
-	inputHandler.Callbacks() += [&velocity](InputAction action)
+	inputHandler.Callbacks(InputAction::SpacePress) += [&velocity]()
 	{
-		if (action == InputAction::SpacePress)
-		{
-			velocity += glm::vec3 { 0.0f, 5.0f, 0.0f};
-		}
+		velocity += glm::vec3 { 0.0f, 5.0f, 0.0f };
 	};
 
 	float lastFrame = 0.0f;
@@ -121,7 +113,7 @@ int main() try
 		{
 			velocity = -velocity * 0.5f;
 		}
-		else if (glm::length(velocity) < std::numeric_limits<float>::epsilon() || Intersection(sphere, plane) < std::numeric_limits<float>::infinity())
+		else if (glm::length(velocity) < std::numeric_limits<float>::epsilon() || (0.0f < glm::length(velocity) && Intersection(sphere, plane) < std::numeric_limits<float>::infinity()))
 		{
 			velocity = glm::zero<glm::vec3>();
 		}

@@ -28,7 +28,7 @@ public:
 
 	Camera& GetCamera();
 	void Update();
-	void signal(const GameAction action);
+	void Signal(const GameAction action);
 	void setMousePosition(double x, double y);
 
 private:

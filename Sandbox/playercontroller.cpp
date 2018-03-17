@@ -46,7 +46,7 @@ void PlayerController::Update()
 	_camera->rotateUp(glm::sign(diff.y) * glm::radians(_sensitivity));
 }
 
-void PlayerController::signal(const GameAction action)
+void PlayerController::Signal(const GameAction action)
 {
 	switch (action)
 	{

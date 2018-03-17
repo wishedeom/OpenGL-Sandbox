@@ -1,6 +1,6 @@
 #include "inputscheme.h"
 
-std::map<InputAction, GameAction> InputScheme::defaultMapping()
+std::map<InputAction, GameAction> InputScheme::DefaultMapping()
 {
 	return
 	{
@@ -19,16 +19,16 @@ std::map<InputAction, GameAction> InputScheme::defaultMapping()
 }
 
 InputScheme::InputScheme()
-	: _mapping { defaultMapping() }
+	: m_mapping { DefaultMapping() }
 {}
 
 InputScheme::InputScheme(const std::map<InputAction, GameAction>& mapping)
-	: _mapping { mapping }
+	: m_mapping { mapping }
 {}
 
 void InputScheme::bind(const InputAction inputAction, const GameAction gameAction)
 {
-	_mapping[inputAction] = gameAction;
+	m_mapping[inputAction] = gameAction;
 }
 
 void InputScheme::operator+=(const std::pair<InputAction, GameAction>& pair)
@@ -38,8 +38,8 @@ void InputScheme::operator+=(const std::pair<InputAction, GameAction>& pair)
 
 GameAction InputScheme::operator[](InputAction inputAction)
 {
-	const auto it = _mapping.find(inputAction);
-	if (it == _mapping.end())
+	const auto it = m_mapping.find(inputAction);
+	if (it == m_mapping.end())
 	{
 		return GameAction::None;
 	}
