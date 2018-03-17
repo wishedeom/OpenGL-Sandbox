@@ -61,7 +61,7 @@ int main() try
 	Entity bottomPlane { plane, glm::translate(glm::vec3 { 0.0f, -5.0f, 0.0f }) };
 	//Entity topPlane { plane, glm::rotate(glm::translate(glm::vec3 { 0.0f, 5.0f, 0.0f }), pi<float>, glm::vec3 { 1.0f, 0.0f, 0.0f }) };
 
-	e.mesh.SetColour(Colour::Grapefruit);
+	e.mesh.SetColour(Colour::White);
 	bottomPlane.mesh.SetColour(Colour::White);
 
 	const Entity* renderables[] = { &bottomPlane, /*&topPlane,*/ &e, };
@@ -72,8 +72,11 @@ int main() try
 	Enable(OpenGL::Capability::CullFace);
 	
 	Renderer renderer(shader, camera);
-	renderer.SetAmbientLightColour({ 1.0f, 0.5f, 0.5f, 1.0f });
-	renderer.SetAmbientLightStrength(0.7f);
+	renderer.SetAmbientLightColour({ 1.0f, 0.0f, 0.0f, 1.0f });
+	renderer.SetAmbientLightStrength(0.1f);
+
+	renderer.SetLightColour({ 0.0f, 1.0f, 0.0f, 1.0f });
+	renderer.SetLightPosition({ 0.0f, 3.0f, 0.0f });
 	
 	glm::vec3 velocity = { 0.0f, 10.0f, 0.0f };
 	constexpr float gravity = -9.8f;

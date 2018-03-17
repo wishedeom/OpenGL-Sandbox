@@ -11,6 +11,8 @@ Renderer::Renderer(const ShaderProgram& program, const Camera& camera)
 	, m_camera(camera)
 	, m_ambientLightColour(BindAmbientLightColour(Colour::White))
 	, m_ambientLightStrength(BindAmbientLightStrength(1.0f))
+	, m_lightColour(BindLightColour(Colour::White))
+	, m_lightPosition(BindLightPosition({ 0.0f, 0.0f, 0.0f }))
 {}
 
 void Renderer::Draw(const Entity& entity)
@@ -50,6 +52,16 @@ void Renderer::SetAmbientLightStrength(const float strength)
 	m_ambientLightStrength = BindAmbientLightStrength(strength);
 }
 
+void Renderer::SetLightColour(const Colour& colour)
+{
+	m_lightColour = BindLightColour(colour);
+}
+
+void Renderer::SetLightPosition(const glm::vec3& position)
+{
+	m_lightPosition = BindLightPosition(position);
+}
+
 Colour Renderer::BindAmbientLightColour(const Colour colour) const
 {
 	m_program.SetUniformVec3("ambientLightColour", colour);
@@ -60,4 +72,16 @@ float Renderer::BindAmbientLightStrength(const float strength) const
 {
 	m_program.SetUniformFloat("ambientLightStrength", strength);
 	return strength;
+}
+
+Colour Renderer::BindLightColour(const Colour& colour) const
+{
+	m_program.SetUniformVec3("lightColour", colour);
+	return colour;
+}
+
+glm::vec3 Renderer::BindLightPosition(const glm::vec3& position) const
+{
+	m_program.SetUniformVec3("lightPosition", position);
+	return position;
 }

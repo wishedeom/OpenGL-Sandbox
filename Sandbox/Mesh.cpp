@@ -28,7 +28,9 @@ Mesh Mesh::Scale(const float factor) const
 
 	for (auto& vertex : _vertices)
 	{
-		vertices.push_back({ factor * vertex.position });
+		Vertex v = vertex;
+		v.position *= factor;
+		vertices.push_back(v);
 	}
 
 	return { std::move(vertices), _indices };
@@ -78,10 +80,6 @@ void Mesh::init()
 	glBindVertexArray(_vao); CHECK_ERRORS;
 
 	glVertexAttribPointer(0, sizeof(Vertex::position) / sizeof(decltype(Vertex::position)::value_type), GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) offsetof(Vertex, position)); CHECK_ERRORS;
-	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 24, 0); CHECK_ERRORS;
-	//glEnableVertexAttribArray(0); CHECK_ERRORS;
-
-	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 24, (GLvoid*)12); CHECK_ERRORS;
 	glVertexAttribPointer(1, sizeof(Vertex::normal) / sizeof(decltype(Vertex::normal)::value_type), GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) offsetof(Vertex, normal)); CHECK_ERRORS;
 	glVertexAttribPointer(2, sizeof(Vertex::colour) / sizeof(decltype(Vertex::colour)::value_type), GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*) offsetof(Vertex, colour)); CHECK_ERRORS;
 	//glEnableVertexAttribArray(1); CHECK_ERRORS;
@@ -153,6 +151,7 @@ Mesh MakeQuad(const glm::vec3& pivot, const glm::vec3& hCorner, const glm::vec3&
 
 Mesh MakeSphere(float radius /*= 1.0f*/, size_t sections /*= 100*/)
 {
+	// Positions
 	std::vector<Vertex> vertices;
 	vertices.push_back({ { 0.0f, -radius, 0.0f } });
 
@@ -169,13 +168,18 @@ Mesh MakeSphere(float radius /*= 1.0f*/, size_t sections /*= 100*/)
 
 			Vertex vertex;
 			vertex.position = { x, y, z };
-			vertex.normal = glm::normalize(vertex.position);
 			
 			vertices.push_back(vertex);
 		}
 	}
 	vertices.push_back({ { 0.0f, radius, 0.0f } });
 
+	// Normals
+	for (auto& vertex : vertices)
+	{
+		vertex.normal = glm::normalize(vertex.position);
+	}
+	
 	std::vector<GLuint> indices;
 	for (int i = 1; i < sections; ++i)
 	{
