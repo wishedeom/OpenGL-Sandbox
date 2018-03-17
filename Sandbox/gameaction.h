@@ -2,6 +2,7 @@
 
 enum class GameAction
 {
+	None,
 	MoveAxialForward,
 	MoveAxialBackward,
 	MoveAxialNone,

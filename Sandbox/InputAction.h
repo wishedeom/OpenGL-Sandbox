@@ -1,7 +1,11 @@
 #pragma once
 
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 enum class InputAction
 {
+	None,
 	APress,
 	ARelease,
 	DPress,
@@ -11,4 +15,7 @@ enum class InputAction
 	WPress,
 	WRelease,
 	EscPress,
+	SpacePress,
 };
+
+InputAction ToInputAction(GLint key, GLint scancode, GLint action, GLint mods);

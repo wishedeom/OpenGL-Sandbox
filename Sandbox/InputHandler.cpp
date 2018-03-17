@@ -25,60 +25,74 @@ InputHandler::InputHandler(PlayerController& playerController, const InputScheme
 void InputHandler::signal(const InputAction inputAction)
 {
 	_playerController->signal(_inputScheme[inputAction]);
+	m_callbacks(inputAction);
 }
 
-void InputHandler::keyboardCallback(GLFWwindow* const window, const GLint key, const GLint, const GLint action, const GLint)
+EventRegistrar<InputAction> InputHandler::Callbacks()
+{
+	return m_callbacks;
+}
+
+void InputHandler::keyboardCallback(GLFWwindow* const window, const GLint key, const GLint scancode, const GLint action, const GLint mods)
 {
 	static auto& inputHandler = *static_cast<InputHandler*>(glfwGetWindowUserPointer(window));
 
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-	{
-		inputHandler.signal(InputAction::EscPress);
-	}
-	else if (key == GLFW_KEY_W)
-	{
-		if (action == GLFW_PRESS)
-		{
-			inputHandler.signal(InputAction::WPress);
-		}
-		else if (action == GLFW_RELEASE)
-		{
-			inputHandler.signal(InputAction::WRelease);
-		}
-	}
-	else if (key == GLFW_KEY_S)
-	{
-		if (action == GLFW_PRESS)
-		{
-			inputHandler.signal(InputAction::SPress);
-		}
-		else if (action == GLFW_RELEASE)
-		{
-			inputHandler.signal(InputAction::SRelease);
-		}
-	}
-	else if (key == GLFW_KEY_A)
-	{
-		if (action == GLFW_PRESS)
-		{
-			inputHandler.signal(InputAction::APress);
-		}
-		else if (action == GLFW_RELEASE)
-		{
-			inputHandler.signal(InputAction::ARelease);
-		}
-	}
-	else if (key == GLFW_KEY_D)
-	{
-		if (action == GLFW_PRESS)
-		{
-			inputHandler.signal(InputAction::DPress);
-		}
-		else if (action == GLFW_RELEASE)
-		{
-			inputHandler.signal(InputAction::DRelease);
-		}
-	}
+	inputHandler.signal(ToInputAction(key, scancode, action, mods));
+	//if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+	//{
+	//	inputHandler.signal(InputAction::EscPress);
+	//}
+	//else if (key == GLFW_KEY_W)
+	//{
+	//	if (action == GLFW_PRESS)
+	//	{
+	//		inputHandler.signal(InputAction::WPress);
+	//	}
+	//	else if (action == GLFW_RELEASE)
+	//	{
+	//		inputHandler.signal(InputAction::WRelease);
+	//	}
+	//}
+	//else if (key == GLFW_KEY_S)
+	//{
+	//	if (action == GLFW_PRESS)
+	//	{
+	//		inputHandler.signal(InputAction::SPress);
+	//	}
+	//	else if (action == GLFW_RELEASE)
+	//	{
+	//		inputHandler.signal(InputAction::SRelease);
+	//	}
+	//}
+	//else if (key == GLFW_KEY_A)
+	//{
+	//	if (action == GLFW_PRESS)
+	//	{
+	//		inputHandler.signal(InputAction::APress);
+	//	}
+	//	else if (action == GLFW_RELEASE)
+	//	{
+	//		inputHandler.signal(InputAction::ARelease);
+	//	}
+	//}
+	//else if (key == GLFW_KEY_D)
+	//{
+	//	if (action == GLFW_PRESS)
+	//	{
+	//		inputHandler.signal(InputAction::DPress);
+	//	}
+	//	else if (action == GLFW_RELEASE)
+	//	{
+	//		inputHandler.signal(InputAction::DRelease);
+	//	}
+	//}
+	//else if (key == GLFW_KEY_SPACE)
+	//{
+	//	if (action == GLFW_PRESS)
+	//	{
+	//		inputHandler.signal(InputAction::DPress);
+	//	}
+	//}
 }
 
 static void cursorPositionCallback(GLFWwindow* const window, const double x, const double y)

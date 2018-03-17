@@ -155,6 +155,7 @@
     <ClCompile Include="Context.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="FragmentShader.cpp" />
+    <ClCompile Include="inputaction.cpp" />
     <ClCompile Include="inputhandler.cpp" />
     <ClCompile Include="inputscheme.cpp" />
     <ClCompile Include="playercontroller.cpp" />
@@ -198,6 +199,8 @@
     <ClInclude Include="src\clamped.h" />
     <ClInclude Include="src\colour.h" />
     <ClInclude Include="src\opengl\error.h" />
+    <ClInclude Include="src\opengl\event.h" />
+    <ClInclude Include="src\opengl\eventregistrar.h" />
     <ClInclude Include="src\opengl\functions.h" />
     <ClInclude Include="src\opengl\types.h" />
     <ClInclude Include="src\opengl\uniformsetters.h" />

@@ -37,6 +37,7 @@
 #include "src/colour.h"
 #include "renderer.h"
 #include "sphere.h"
+#include "src/opengl/event.h"
 
 int main() try
 {
@@ -80,6 +81,14 @@ int main() try
 	
 	glm::vec3 velocity = { 0.0f, 10.0f, 0.0f };
 	constexpr float gravity = -9.8f;
+
+	inputHandler.Callbacks() += [&velocity](InputAction action)
+	{
+		if (action == InputAction::SpacePress)
+		{
+			velocity += glm::vec3 { 0.0f, 5.0f, 0.0f};
+		}
+	};
 
 	float lastFrame = 0.0f;
 	while (!window.ShouldClose())

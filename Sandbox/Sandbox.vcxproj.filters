@@ -88,6 +88,9 @@
     <ClCompile Include="src\opengl\uniformsetters.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="inputaction.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -168,6 +171,8 @@
     <ClInclude Include="renderer.h" />
     <ClInclude Include="sphere.h" />
     <ClInclude Include="src\opengl\uniformsetters.h" />
+    <ClInclude Include="src\opengl\event.h" />
+    <ClInclude Include="src\opengl\eventregistrar.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="vertexShader.vs">

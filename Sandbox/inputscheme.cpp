@@ -41,7 +41,7 @@ GameAction InputScheme::operator[](InputAction inputAction)
 	const auto it = _mapping.find(inputAction);
 	if (it == _mapping.end())
 	{
-		throw std::runtime_error("Error: No mapping for input action.");
+		return GameAction::None;
 	}
 	return it->second;
 }
