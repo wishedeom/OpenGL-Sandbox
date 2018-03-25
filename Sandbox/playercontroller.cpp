@@ -9,41 +9,25 @@
 //static void keyCallback(GLFWwindow* const window, const GLint key, const GLint scancode, const GLint action, const GLint mode);
 
 PlayerController::PlayerController(const Window& window, Camera& camera)
-	: _camera { &camera }
+	: m_camera(&camera)
 {
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 Camera& PlayerController::GetCamera()
 {
-	return *_camera;
+	return *m_camera;
 }
 
-void PlayerController::Update()
+void PlayerController::UpdateTransforms()
 {
-	switch (_axialDirection)
-	{
-		case AxialDirection::Forward:
-			_camera->translate(_speed * _camera->forward());
-			break;
-		case AxialDirection::Backward:
-			_camera->translate(-_speed * _camera->forward());;
-			break;
-	}
-	switch (_lateralDirection)
-	{
-		case LateralDirection::Left:
-			_camera->translate(-_speed * _camera->right());
-			break;
-		case LateralDirection::Right:
-			_camera->translate(_speed * _camera->right());
-			break;
-	}
+	const auto velocity = GetVelocity();
+	m_camera->translate(velocity);
 
-	const auto diff = _mousePosition - _oldMousePosition;
-	_oldMousePosition = _mousePosition;
-	_camera->rotateRight(glm::sign(diff.x) * glm::radians(_sensitivity));
-	_camera->rotateUp(glm::sign(diff.y) * glm::radians(_sensitivity));
+	const auto diff = m_mousePosition - m_oldMousePosition;
+	m_oldMousePosition = m_mousePosition;
+	m_camera->rotateRight(glm::sign(diff.x) * glm::radians(m_sensitivity));
+	m_camera->rotateUp(glm::sign(diff.y) * glm::radians(m_sensitivity));
 }
 
 void PlayerController::Signal(const GameAction action)
@@ -69,12 +53,49 @@ void PlayerController::Signal(const GameAction action)
 			_lateralDirection = LateralDirection::None;
 			break;
 		case GameAction::CloseWindow:
-			_camera->window().Close();
+			m_camera->window().Close();
 			break;
 	}
 }
 
 void PlayerController::setMousePosition(const double x, const double y)
 {
-	_mousePosition = { x, y };
+	m_mousePosition = { x, y };
+}
+
+template <typename E>
+constexpr float GetDirectionFactor(const E direction)
+{
+	const auto sign = ToSign(direction);
+	return util::to_underlying(sign);
+}
+
+glm::vec3 PlayerController::GetVelocity() const
+{
+	const auto axialVelocity = GetVelocity(_axialDirection);
+	const auto lateralVelocity = GetVelocity(_lateralDirection);
+	return axialVelocity + lateralVelocity;
+}
+
+template <typename E>
+inline glm::vec3 PlayerController::GetVelocityDirection() const
+{
+	if constexpr (std::is_same_v<E, AxialDirection>)
+	{
+		return m_camera->forward();
+	}
+	else if constexpr (std::is_same_v<E, LateralDirection>)
+	{
+		return m_camera->right();
+	}
+	else
+	{
+		static_assert(false);
+	}
+}
+
+template <typename E>
+glm::vec3 PlayerController::GetVelocity(const E direction) const
+{
+	return GetDirectionFactor(direction) * _speed * GetVelocityDirection<E>();
 }

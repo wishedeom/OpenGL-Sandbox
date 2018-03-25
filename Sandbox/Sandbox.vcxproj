@@ -151,7 +151,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="collision.cpp" />
+    <ClCompile Include="collisionmanager.cpp" />
     <ClCompile Include="Context.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="FragmentShader.cpp" />
@@ -163,8 +163,10 @@
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="renderer.cpp" />
+    <ClCompile Include="rendermanager.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
+    <ClCompile Include="sphere.cpp" />
     <ClCompile Include="src\colour.cpp" />
     <ClCompile Include="src\opengl\error.cpp" />
     <ClCompile Include="src\opengl\functions.cpp" />
@@ -178,7 +180,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="collision.h" />
+    <ClInclude Include="collisionmanager.h" />
     <ClInclude Include="Context.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="entity.h" />
@@ -193,6 +195,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="renderer.h" />
+    <ClInclude Include="rendermanager.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="sphere.h" />

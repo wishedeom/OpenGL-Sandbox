@@ -11,7 +11,7 @@ class Renderer final
 {
 public:
 	Renderer(const ShaderProgram& program, const Camera& camera);
-	void Draw(const Entity& entity);
+	void Draw(const Entity& entity) const;
 
 	void SetAmbientLightColour(Colour colour);
 	void SetAmbientLightStrength(float strength);

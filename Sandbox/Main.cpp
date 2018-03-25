@@ -38,8 +38,10 @@
 #include "renderer.h"
 #include "sphere.h"
 #include "src/opengl/event.h"
+#include "rendermanager.h"
 
-int main() try
+int main()
+try
 {
 	const auto window = Context::Get().MakeWindow(900, 900, "OpenGL Sandbox", false);
 	Camera camera(window, { 0.0f, 0.0f, 10.0f }, { 0.0f, 0.0f, -1.0f });
@@ -52,32 +54,44 @@ int main() try
 						.AttachShader(FragmentShader(util::ReadFile("simpleFragmentShader.fs")))
 						.Link();
 
-	Entity e = { MakeSphere(), glm::scale(glm::mat4(), glm::vec3(2.0f, 2.0f, 2.0f)) };
+	Entity e
+	{
+		MakeSphere(),
+		glm::scale(glm::mat4(), glm::vec3(2.0f, 2.0f, 2.0f)),
+		std::make_unique<SphereCollider>()
+	};
 
 	auto plane = MakeQuad({ -20.0f, 0.0f, -20.0f }, { 20.0f, 0.0f, -20.0f }, { -20.0f, 0.0f, 20.0f });
-	Entity bottomPlane { plane, glm::translate(glm::vec3 { 0.0f, -5.0f, 0.0f }) };
+	Entity bottomPlane
+	{
+		plane,
+		glm::translate(glm::vec3 { 0.0f, -5.0f, 0.0f }),
+		std::make_unique<PlaneCollider>()
+	};
 
 	e.mesh.SetColour(Colour::White);
 	bottomPlane.mesh.SetColour(Colour::White);
-
-	const Entity* renderables[] = { &bottomPlane, &e, };
 
 	OpenGL::ClearColour(Colour::Black);
 
 	Enable(OpenGL::Capability::DepthTest);
 	Enable(OpenGL::Capability::CullFace);
 	
-	Renderer renderer(shader, camera);
+	RenderManager renderManager;
+	auto& renderer = renderManager.AddRenderer<Renderer>(shader, camera);
+	renderManager.RegisterEntity(renderer, e);
+	renderManager.RegisterEntity(renderer, bottomPlane);
+
 	renderer.SetAmbientLightColour({ 1.0f, 0.0f, 0.0f, 1.0f });
 	renderer.SetAmbientLightStrength(0.1f);
 
 	renderer.SetLightColour({ 0.0f, 0.5f, 0.0f, 1.0f });
 	renderer.SetLightPosition({ 1.0f, 4.0f, 0.0f });
-	
+		
 	glm::vec3 velocity = { 0.0f, 10.0f, 0.0f };
 	constexpr float gravity = -9.8f;
 
-	inputHandler.Callbacks(InputAction::SpacePress) += [&velocity]()
+	inputHandler.Callbacks(InputAction::SpacePress) += [&velocity]
 	{
 		velocity += glm::vec3 { 0.0f, 5.0f, 0.0f };
 	};
@@ -90,22 +104,19 @@ int main() try
 		lastFrame = currentFrame;
 
 		glfwPollEvents();
-		controller.Update();
+		controller.UpdateTransforms();
 		Clear(OpenGL::Buffer::Color | OpenGL::Buffer::Depth);
-
-		//const auto s = 2.0f * static_cast<float>(std::sin(lastFrame));
-		//e.transform = glm::translate(glm::mat4(), { 0.0f, s, 0.0f });
 		
-		Plane plane;
+		PlaneCollider plane;
 		plane.normal = - glm::normalize(glm::cross(bottomPlane.mesh.GetVertices()[1].position - bottomPlane.mesh.GetVertices()[0].position,
 								  bottomPlane.mesh.GetVertices()[2].position - bottomPlane.mesh.GetVertices()[0].position));
-		plane.point = bottomPlane.mesh.GetVertices()[0].position - glm::vec3(0.0f, 5.0f, 0.0f);
+		plane.origin = bottomPlane.mesh.GetVertices()[0].position - glm::vec3(0.0f, 5.0f, 0.0f);
 
-		Sphere sphere;
+		SphereCollider sphere;
 		sphere.radius = 2.0f;
 		sphere.center = glm::vec3(e.transform[3]);
 
-		const auto collisionDistance = Collide(sphere, plane, velocity);
+		const auto collisionDistance = Collide(sphere, plane).distance;
 		const auto displacement = velocity * deltaTime;
 		const auto distanceToTravel = glm::length(displacement);
 
@@ -113,7 +124,7 @@ int main() try
 		{
 			velocity = -velocity * 0.5f;
 		}
-		else if (glm::length(velocity) < std::numeric_limits<float>::epsilon() || (0.0f < glm::length(velocity) && Intersection(sphere, plane) < std::numeric_limits<float>::infinity()))
+		else if (glm::length(velocity) < std::numeric_limits<float>::epsilon() || Intersection(sphere, plane) < std::numeric_limits<float>::infinity())
 		{
 			velocity = glm::zero<glm::vec3>();
 		}
@@ -123,17 +134,8 @@ int main() try
 		}
 
 		e.transform = glm::translate(e.transform, velocity * deltaTime);
-		
-		//const auto collisionDistance = Collide()
 
-		for (const auto& entity : renderables)
-		{
-			renderer.Draw(*entity);
-		}
-
-		//renderer.Draw(e);
-		//m.draw(shader, camera, t);
-		//p.draw(shader, camera/*, t2*/);
+		renderManager.Draw();
 
 		window.SwapBuffers();
 	}

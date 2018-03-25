@@ -64,9 +64,6 @@
     <ClCompile Include="entity.cpp">
       <Filter>src\entities</Filter>
     </ClCompile>
-    <ClCompile Include="collision.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="VAOBinding.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -89,6 +86,15 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="inputaction.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="rendermanager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="sphere.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="collisionmanager.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -156,9 +162,6 @@
     <ClInclude Include="entity.h">
       <Filter>src\entities</Filter>
     </ClInclude>
-    <ClInclude Include="collision.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="VAOBinding.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -173,6 +176,8 @@
     <ClInclude Include="src\opengl\uniformsetters.h" />
     <ClInclude Include="src\opengl\event.h" />
     <ClInclude Include="src\opengl\eventregistrar.h" />
+    <ClInclude Include="rendermanager.h" />
+    <ClInclude Include="collisionmanager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="vertexShader.vs">

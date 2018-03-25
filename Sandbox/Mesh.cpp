@@ -132,8 +132,8 @@ Mesh MakeSquare()
 	{
 		for (int j = -1; j <= 1; j += 2)
 		{
-			const glm::vec3 point = { i, j, 0.0f };
-			const Vertex v = { 0.5f * point };
+			const glm::vec3 origin = { i, j, 0.0f };
+			const Vertex v = { 0.5f * origin };
 			vertices.push_back(v);
 		}
 	}
@@ -155,8 +155,10 @@ Mesh MakeQuad(const glm::vec3& pivot, const glm::vec3& hCorner, const glm::vec3&
 	return { std::move(vertices), std::move(indices) };
 }
 
-Mesh MakeSphere(float radius /*= 1.0f*/, size_t sections /*= 100*/)
+Mesh MakeSphere(const size_t sections /*= 100*/)
 {
+	static constexpr float radius = 1.0f;
+
 	// Positions
 	std::vector<Vertex> vertices;
 	vertices.push_back({ { 0.0f, -radius, 0.0f } });

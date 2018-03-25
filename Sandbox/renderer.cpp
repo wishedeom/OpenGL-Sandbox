@@ -15,7 +15,7 @@ Renderer::Renderer(const ShaderProgram& program, const Camera& camera)
 	, m_lightPosition(BindLightPosition({ 0.0f, 0.0f, 0.0f }))
 {}
 
-void Renderer::Draw(const Entity& entity)
+void Renderer::Draw(const Entity& entity) const
 {
 	// Use shader program
 	m_program.Use();
